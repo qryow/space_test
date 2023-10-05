@@ -99,7 +99,7 @@ const MainNavbar = () => {
                   <h4 className={style.dropdown__title}> {selectedCategory} </h4>
                 </div>
                 <div className={style.dropdown__img}>
-                  <img className={dropdownActive ? `${style.active__img}` : `${style.dropdown__icon}`} src={arrowDown} alt="down" onClick={() => setDropdownActive(true)}/>
+                  <img className={dropdownActive ? `${style.active__img}` : `${style.dropdown__icon}`} src={arrowDown} alt="down" onClick={() => setDropdownActive(!dropdownActive)}/>
                 </div>
               </div>
               <div className={dropdownActive ? `${style.dropdown__content} ${style.dropdown__content_active}` : `${style.dropdown__content}`}>
