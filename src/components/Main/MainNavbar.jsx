@@ -1,5 +1,5 @@
 import React, { useState, useRef } from 'react'
-import { Link, useLocation } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { useClickOutside } from '../../helpers/hooks';
 import { isUserLogin } from '../../helpers/functions';
 import style from './MainStyles.module.css'
@@ -11,9 +11,31 @@ import add from '../../img/add-icon.svg'
 import profileIcon from '../../img/user-icon.svg'
 import notification from '../../img/notification.svg'
 
+import Ru from '../../img/RU.svg'
+import Us from '../../img/US.svg'
+import Moon from '../../img/Moon.svg'
+import Sun from '../../img/Sun.svg'
+
 const MainNavbar = () => {
   const location = useLocation();
   const [dropdownActive, setDropdownActive] = useState(false);
+
+  const navigate = useNavigate();
+
+  const [selectedCategory, setSelectedCategory] = useState("Project");
+  const handleCategoryClick = (category) => {
+    setSelectedCategory(category); // Обновляем выбранную категорию
+    setDropdownActive(false); // Закрываем выпадающий список
+  };
+
+  const [mode, setMode] = useState(false);
+  const handleMode = () => {
+    setMode(!mode)
+  }
+  const [language, setLanguage] = useState(false);
+  const handleLanguage = () => {
+    setLanguage(!language)
+  }
 
   const menuRef = useRef(null);
   useClickOutside(menuRef, () => {
@@ -58,9 +80,9 @@ const MainNavbar = () => {
             <div className={style.hr}></div>
 
             <div className={style.dropdown}>
-              <div className={style.dropdown__info}>
+              <div className={dropdownActive ? `${style.dropdown__info}` : `${style.dropdown__info} ${style.info__active}`}>
                 <div className={style.dropdown__title__wrapper}>
-                  <h4 className={style.dropdown__title}>Project</h4>
+                  <h4 className={style.dropdown__title}> {selectedCategory} </h4>
                 </div>
                 <div className={style.dropdown__img}>
                   <img className={dropdownActive ? `${style.active__img}` : `${style.dropdown__icon}`} src={arrowDown} alt="down" onClick={() => setDropdownActive(!dropdownActive)} ref={menuRef} />
@@ -71,15 +93,15 @@ const MainNavbar = () => {
                   
                 </div>
                 <div className={style.dropdown__item}>
-                  <h3 className={style.item__title}>Project</h3>
+                  <h3 className={style.item__title} onClick={() => handleCategoryClick("Project")}>Project</h3>
                 </div>
                 <div className={style.dropdown__item}>
-                  <h3 className={style.item__title}>Post</h3>
+                  <h3 className={style.item__title} onClick={() => handleCategoryClick("Post")}>Post</h3>
                 </div>
                 <div className={style.dropdown__item}>
-                  <h3 className={style.item__title}>People</h3>
+                  <h3 className={style.item__title} onClick={() => handleCategoryClick("People")}>People</h3>
                 </div>
-                <div className={style.dropdown__item} id={style.dropdown__item_last}>
+                <div className={style.dropdown__item} id={style.dropdown__item_last} onClick={() => handleCategoryClick("Podcast")}>
                   <h3 className={style.item__title}>Podcast</h3>
                 </div>
               </div>
@@ -110,7 +132,19 @@ const MainNavbar = () => {
               </>
             ) : (
               <>
-                <h1>no</h1>
+                <div className={style.profile__wrapper}>
+                  <div className={style.switchs}>
+                    <img onClick={handleMode} src={mode ? Moon : Sun} alt=""  />
+                    <img onClick={handleLanguage} src={language ? Us : Ru} alt="language" />
+                  </div>
+
+                  <div className={style.login__btn}>
+                    <div className={style.login__btn_wrapper}>
+                      <img className={style.login__icon} src={profileIcon} alt="" />
+                      <h4 className={style.login__title} onClick={() => navigate('/login')}>Login</h4>
+                    </div>
+                  </div>
+                </div>
               </>
             )}
           </div>
