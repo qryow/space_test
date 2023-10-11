@@ -2,6 +2,7 @@ import React from 'react'
 import style from './MainStyles.module.css'
 import headerStyle from './MainStylesHeader.module.css'
 import { isUserLogin } from '../../helpers/functions';
+import { useNavigate } from 'react-router-dom';
 import VideoPlayer from './VideoPlayer';
 
 import MainNavbar from './MainNavbar'
@@ -23,6 +24,8 @@ import luna from '../../img/luna.png'
 
 
 const MainHeader = () => {
+
+  const navigate = useNavigate()
 
   return (
     <div className={style.wrapper}>
@@ -50,7 +53,7 @@ const MainHeader = () => {
                   </>
                 ) : (
                   <>
-                    <button className={headerStyle.upload__btn}>
+                    <button className={headerStyle.upload__btn} onClick={() => navigate('/register')}>
                       Create Account
                     </button>
                   </>
