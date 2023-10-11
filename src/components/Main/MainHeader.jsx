@@ -2,6 +2,7 @@ import React from 'react'
 import style from './MainStyles.module.css'
 import headerStyle from './MainStylesHeader.module.css'
 import { isUserLogin } from '../../helpers/functions';
+import VideoPlayer from './VideoPlayer';
 
 import MainNavbar from './MainNavbar'
 
@@ -16,6 +17,9 @@ import safety from '../../img/safety.svg'
 import features1 from '../../img/features1.svg'
 import features2 from '../../img/features2.svg'
 import features3 from '../../img/features3.svg'
+
+import tuman from '../../img/tuman.png'
+import luna from '../../img/luna.png'
 
 
 const MainHeader = () => {
@@ -156,6 +160,7 @@ const MainHeader = () => {
 
                   
           <div className={headerStyle.features}>
+            <div className={headerStyle.ellipse2}></div>
             <h3 className={headerStyle.features__title}>Features of our platform</h3>
 
             <div className={headerStyle.features__blocks}>
@@ -230,8 +235,23 @@ const MainHeader = () => {
             </div>
           </div>
 
+            <VideoPlayer />
 
+          
         </div>
+            <div className={headerStyle.footer}>
+              <img className={headerStyle.tuman} src={tuman} alt="" />
+              <img className={headerStyle.luna} src={luna} alt="" />
+              <div className={headerStyle.footer__info}>
+                <h3 className={headerStyle.footer__title}>SPACEHUB</h3>
+                <div className={headerStyle.footer__menu}>
+                  <div className={headerStyle.footer__item}>Home</div>
+                  <div className={headerStyle.footer__item}>About</div>
+                  <div className={headerStyle.footer__item}>Projects</div>
+                  <div className={headerStyle.footer__item}>News</div>
+                </div>
+              </div>
+            </div>
       </div>
     </div>
   )

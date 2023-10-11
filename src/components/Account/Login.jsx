@@ -1,146 +1,175 @@
-import React, { useState, useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { useNavigate } from "react-router-dom";
-import style from "./AccountStyles.module.css";
-import {
-    clearStatus,
-    clearCurrentAccount,
-} from "../../store/account/AccountSlice";
-import { loginUser } from "../../store/account/AccountActions";
-import MainNavbar from "../Main/MainNavbar";
-import acc_back_img from "../../img/login_back_img.png";
-import space_shtle from "../../img/login_back_img_shatle.png";
-import google_icon from "../../img/google_icon.png";
+import React, { useState, useEffect } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
+import { useNavigate } from 'react-router-dom'
+import style from './styles/AccountStyles.module.css'
+import { clearStatus, clearCurrentAccount } from '../../store/account/AccountSlice'
+import { loginUser } from '../../store/account/AccountActions'
+import MainNavbar from '../Main/MainNavbar'
+
+import open from '../../img/hide-pass.svg'
+import hide from '../../img/pass_open.svg'
 
 const Login = () => {
-    const [userObj, setUserObj] = useState({
-        email: "",
-        password: "",
-    });
+  const localEmail = localStorage.getItem('account');
+  const emailWithoutQuotes = localEmail ? localEmail.replace(/"/g, '') : '';
+  const [userObj, setUserObj] = useState({
+    email: emailWithoutQuotes,
+    password: '',
+  })
+  
+  const [showPassword, setShowPassword] = useState(false);
+  const togglePasswordVisibility = () => {
+    setShowPassword(!showPassword);
+  };
 
-    const { status, loading } = useSelector((state) => state.account);
-    const dispatch = useDispatch();
-    const navigate = useNavigate();
+  const [emailError, setEmailError] = useState('');
+  const [passwordError, setPasswordError] = useState('');
+  const handleCreateAccount = () => {
+    if (!userObj.email) {
+      setEmailError('Email is required');
+    } else {
+      setEmailError('');
+    }
+    if (!userObj.password) {
+      setPasswordError('Password is required');
+    } else {
+      setPasswordError('');
+    }
+  };
 
-    useEffect(() => {
-        dispatch(clearStatus());
-        dispatch(clearCurrentAccount());
-    });
+  const { status, loading } = useSelector(state => state.account);
+  const dispatch = useDispatch();
+  const navigate = useNavigate()
+  
+  useEffect(() => {
+    dispatch(clearStatus());
+    dispatch(clearCurrentAccount())
+  }, [])
 
-    return (
-        <div className={style.login_main}>
-            <img src={acc_back_img} alt="" className={style.acc_back_img} />
-            <MainNavbar />
-            {loading ? (
+  return (
+    <>
+      {loading ? (
+        <>
+          <div className={style.wrapper}>
+                <div className={style.container}>
+                  <MainNavbar />
+                  <div className={style.block__wrapper}>
+                    <div className={style.login__block}>
+                      <h2 className={style.block__title}>Login</h2>
+                      <p className={style.block__subtitle}>Don't have an ccount? <a onClick={() => navigate('/register')} className={style.link}>Sign up</a></p>
+
+                      <div className={style.email__field}>
+                        <p className={style.input__title}>Email address</p>
+                        <input type="text" placeholder='@' className={style.email__input} onChange={(e) => setUserObj({ ...userObj, email: e.target.value })} value={userObj.email} />
+                      </div>
+
+                      <div className={style.login__pass}>
+                        <p className={style.input__title}>Password</p>
+                        <div className={style.input__wrapper}>
+                          <input type={showPassword ? 'text' : 'password'} className={style.log__pass} onChange={(e) => setUserObj({ ...userObj, password: e.target.value })} value={userObj.password} />
+                          <img onClick={togglePasswordVisibility} className={style.hide} src={showPassword ? hide : hide} alt="" />
+                        </div>
+                      </div>
+                      <div className={style.for}>
+                        <a className={style.forgot} href="">Forgot your password ?</a>
+                      </div>
+
+                      <button className={style.reg__btn} onClick={() => {dispatch(loginUser({ userObj, navigate }));}}>Login</button>
+                      <p className={style.block__subtitle}>Don't have an ccount? <a onClick={() => navigate('/register')} className={style.link}>Sign up</a></p>
+                    </div>
+                  </div>
+                </div>
+          </div>
+
+          <div className={style.loading}>
+            <div className={style.spinner}>
+              
+            </div>
+          </div>
+        </>
+      ) : (
+        <>
+          { status ? (
+            <>
+              { status === 'error' && (
                 <>
-                    <h3>loading .....</h3>
-                </>
-            ) : (
-                <>
-                    {status ? (
-                        <>
-                            {status === "error" && (
-                                <>
-                                    <h3>error...</h3>
-                                </>
-                            )}
-                        </>
-                    ) : (
-                        <>
-                            <div className={style.login_main_block}>
-                                <div className={style.left_block_img}>
-                                    <img src={space_shtle} alt="" />
-                                </div>
-                                <div className={style.inputs}>
-                                    <div className={style.sign_up}>
-                                        <p>don't have a account?</p>
-                                        <a href="">Sing up</a>
-                                    </div>
-                                    <div
-                                        style={{
-                                            display: "flex",
-                                            justifyContent: "center",
-                                        }}>
-                                        <div
-                                            className={style.main_inputs_block}>
-                                            <h1>Login</h1>
-                                            <div className="">
-                                                <p>
-                                                    User name or email address
-                                                </p>
-                                                <input
-                                                    className={style.input}
-                                                    type="email"
-                                                    placeholder="Email"
-                                                    onChange={(e) =>
-                                                        setUserObj({
-                                                            ...userObj,
-                                                            email: e.target
-                                                                .value,
-                                                        })
-                                                    }
-                                                />
-                                            </div>
+                  <div className={style.wrapper}>
+                    <div className={style.container}>
+                      <MainNavbar />
+                      <div className={style.block__wrapper}>
+                        <div className={style.login__block}>
+                          <h2 className={style.block__title}>Login</h2>
+                          <p className={style.block__subtitle}>Don't have an ccount? <a onClick={() => navigate('/register')} className={style.link}>Sign up</a></p>
 
-                                            <div className="">
-                                                <p>
-                                                    User name or email address
-                                                </p>
+                          <div className={style.email__field}>
+                            <p className={style.input__title}>Email address</p>
+                            <input type="email" placeholder={emailError ? emailError : '@'} className={emailError ? `${style.email__input} ${style.error__input}` : `${style.email__input}`} onChange={(e) => setUserObj({ ...userObj, email: e.target.value })} value={userObj.email} />
+                          </div>
 
-                                                <input
-                                                    className={style.input}
-                                                    type="password"
-                                                    placeholder="password"
-                                                    onChange={(e) =>
-                                                        setUserObj({
-                                                            ...userObj,
-                                                            password:
-                                                                e.target.value,
-                                                        })
-                                                    }
-                                                />
-                                                <a href="">
-                                                    Forgot your password?
-                                                </a>
-                                            </div>
-                                            <div className={style.button_block}>
-                                                <button
-                                                    onClick={() =>
-                                                        dispatch(
-                                                            loginUser({
-                                                                userObj,
-                                                                navigate,
-                                                            })
-                                                        )
-                                                    }>
-                                                    Login
-                                                </button>
-                                                <button
-                                                    className={
-                                                        style.google_bnt
-                                                    }>
-                                                    <img
-                                                        src={google_icon}
-                                                        alt=""
-                                                    />
-                                                    Continue with Google
-                                                </button>
-                                                <div
-                                                    style={{ display: "flex" }}>
-                                                    <p>don't have a account?</p>
-                                                    <a href="">Sing up</a>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
+                          <p className={style.error__login}>Incorrect password or email.</p>
+
+                          <div className={style.login__pass}>
+                            <p className={style.input__title}>Password</p>
+                            <div className={style.input__wrapper}>
+                              <input type={showPassword ? 'text' : 'password'} placeholder={passwordError ? passwordError : ''} className={passwordError ? `${style.log__pass} ${style.error__log}` : `${style.log__pass}`} onChange={(e) => setUserObj({ ...userObj, password: e.target.value })} value={userObj.password} />
+                              <img onClick={togglePasswordVisibility} className={style.hide} src={showPassword ? hide : open} alt="" />
                             </div>
-                        </>
-                    )}
-                </>
-            )}
-        </div>
-    );
-};
+                          </div>
+                          <div className={style.for}>
+                            <a className={style.forgot} onClick={() => navigate('/lose-password')} href="">Forgot your password ?</a>
+                          </div>
 
-export default Login;
+                          <button className={style.reg__btn} onClick={() => {dispatch(loginUser({ userObj, navigate })); handleCreateAccount(); }}>Login</button>
+                          <p className={style.block__subtitle}>Don't have an ccount? <a onClick={() => navigate('/register')} className={style.link}>Sign up</a></p>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </>
+              )}
+            </>
+          ) : (
+            <>
+              <div className={style.wrapper}>
+                <div className={style.container}>
+                  <MainNavbar />
+                  <div className={style.block__wrapper}>
+                    <div className={style.login__block}>
+                      <h2 className={style.block__title}>Login</h2>
+                      <p className={style.block__subtitle}>Don't have an ccount? <a onClick={() => navigate('/register')} className={style.link}>Sign up</a></p>
+
+                      <div className={style.email__field}>
+                        <p className={style.input__title}>Email address</p>
+                        <input type="email" placeholder='@' className={style.email__input} onChange={(e) => setUserObj({ ...userObj, email: e.target.value })} value={userObj.email} />
+                      </div>
+
+                      <div className={style.login__pass}>
+                        <p className={style.input__title}>Password</p>
+                        <div className={style.input__wrapper}>
+                          <input type={showPassword ? 'text' : 'password'} className={style.log__pass} onChange={(e) => setUserObj({ ...userObj, password: e.target.value })} value={userObj.password} />
+                          <img onClick={togglePasswordVisibility} className={style.hide} src={showPassword ? hide : open} alt="" />
+                        </div>
+                      </div>
+                      <div className={style.for}>
+                        <a className={style.forgot} onClick={() => navigate('/lose-password')} href="">Forgot your password ?</a>
+                      </div>
+
+                      <button className={style.reg__btn} onClick={() => {dispatch(loginUser({ userObj, navigate })); handleCreateAccount(); }}>Login</button>
+                      <p className={style.block__subtitle}>Don't have an ccount? <a onClick={() => navigate('/register')} className={style.link}>Sign up</a></p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              {/*<div className={style.inputs}>
+                <input type="email" placeholder='Email' onChange={(e) => setUserObj({ ...userObj, email: e.target.value })} />
+                <input type="password" placeholder='password' onChange={(e) => setUserObj({ ...userObj, password: e.target.value })} />
+                <button onClick={() => dispatch(loginUser({ userObj, navigate }))} >Login</button>
+              </div>*/}
+            </>
+          )}
+        </>
+      )}
+    </>
+  )
+}
+export default Login

@@ -1,5 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { registerUser, loginUser, changePassword, losePassword, losePasswordComplete } from "./AccountActions";
+import { registerUser, activateUser, loginUser, changePassword, losePassword, losePasswordComplete, getUsers } from "./AccountActions";
 import { addDataToLocalStorage, updateToken } from "../../helpers/functions";
 
 
@@ -8,7 +8,8 @@ const accountSlice = createSlice({
   initialState: {
     currentAccount: null,
     loading: false,
-    status: ''
+    status: '',
+    users: []
   },
   reducers: {
     clearCurrentAccount: (state) => {
@@ -31,6 +32,17 @@ const accountSlice = createSlice({
       state.loading = false;
       state.status = 'error'
     })
+    .addCase(activateUser.pending, (state) => {
+      state.loading = true;
+    })
+    .addCase(activateUser.fulfilled, (state, action) => {
+      state.loading = false;
+      action.payload.navigate('/login')
+    })
+    .addCase(activateUser.rejected, (state) => {
+      state.loading = false;
+      state.status = 'error'
+    })
     .addCase(loginUser.pending, (state) => {
       state.loading = true;
     })
@@ -50,7 +62,7 @@ const accountSlice = createSlice({
     })
     .addCase(changePassword.fulfilled, (state, action) => {
       state.loading = false;
-      action.payload.navigate('/')
+      action.payload.navigate('/password-changed')
     })
     .addCase(changePassword.rejected, (state) => {
       state.loading = false;
@@ -72,11 +84,14 @@ const accountSlice = createSlice({
     })
     .addCase(losePasswordComplete.fulfilled, (state, action) => {
       state.loading = false;
-      action.payload.navigate('/')
+      action.payload.navigate('/password-changed')
     })
     .addCase(losePasswordComplete.rejected, (state) => {
       state.loading = false;
       state.status = 'error';
+    })
+    .addCase(getUsers.fulfilled, (state, action) => {
+      state.users = action.payload.results;
     })
   }
 })

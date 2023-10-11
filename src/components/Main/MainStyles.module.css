@@ -5,8 +5,9 @@
 .wrapper {
   width: 100%;
   overflow: hidden;
-  height: 500vh;
+  height: 650vh;
   background-color: #111111;
+  position: relative;
 }
 .header {
   width: 100%;
@@ -16,6 +17,7 @@
 .container {
   width: 92%;
   margin: 0 auto;
+  position: relative;
   /*z-index: 1;*/
 }
 .header #img {
@@ -266,7 +268,7 @@
   margin-bottom: 15px;
 }
 .add__btn_wrapper {
-  width: 60%;
+  width: 50%;
   height: 100%;
 }
 .add__btn {
@@ -285,11 +287,11 @@
   transition: 0.3s;
 }
 .add__btn::after {
-  content: "Upload project";
+  content: "Create";
   color: #fff;
   font-family: 'Roboto', sans-serif;
   font-weight: 400;
-  font-size: 17px;
+  font-size: 20px;
   position: absolute;
   margin-left: 65px;
   opacity: 0;

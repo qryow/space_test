@@ -9,11 +9,24 @@ export const registerUser = createAsyncThunk(
   'account/registerUser',
   async ({ userObj, navigate }) => {
     let formData = new FormData();
-    formData.append('username', userObj.username);
     formData.append('email', userObj.email);
+    formData.append('first_name', userObj.first_name);
+    formData.append('last_name', userObj.last_name);
     formData.append('password', userObj.password);
     formData.append('password_confirm', userObj.password_confirm);
     let { data } = await axios.post(`${API}/account/register/`, formData);
+    console.log(data);
+    return { data, navigate}
+  }
+)
+
+export const activateUser = createAsyncThunk(
+  'account/activateUser',
+  async ({ userObj, navigate }) => {
+    let formData = new FormData();
+    formData.append('email', userObj.email);
+    formData.append('code', userObj.code);
+    let { data } = await axios.post(`${API}/account/activate_code/`, formData);
     console.log(data);
     return { data, navigate}
   }
@@ -67,5 +80,13 @@ export const losePasswordComplete = createAsyncThunk(
     console.log(data);
     return { data, navigate }
   }
+)
 
+
+export const getUsers = createAsyncThunk(
+  'account/getUsers',
+  async () => {
+    const { data } = await axios.get(`${API}/account/users/`)
+    return data;
+  }
 )
