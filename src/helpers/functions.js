@@ -22,7 +22,7 @@ export const logout = () => {
 }
 
 export const isUserLogin = () => {
-  const user = localStorage.getItem('account');
+  const user = localStorage.getItem('tokens');
   if (!user) return false;
   return true;
 }
