@@ -176,7 +176,7 @@ const Activate = () => {
                         ))}
                       </div>
         
-                      <button className={style.activate__btn} onClick={() => dispatch(activateUser({ userObj, navigate }))}>Verify</button>
+                      <button className={style.activate__btn} onClick={() => {dispatch(activateUser({ userObj, navigate })); }   }>Verify</button>
                     </div> 
                   </div>
               </div>

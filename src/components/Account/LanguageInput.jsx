@@ -5,9 +5,17 @@ import style from './styles/CreateProfile.module.css'
 
 import arrowDown from '../../img/ArrowDown.svg'
 
-const LanguageInput = () => {
+const LanguageInput = ({ onLangObjUpdate }) => {
+  const [langObj, setLangObj] = useState({
+    language: '',
+    languages_level: ''
+  })
+  console.log(langObj);
+
+
   const { languages } = useSelector(state => state.countries);
-  console.log(languages);
+  const { currentProfile } = useSelector(state => state.account);
+  //console.log(currentProfile);
   
   const [selectedLanguage, setSelectedLanguage] = useState('');
   const [filteredLanguages, setFilteredLanguages] = useState(languages);
@@ -15,11 +23,15 @@ const LanguageInput = () => {
 
   const handleLanguageClick = (language) => {
     setSelectedLanguage(language);
-    setLanguageDropdown(true)
+    setLanguageDropdown(true);
+    setLangObj({ ...langObj, language });
+    onLangObjUpdate({ ...langObj, language });
   };
   const handleInput = (event) => {
     const inputValue = event.target.value;
     setSelectedLanguage(inputValue);
+
+    setLangObj({ ...langObj, language: inputValue})
 
     const filtered = languages.filter((language) =>
       language.toLowerCase().includes(inputValue.toLowerCase())
@@ -29,9 +41,23 @@ const LanguageInput = () => {
 
   const [selectedLevel, setSelectedLevel] = useState("");
   const [levelDropdown, setLevelDropdown] = useState(true)
+
+  const levelMapping = {
+    "Beginner": "A1",
+    "Elementary": "A2",
+    "Intermediate": "B1",
+    "Upper Intermediate": "B2",
+    "Advanced": "C1",
+    "Proficent": "C2"
+  };
+
   const handleLevelClick = (level) => {
     setSelectedLevel(level);
     setLevelDropdown(true);
+    if (levelMapping[level]) {
+      setLangObj({ ...langObj, languages_level: levelMapping[level] });
+      onLangObjUpdate({ ...langObj, languages_level: levelMapping[level] });
+    }
   };
 
 

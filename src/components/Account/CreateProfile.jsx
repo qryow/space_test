@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { clearStatus } from '../../store/account/AccountSlice';
-import { getUsers } from '../../store/account/AccountActions';
+import { addLang, getUsers, patchUser } from '../../store/account/AccountActions';
 import { getCountries, getLanguages } from '../../store/countries/CountriesActions';
 import style from './styles/CreateProfile.module.css'
 import MainNavbar from '../Main/MainNavbar';
@@ -13,7 +13,23 @@ import ProfileLanguage from './ProfileLanguage';
 import Preferences from './Preferences';
 
 const CreateProfile = () => {
-  const { status, loading } = useSelector(state => state.account);
+  const [userObj, setUserObj] = useState({
+    username: '',
+    first_name: '',
+    last_name: '',
+    professions: '',
+    country: '',
+    arial: '',
+  })
+
+
+  const localEmail = localStorage.getItem('account');
+  const emailWithoutQuotes = localEmail ? localEmail.replace(/"/g, '') : '';
+
+
+  const { status, loading, users } = useSelector(state => state.account);
+
+
   const { countries } = useSelector(state => state.countries);
 
   const [selectedCountry, setSelectedCountry] = useState('');
@@ -21,17 +37,30 @@ const CreateProfile = () => {
   const [countryDropdown, setCountryDropdown] = useState(true)
   const handleCountryClick = (country) => {
     setSelectedCountry(country);
-    setCountryDropdown(true)
+    setCountryDropdown(true);
+    setUserObj({ ...userObj, country });
   };
   const handleInputChange = (event) => {
     const inputValue = event.target.value;
     setSelectedCountry(inputValue);
+
+    setUserObj({ ...userObj, country: inputValue });
 
     const filtered = countries.filter((country) =>
       country.name.common.toLowerCase().includes(inputValue.toLowerCase())
     );
     setFilteredCountries(filtered);
   }
+
+  const [updatedLangObj, setUpdatedLangObj] = useState(null);
+  console.log(updatedLangObj);
+
+  const handleLangObjUpdate = (updatedLangObj) => {
+    setUpdatedLangObj(updatedLangObj);
+  };
+
+  useEffect(() => {
+  }, [updatedLangObj]);
 
 
   const dispatch = useDispatch();
@@ -41,11 +70,24 @@ const CreateProfile = () => {
     dispatch(clearStatus());
     dispatch(getUsers());
     dispatch(getCountries());
+    dispatch(patchUser());
+    dispatch(addLang())
   }, [])
 
   useEffect(() => {
     setFilteredCountries(countries);
   }, [countries]);
+
+  const [matchingUserId, setMatchingUserId] = useState(null);
+
+  useEffect(() => {
+    if (users.length > 0) {
+      const userWithMatchingEmail = users.find(user => user.email === emailWithoutQuotes);
+      if (userWithMatchingEmail) {
+        setMatchingUserId(userWithMatchingEmail.id);
+      }
+    }
+  }, [users]);
   
   return (
     <>
@@ -75,22 +117,22 @@ const CreateProfile = () => {
                       
                       <div className={style.first__inputs}>
                         <h5 className={style.input__title}>Your username</h5>
-                        <input placeholder='Enter your username' className={style.username__input} type="text" />
+                        <input placeholder='Enter your username' className={style.username__input} type="text" onChange={(e) => setUserObj({ ...userObj, username: e.target.value })} />
 
                         <div className={style.name__wrapper}>
                           <div className={style.name__inputs}>
                             <h5 className={style.input__title}>Your first name</h5>
-                            <input placeholder='Enter your first name' type="text" className={style.name__input} />
+                            <input placeholder='Enter your first name' type="text" className={style.name__input} onChange={(e) => setUserObj({ ...userObj, first_name: e.target.value })} />
                           </div>
 
                           <div className={style.name__inputs}>
                             <h5 className={style.input__title}>Your last name</h5>
-                            <input placeholder='Enter your last name' type="text" className={style.name__input} />
+                            <input placeholder='Enter your last name' type="text" className={style.name__input} onChange={(e) => setUserObj({ ...userObj, last_name: e.target.value })} />
                           </div>
                         </div>
                         
                         <h5 className={style.input__title}>Your professional role</h5>
-                        <input placeholder='Scientist | Engineer | Technologist' className={style.username__input} type="text" />
+                        <input placeholder='Scientist | Engineer | Technologist' className={style.username__input} type="text" onChange={(e) => setUserObj({ ...userObj, professions: e.target.value })} />
                       </div>
 
                       
@@ -123,32 +165,16 @@ const CreateProfile = () => {
                         <div className={style.input__drop}>
                           <h5 className={style.input__title}>Area</h5>
                           <div>
-                            <input placeholder='Enter your area' className={style.drop__input} type="text" />
+                            <input placeholder='Enter your area' className={style.drop__input} type="text" onChange={(e) => setUserObj({ ...userObj, arial: e.target.value })} />
                           </div>
 
                         </div>
                       </div>
 
-                      <ProfileLanguage />
+                      <ProfileLanguage onLangObjUpdate={handleLangObjUpdate} />
 
-                      <h3 className={style.create_profile__title}>Add Education History</h3>
-
-                      <div className={style.education__wrapper}>
-                        <h5 className={style.input__title}>School</h5>
-                        <input type="text" placeholder='Ex: Northwestern University' className={style.just__input} />
-
-                        <h5 className={style.input__title}>Degree (Optional)</h5>
-                        <input type="text" placeholder='Ex: Bachelors' className={style.just__input} />
-                        
-                        <h5 className={style.input__title}>Field of Study</h5>
-                        <input type="text" placeholder='Ex: Computer Astronomy' className={style.just__input} />
-
-                        <h5 className={style.input__title}>Description</h5>
-                        <textarea placeholder='Describe your studies, awards, etc.' className={style.desc__textarea}></textarea>
-                      </div>
-
-                      <button className={style.continue}>Continue</button>
-
+                      <button className={style.continue} onClick={() => {dispatch(addLang({ updatedLangObj }))}}>Continue</button>
+                      {/*dispatch(patchUser({ userObj, navigate, id: matchingUserId }));*/}
                     </div>
                   </div>
                 </div>

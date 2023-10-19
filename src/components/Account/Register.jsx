@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
 import style from './styles/AccountStyles.module.css'
 import { clearStatus } from '../../store/account/AccountSlice'
-import { getUsers, registerUser } from '../../store/account/AccountActions'
+import { getUsers, loginUser, registerUser } from '../../store/account/AccountActions'
 import MainNavbar from '../Main/MainNavbar'
 
 import open from '../../img/hide-pass.svg'

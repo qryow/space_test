@@ -1,5 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { registerUser, activateUser, loginUser, changePassword, losePassword, losePasswordComplete, getUsers } from "./AccountActions";
+import { registerUser, activateUser, loginUser, changePassword, losePassword, losePasswordComplete, getUsers, patchUser, addLang } from "./AccountActions";
 import { addDataToLocalStorage, updateToken } from "../../helpers/functions";
 
 
@@ -7,6 +7,7 @@ const accountSlice = createSlice({
   name: 'account',
   initialState: {
     currentAccount: null,
+    currentProfile: [],
     loading: false,
     status: '',
     users: []
@@ -92,6 +93,17 @@ const accountSlice = createSlice({
     })
     .addCase(getUsers.fulfilled, (state, action) => {
       state.users = action.payload.results;
+    })
+
+    .addCase(patchUser.fulfilled, (state, action) => {
+      state.currentProfile = action.payload
+      console.log(action.payload);
+      action.payload.navigate('/')
+    })
+
+    .addCase(addLang.fulfilled, (state, action) => {
+      state.currentProfile = action.payload
+      console.log(action.payload);
     })
   }
 })

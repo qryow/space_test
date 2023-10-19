@@ -90,3 +90,34 @@ export const getUsers = createAsyncThunk(
     return data;
   }
 )
+
+
+export const patchUser = createAsyncThunk(
+  'account/patchUser',
+  async ({ userObj, navigate, id }) => {
+    let formData = new FormData();
+    formData.append('username', userObj.username);
+    formData.append('first_name', userObj.first_name);
+    formData.append('last_name', userObj.last_name);
+    formData.append('professions', userObj.professions);
+    formData.append('country', userObj.country);
+    formData.append('arial', userObj.arial);
+    let { data } = await axios.put(`${API}/profile/profile/${id}/`, formData, config ? config : null)
+    console.log(data);
+    console.log(id);
+    return { data, navigate }
+  }
+)
+
+export const addLang = createAsyncThunk(
+  'account/addLang',
+  async ({ updatedLangObj }) => {
+    let formData = new FormData();
+    formData = new FormData();
+    formData.append('languages', updatedLangObj.language);
+    formData.append('languages_level', updatedLangObj.languages_level);
+    let { data } = await axios.post(`${API}/e_h/add_language/`, formData, config ? config : null)
+    console.log(data);
+    return { data }
+  }
+)

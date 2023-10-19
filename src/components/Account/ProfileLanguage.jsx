@@ -104,26 +104,36 @@ import style from './styles/CreateProfile.module.css'
 
 import plus from '../../img/Add_Plus.svg'
 import LanguageInput from './LanguageInput'
+import { addLang } from '../../store/account/AccountActions'
 
-const ProfileLanguage = () => {
+const ProfileLanguage = ({ onLangObjUpdate }) => {
 
   const [languageWrappers, setLanguageWrappers] = useState([{ id: 1 }]);
 
   const addLanguageWrapper = () => {
-    // Добавление нового блока
     const newId = Math.max(...languageWrappers.map((wrapper) => wrapper.id), 0) + 1;
     setLanguageWrappers([...languageWrappers, { id: newId }]);
   };
+
+  const sendUpdatedLangObjToParent = (updatedLangObj) => {
+    onLangObjUpdate(updatedLangObj);
+  };
+
+  const dispatch = useDispatch()
+
+  useEffect(() => {
+    dispatch(addLang())
+  }, [])
 
   return (
     <>
       {languageWrappers.map((wrapper, index) => (
         <div key={wrapper.id}>
-          <LanguageInput />
+          <LanguageInput onLangObjUpdate={sendUpdatedLangObjToParent} />
         </div>
       ))}
 
-      <button onClick={addLanguageWrapper} className={style.add__lang__btn}>Add a language <img className={style.plus} src={plus} alt="" /></button>
+      <button onClick={() => {addLanguageWrapper(); }} className={style.add__lang__btn}>Add a language <img className={style.plus} src={plus} alt="" /></button>
     </>
   )
 }
