@@ -19,7 +19,7 @@ import Sun from '../../img/Sun.svg'
 
 import detailAccount from '../../img/account-details.svg'
 import messanger from '../../img/message.svg'
-import star from '../../img/star.svg'
+import star from '../../img/profile/archive.svg'
 import blog from '../../img/blogIcon.svg'
 import notificationIcon from '../../img/detail-notification.svg'
 import settings from '../../img/Settings.svg'
@@ -171,7 +171,7 @@ const MainNavbar = () => {
                   </div>
                   <div className={style.detail__item}>
                     <img className={style.acc__img} src={star} alt="" />
-                    <h5 className={style.details__title}>Favorites</h5>
+                    <h5 className={style.details__title}>Saved</h5>
                   </div>
                   <div className={style.detail__item}>
                     <img className={style.acc__img} src={blog} alt="" />

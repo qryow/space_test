@@ -8,6 +8,7 @@ import MainNavbar from '../Main/MainNavbar'
 
 import open from '../../img/hide-pass.svg'
 import hide from '../../img/pass_open.svg'
+import google from '../../img/google.svg'
 
 const Register = () => {
   const [showPassword, setShowPassword] = useState(false);
@@ -117,22 +118,6 @@ const Register = () => {
                   <p className={style.input__title}>Email address</p>
                   <input type="text" placeholder='@' className={style.email__input} onChange={(e) => setUserObj({ ...userObj, email: e.target.value })} />
                 </div>
-
-                <div className={style.pass__fields}>
-                  <div className={style.pass__field}>
-                    <p className={style.input__title}>First name</p>
-                    <div className={style.input__wrapper}>
-                      <input type="text" className={style.pass__input} onChange={(e) => setUserObj({ ...userObj, first_name: e.target.value })} />
-                    </div>
-                  </div>
-
-                  <div className={style.pass__field}>
-                    <p className={style.input__title}>Last name</p>
-                    <div className={style.input__wrapper}>
-                      <input type="text" className={style.pass__input} onChange={(e) => setUserObj({ ...userObj, last_name: e.target.value })} />
-                    </div>
-                  </div>
-                </div>
                           
                 <div className={style.pass__fields}>
                   <div className={style.pass__field}>
@@ -186,22 +171,6 @@ const Register = () => {
                             <p className={style.input__title}>{emailErrorMessage ? <span className={style.error}>{emailErrorMessage}</span> : 'Email address '}</p>
                             <input type="email" placeholder={emailError ? emailError : '@'} className={emailError || emailErrorMessage ? `${style.email__input} ${style.error__input}` : `${style.email__input}`} onChange={(e) => setUserObj({ ...userObj, email: e.target.value })} value={userObj.email}  />
                           </div>
-
-                          <div className={style.pass__fields}>
-                            <div className={style.pass__field}>
-                              <p className={style.input__title}>First name</p>
-                              <div className={style.input__wrapper}>
-                                <input type="text" maxLength={20} placeholder={firstNameError ? firstNameError : ''} className={firstNameError ? `${style.error__input} ${style.pass__input}` : `${style.pass__input}`} onChange={(e) => setUserObj({ ...userObj, first_name: e.target.value })} value={userObj.first_name} />
-                              </div>
-                            </div>
-
-                            <div className={style.pass__field}>
-                              <p className={style.input__title}>Last name</p>
-                              <div className={style.input__wrapper}>
-                                <input type="text" maxLength={20} placeholder={lastNameError ? lastNameError : ''} className={lastNameError ? `${style.error__input} ${style.pass__input}` : `${style.pass__input}`} onChange={(e) => setUserObj({ ...userObj, last_name: e.target.value })} value={userObj.last_name} />
-                              </div>
-                            </div>
-                          </div>
                           
                           <div className={style.pass__fields}>
                             <div className={style.pass__field}>
@@ -248,22 +217,6 @@ const Register = () => {
                         <p className={style.input__title}>Email address</p>
                         <input type="email" placeholder='@' className={style.email__input} onChange={(e) => setUserObj({ ...userObj, email: e.target.value })} value={userObj.email} />
                       </div>
-
-                      <div className={style.pass__fields}>
-                        <div className={style.pass__field}>
-                          <p className={style.input__title}>First name</p>
-                          <div className={style.input__wrapper}>
-                            <input type="text" maxLength={20} className={style.pass__input} onChange={(e) => setUserObj({ ...userObj, first_name: e.target.value })} value={userObj.first_name} />
-                          </div>
-                        </div>
-
-                        <div className={style.pass__field}>
-                          <p className={style.input__title}>Last name</p>
-                          <div className={style.input__wrapper}>
-                            <input type="text" maxLength={20} className={style.pass__input} onChange={(e) => setUserObj({ ...userObj, last_name: e.target.value })} value={userObj.last_name} />
-                          </div>
-                        </div>
-                      </div>
                       
                       <div className={style.pass__fields}>
                         <div className={style.pass__field}>
@@ -289,6 +242,7 @@ const Register = () => {
                       </div>
 
                       <button className={style.reg__btn} onClick={() => {dispatch(registerUser({ userObj, navigate })); handleCreateAccount(); sameEmailError(); notSamePassword(); addEmail(); notFullPassword();} }>Create Account</button>
+                      <button className={style.google}><img className={style.google__img} src={google} alt="" /> Continue with Google </button>
                       <p className={style.block__subtitle}>Already have an ccount? <a onClick={() => navigate('/login')} className={style.link}>Log in</a></p>
                     </div>
                   </div>
