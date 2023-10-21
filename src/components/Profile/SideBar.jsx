@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import style from './styles/ProfileStyles.module.css'
 import { Link, useLocation } from 'react-router-dom'
 
@@ -15,8 +15,38 @@ import settings from '../../img/profile/Settings.svg'
 import locationIcon from '../../img/profile/Location.svg'
 import mail from '../../img/profile/Mail.svg'
 
+import { getProfile } from '../../store/profile/ProfileActions'
+import { useDispatch, useSelector } from 'react-redux';
+
 const SideBar = () => {
   const location = useLocation();
+
+  const { profiles, loading } = useSelector(state => state.profile);
+  console.log(profiles);
+
+  const localEmail = localStorage.getItem('account');
+const emailWithoutQuotes = localEmail ? localEmail.replace(/"/g, '') : '';
+console.log(emailWithoutQuotes);
+
+const [matchingUser, setMatchingUser] = useState(null);
+console.log(matchingUser);
+
+useEffect(() => {
+  if (profiles.length > 0) {
+    const userWithMatchingEmail = profiles.find(profile => profile.user === emailWithoutQuotes);
+    console.log(userWithMatchingEmail);
+    if (userWithMatchingEmail) {
+      setMatchingUser(userWithMatchingEmail);
+    }
+  }
+}, [profiles]);
+
+const dispatch = useDispatch()
+
+useEffect(() => {
+  dispatch(getProfile())
+}, [])
+
 
   return (
     <div className={style.sidebar__wrapper}>
@@ -45,18 +75,24 @@ const SideBar = () => {
         </div>
       </div>
 
-      <div className={style.info}>
-        <div className={style.info__block}>
-          <div className={style.info__item}>
-            <img className={style.info__icon} src={locationIcon} alt="" />
-            <h5 className={style.info__title}>Bishkek, Kyrgyzstan</h5>
-          </div>
-          <div className={style.info__item}>
-            <img className={style.info__icon2} src={mail} alt="" />
-            <h5 className={style.info__title}>usergmail.com</h5>
+      {loading ? (
+      <p>Loading...</p>
+    ) : matchingUser ? (
+        <div className={style.info}>
+          <div className={style.info__block}>
+            <div className={style.info__item}>
+              <img className={style.info__icon} src={locationIcon} alt="" />
+              <h5 className={style.info__title}>{matchingUser.arial}, {matchingUser.country}</h5>
+            </div>
+            <div className={style.info__item}>
+              <img className={style.info__icon2} src={mail} alt="" />
+              <h5 className={style.info__title}>{matchingUser.user}</h5>
+            </div>
           </div>
         </div>
-      </div>
+      ) : (
+        <p>No data available</p>
+    )}
       
     </div>
   )

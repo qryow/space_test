@@ -1,6 +1,7 @@
 import { configureStore } from "@reduxjs/toolkit";
 import AccountSlice from "./account/AccountSlice";
 import countriesActions from './countries/CountriesActions'
+import ProfileSlice from "./profile/ProfileSlice";
 
 export default configureStore({
   middleware: getDefaultMiddleware => getDefaultMiddleware({
@@ -9,5 +10,6 @@ export default configureStore({
   reducer: {
     account: AccountSlice,
     countries: countriesActions,
+    profile: ProfileSlice
   }
 })
