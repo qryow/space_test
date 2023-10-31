@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
 import style from './styles/AccountStyles.module.css'
 import { clearStatus, clearCurrentAccount } from '../../store/account/AccountSlice'
-import { loginUser } from '../../store/account/AccountActions'
+import { getUsers, loginUser } from '../../store/account/AccountActions'
 import MainNavbar from '../Main/MainNavbar'
 
 import open from '../../img/hide-pass.svg'
@@ -37,14 +37,28 @@ const Login = () => {
     }
   };
 
-  const { status, loading } = useSelector(state => state.account);
+  const { users, status, loading } = useSelector(state => state.account);
   const dispatch = useDispatch();
   const navigate = useNavigate()
   
   useEffect(() => {
     dispatch(clearStatus());
-    dispatch(clearCurrentAccount())
+    dispatch(clearCurrentAccount());
+    dispatch(getUsers())
   }, [])
+
+
+  const [matchingUser, setMatchingUser] = useState(null);
+  console.log(matchingUser);
+
+  useEffect(() => {
+    if (users.length > 0) {
+      const userWithMatchingEmail = users.find(user => user.email === emailWithoutQuotes);
+      if (userWithMatchingEmail) {
+        setMatchingUser(userWithMatchingEmail);
+      }
+    }
+  }, [users]);
 
   return (
     <>
@@ -154,7 +168,7 @@ const Login = () => {
                         <a className={style.forgot} onClick={() => navigate('/lose-password')} href="">Forgot your password ?</a>
                       </div>
 
-                      <button className={style.reg__btn} onClick={() => {dispatch(loginUser({ userObj, navigate })); handleCreateAccount(); }}>Login</button>
+                      <button className={style.reg__btn} onClick={() => {dispatch(loginUser({ userObj })); handleCreateAccount(); matchingUser.is_profile_complete ? navigate("/create-profile") : navigate("/create-profile")  }}>Login</button>
                       <p className={style.block__subtitle}>Don't have an ccount? <a onClick={() => navigate('/register')} className={style.link}>Sign up</a></p>
                     </div>
                   </div>

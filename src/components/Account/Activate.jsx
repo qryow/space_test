@@ -73,7 +73,7 @@ const Activate = () => {
               <MainNavbar />
                 <div className={style.block__wrapper}>
                   <div className={style.block}>
-                    <button className={`${style.forgot__btn} ${style.complete}`} onClick={() => navigate('/lose-password')}>
+                    <button className={`${style.forgot__btn} ${style.complete}`} onClick={() => navigate('/register')}>
                       <img src={leave} alt="" />
                     </button>
 
@@ -117,7 +117,7 @@ const Activate = () => {
                       <MainNavbar />
                         <div className={style.block__wrapper}>
                           <div className={style.block}>
-                            <button className={`${style.forgot__btn} ${style.complete}`} onClick={() => navigate('/lose-password')}>
+                            <button className={`${style.forgot__btn} ${style.complete}`} onClick={() => navigate('/register')}>
                               <img src={leave} alt="" />
                             </button>
               
@@ -154,7 +154,7 @@ const Activate = () => {
                 <MainNavbar />
                   <div className={style.block__wrapper}>
                     <div className={style.block}>
-                      <button className={`${style.forgot__btn} ${style.complete}`} onClick={() => navigate('/lose-password')}>
+                      <button className={`${style.forgot__btn} ${style.complete}`} onClick={() => navigate('/register')}>
                         <img src={leave} alt="" />
                       </button>
         
@@ -176,7 +176,7 @@ const Activate = () => {
                         ))}
                       </div>
         
-                      <button className={style.activate__btn} onClick={() => dispatch(activateUser({ userObj, navigate }))}>Verify</button>
+                      <button className={style.activate__btn} onClick={() => {dispatch(activateUser({ userObj, navigate })); }   }>Verify</button>
                     </div> 
                   </div>
               </div>
