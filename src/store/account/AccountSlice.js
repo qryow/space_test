@@ -10,6 +10,7 @@ const accountSlice = createSlice({
     currentProfile: [],
     loading: false,
     status: '',
+    profileStatus: '',
     users: []
   },
   reducers: {
@@ -52,7 +53,6 @@ const accountSlice = createSlice({
       state.currentAccount = action.payload.user;
       addDataToLocalStorage(action.payload.user, action.payload.data);
       updateToken();
-      action.payload.navigate('/')
     })
     .addCase(loginUser.rejected, (state) => {
       state.loading = false;
@@ -95,12 +95,18 @@ const accountSlice = createSlice({
       state.users = action.payload.results;
     })
 
+
     .addCase(patchUser.fulfilled, (state, action) => {
-      state.currentProfile = action.payload
+      state.currentProfile = action.payload;
       console.log(action.payload);
       action.payload.navigate('/')
     })
-
+    .addCase(patchUser.rejected, (state, action) => {
+      state.profileStatus = 'error'
+      //state.error = action.error.message; // Здесь мы сохраняем сообщение об ошибке
+      //console.error(action.error);
+      //console.log(state.profileStatus);
+    })
     .addCase(addLang.fulfilled, (state, action) => {
       state.currentProfile = action.payload
       console.log(action.payload);

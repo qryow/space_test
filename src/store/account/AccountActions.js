@@ -40,7 +40,7 @@ export const loginUser = createAsyncThunk(
     formData.append('password', userObj.password);
     let { data } = await axios.post(`${API}/account/login/`, formData);
     console.log(data);
-    return { data, navigate, user: userObj.email}
+    return { data, user: userObj.email}
   }
 )
 
@@ -109,15 +109,45 @@ export const patchUser = createAsyncThunk(
   }
 )
 
+//export const addLang = createAsyncThunk(
+//  'account/addLang',
+//  async (updatedLangObjs, thunkAPI) => {
+//    const responses = await Promise.all(
+//      updatedLangObjs.map(async (langObj) => {
+//        let formData = new FormData();
+//        formData.append('languages', langObj.language);
+//        formData.append('languages_level', langObj.languages_level);
+//        return await axios.post(`${API}/e_h/add_language/`, formData, config ? config : null);
+//      })
+//    );
+
+//    const data = responses.map((response) => response.data);
+//    return data;
+//  }
+//);
+
+
 export const addLang = createAsyncThunk(
   'account/addLang',
-  async ({ updatedLangObj }) => {
-    let formData = new FormData();
-    formData = new FormData();
-    formData.append('languages', updatedLangObj.language);
-    formData.append('languages_level', updatedLangObj.languages_level);
-    let { data } = await axios.post(`${API}/e_h/add_language/`, formData, config ? config : null)
-    console.log(data);
-    return { data }
+  async (updatedLangObjs, thunkAPI) => {
+    try {
+      if (!updatedLangObjs) {
+        throw new Error("updatedLangObjs is undefined or null");
+      }
+
+      const responses = await Promise.all(
+        updatedLangObjs.map(async (langObj) => {
+          let formData = new FormData();
+          formData.append('languages', langObj.language);
+          formData.append('languages_level', langObj.languages_level);
+          return await axios.post(`${API}/e_h/add_language/`, formData, config ? config : null);
+        })
+      );
+
+      const data = responses.map((response) => response.data);
+      return data;
+    } catch (error) {
+      return thunkAPI.rejectWithValue(error.message);
+    }
   }
-)
+);
