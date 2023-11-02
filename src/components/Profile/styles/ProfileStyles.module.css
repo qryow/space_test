@@ -3,7 +3,7 @@
 
 .wrapper {
   width: 100%;
-  height: 200vh;
+  height: 220vh;
   background-color: #111111;
   position: relative;
 }
@@ -19,10 +19,17 @@
   justify-content: space-between;
 }
 
+.main_right{
+  display: flex;
+  flex-direction: column;
+  align-items: end;
+  width: 100%;
+  height: auto;
+}
 
 /* !  SIDE BAR   */
 .sidebar__wrapper {
-  width: 18%;
+  width: 23%;
   height: 100%;
   background-color: #181818;
   border-radius: 20px;
@@ -100,8 +107,8 @@
 
 /*!    PROFILE     */
 .profile {
-  width: 79.5%;
-  height: 42vh;
+  width: 97%;
+  height: 50vh;
   border-radius: 20px;
   background-color: #181818;
   z-index: 0;
@@ -146,8 +153,7 @@
 
 .content {
   width: 100%;
-  height: 30%;
-  background-color: #242424;
+  background-color: #181818;
   position: relative;
 }
 .avatar {
@@ -158,7 +164,7 @@
   padding: 4px;
   position: absolute;
   left: 3%;
-  top: -90%;
+  bottom: 80%;
   z-index: 1;
 }
 .avatar__block {
@@ -180,9 +186,9 @@
 
 .content__block {
   width: 83%;
-  height: 100%;
   position: absolute;
   right: 0;
+  bottom: 80%;
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -302,4 +308,126 @@
 
 .edit__btn:hover {
   color: white;
+}
+
+/* !CONTENT */
+
+.content{
+  width: 97%;
+  color: white;
+  margin-top: 30px;
+  background-color: #181818;
+  border-radius: 20px;
+  padding: 10px 10px;
+  height: 90%;
+}
+
+.content_buttons{
+  width: 100%;
+  height: 120px;
+  display: flex;
+  align-items: center;
+}
+
+.content_buttons_left{
+  position: relative;
+  width: 150px;
+  height: 70px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.content_buttons_right{
+  position: relative;
+  width: 125px;
+  height: 70px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.project_button{
+  width: 125px;
+  height: 45px;
+  font-weight: 500;
+  font-size: 18px;
+  border-radius: 10px;
+  background-color: #666666;
+  color: white;
+  border: none;
+}
+
+.project_button_no_active{
+  background-color: #444444;
+  width: 125px;
+  height: 45px;
+  font-weight: 500;
+  font-size: 18px;
+  border-radius: 10px;
+  color: white;
+  border: none;
+  cursor: pointer;
+}
+
+.post_button{
+  width: 100px;
+  height: 45px;
+  width: 500;
+  font-size: 18px;
+  border-radius: 10px;
+  background-color: #666666;
+  color: white;
+  border: none;
+}
+
+.post_button_no_active{
+  background-color: #444444;
+  width: 100px;
+  height: 45px;
+  width: 500;
+  font-size: 18px;
+  border-radius: 10px;
+  color: white;
+  border: none;
+  cursor: pointer;
+}
+
+.plus_project{
+  border-radius: 50px;
+  width: 30px;
+  height: 30px;
+  border: none;
+  background: linear-gradient(to right, #CC1DB0 0%, #CD2C3F 100%);
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: absolute;
+  right: 0;
+  top: 0;
+  cursor: pointer;
+}
+
+.plus_project_no_active{
+  display: none;
+}
+
+.plus_post{
+  border-radius: 50px;
+  width: 30px;
+  height: 30px;
+  border: none;
+  background: linear-gradient(to right, #CC1DB0 0%, #CD2C3F 100%);
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: absolute;
+  right: 0;
+  top: 0;
+  cursor: pointer;
+}
+
+.plus_post_no_active{
+  display: none;
 }

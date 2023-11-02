@@ -9,15 +9,15 @@ import { getProfile } from '../../store/profile/ProfileActions'
 import { useDispatch, useSelector } from 'react-redux';
 
 const Profile = () => {
-  const { profiles, loading } = useSelector(state => state.profile);
-  console.log(profiles);
+const { profiles, loading } = useSelector(state => state.profile);
+console.log(profiles);
 
-  const localEmail = localStorage.getItem('account');
+const localEmail = localStorage.getItem('account');
 const emailWithoutQuotes = localEmail ? localEmail.replace(/"/g, '') : '';
 console.log(emailWithoutQuotes);
 
 const [matchingUser, setMatchingUser] = useState(null);
-console.log(matchingUser);
+console.log(matchingUser.username);
 
 useEffect(() => {
   if (profiles.length > 0) {

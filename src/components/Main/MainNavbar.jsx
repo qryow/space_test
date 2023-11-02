@@ -161,7 +161,7 @@ const MainNavbar = () => {
             </div>
                 
                 <div className={isHovered ? `${style.detail__menu} ${style.details__active}` : `${style.detail__menu}`} ref={detailRef}  >
-                  <div className={style.detail__item}>
+                  <div className={style.detail__item} onClick={() => navigate('/profile')}>
                     <img className={style.acc__img} src={detailAccount} alt="" />
                     <h5 className={style.details__title}>My Account</h5>
                   </div>
