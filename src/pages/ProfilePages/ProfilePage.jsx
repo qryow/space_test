@@ -3,7 +3,7 @@ import MainNavbar from '../../components/Main/MainNavbar'
 import SideBar from '../../components/Profile/SideBar'
 import Profile from '../../components/Profile/Profile'
 import style from '../../components/Profile/styles/ProfileStyles.module.css'
-import ProfilePosts from '../../components/Profile/ProfilePosts'
+import ProfileProjectsAndPosts from '../../components/Profile/ProfileProjectsAndPosts'
 
 const ProfilePage = () => {
   return (
@@ -15,7 +15,7 @@ const ProfilePage = () => {
             <SideBar  />
             <div className={style.main_right}>
               <Profile />
-              <ProfilePosts />
+              <ProfileProjectsAndPosts />
             </div>
           </div>
         </div>

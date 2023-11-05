@@ -4,7 +4,7 @@ import style from './styles/ProfileStyles.module.css';
 import ProjectsList from '../Projects/ProjectsList';
 import PostsList from '../Posts/PostsList';
 
-const ProfilePosts = () => {
+const ProfileProjectsAndPosts = () => {
 const [activeTab, setActiveTab] = useState('projects');
 
 const handleTabClick = (tab) => {
@@ -41,4 +41,4 @@ return (
 );
 }
 
-export default ProfilePosts;
+export default ProfileProjectsAndPosts;

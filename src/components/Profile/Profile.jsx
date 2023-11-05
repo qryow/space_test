@@ -17,7 +17,6 @@ const emailWithoutQuotes = localEmail ? localEmail.replace(/"/g, '') : '';
 console.log(emailWithoutQuotes);
 
 const [matchingUser, setMatchingUser] = useState(null);
-console.log(matchingUser.username);
 
 useEffect(() => {
   if (profiles.length > 0) {
