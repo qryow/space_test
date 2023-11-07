@@ -8,17 +8,13 @@ import avatar from '../../img/avatar.jpg'
 import edit from '../../img/profile/editbtn.svg';
 import { getProfile } from '../../store/profile/ProfileActions'
 import { useDispatch, useSelector } from 'react-redux';
+import EditName from './ProfileModals/EditName'
 
 const Profile = () => {
 const { profiles, loading } = useSelector(state => state.profile);
 const [EditNameModal, setEditNameModal] = useState(false);
 
-const openNameModal = () => {
-  setEditNameModal(true);
-};
-const closeNameModal = () => {
-  setEditNameModal(false);
-};
+
 
 const localEmail = localStorage.getItem('account');
 const emailWithoutQuotes = localEmail ? localEmail.replace(/"/g, '') : '';
@@ -47,6 +43,7 @@ useEffect(() => {
     {loading ? (
       <p>Loading...</p>
     ) : matchingUser ? (
+      <>
           <div className={style.profile}>
             <div className={style.background}>
               <img className={style.bg} src={bg2} alt="" />
@@ -64,7 +61,7 @@ useEffect(() => {
 
               <div className={style.content__block}>
                 <div className={style.names}>
-                  <h3 className={style.name}>{matchingUser.username}<button className={style.edit__btn}><img src={edit} alt="" /></button></h3>
+                  <h3 className={style.name}>{matchingUser.username}<button className={style.edit__btn} onClick={() => setEditNameModal(true)}><img src={edit} alt="" /></button></h3>
                   <h4 className={style.user__job}>{matchingUser.professions}</h4>
                 </div>
 
@@ -85,6 +82,8 @@ useEffect(() => {
               </div>
             </div>
           </div>
+          <EditName activeName={EditNameModal} setActiveName={setEditNameModal} />
+      </>
       ) : (
         <p>No data available</p>
     )}
