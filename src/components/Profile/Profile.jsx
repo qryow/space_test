@@ -61,7 +61,7 @@ useEffect(() => {
 
               <div className={style.content__block}>
                 <div className={style.names}>
-                  <h3 className={style.name}>{matchingUser.username}<button className={style.edit__btn} onClick={() => setEditNameModal(true)}><img src={edit} alt="" /></button></h3>
+                  <h3 className={style.name}>{matchingUser.username}<button className={style.edit__btn}><img src={edit} alt="" onClick={() => setEditNameModal(true)} /></button></h3>
                   <h4 className={style.user__job}>{matchingUser.professions}</h4>
                 </div>
 

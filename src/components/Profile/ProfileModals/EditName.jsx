@@ -4,7 +4,7 @@ import style from './styles/ProfileModals.module.css';
 const EditName = ({activeName, setActiveName}) => {
     return (
         <div className={activeName ? `${style.editName} ${style.activeName}` : `${style.editName}`} onClick={() => setActiveName(false)}>
-            <div className={activeName ? `${style.editName__content} ${style.activeName}` : `${style.editName__content}`} onClick={e => e.stopPropagation()}>
+            <div className={activeName ? `${style.editName__content} ${style.active}` : `${style.editName__content}`} onClick={e => e.stopPropagation()}>
                 <div className={style.name__block}>
                     <h1>Username</h1>
                     <input className={style.name__input} type="text" />

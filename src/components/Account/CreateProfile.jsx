@@ -11,6 +11,7 @@ import MainNavbar from '../Main/MainNavbar';
 import arrowDown from '../../img/ArrowDown.svg'
 import ProfileLanguage from './ProfileLanguage';
 import Preferences from './Preferences';
+import LanguageInput from './LanguageInput';
 
 const CreateProfile = () => {
   const [userObj, setUserObj] = useState({
@@ -307,6 +308,8 @@ const CreateProfile = () => {
 
                         </div>
                       </div>
+
+                      
 
                       <button className={style.continue} onClick={() => { dispatch(patchUser({ userObj, navigate, id: matchingUserId })); handleSubmit(); inputsEmpty()}  }>Continue</button>
                       
