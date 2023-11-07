@@ -12,7 +12,7 @@ import EditName from './ProfileModals/EditName'
 
 const Profile = () => {
 const { profiles, loading } = useSelector(state => state.profile);
-const [EditNameModal, setEditNameModal] = useState(false);
+const [editNameModal, setEditNameModal] = useState(false);
 
 
 
@@ -82,7 +82,7 @@ useEffect(() => {
               </div>
             </div>
           </div>
-          <EditName activeName={EditNameModal} setActiveName={setEditNameModal} />
+          <EditName activeName={editNameModal} setActiveName={setEditNameModal} />
       </>
       ) : (
         <p>No data available</p>
