@@ -25,8 +25,9 @@ const projectsSlice = createSlice({
         })
         .addCase(getProjects.fulfilled, (state, action) => {
             state.loading = false;
-            state.projects = action.payload.results;
+            state.projects = action.payload;
             state.totalPages = Math.ceil(action.payload.count / 6);
+            console.log(action.payload);
         })
         .addCase(getProjects.rejected, (state) => {
             state.loading = false;

@@ -1,9 +1,10 @@
 import React from 'react';
+import style from './styles/Projects.module.css';
 
 const ProjectsPagination = () => {
     return (
-        <div>
-            
+        <div className={style.pagination}>
+            ProjectsPagination
         </div>
     );
 };
