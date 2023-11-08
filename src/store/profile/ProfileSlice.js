@@ -1,5 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { getProfile } from "./ProfileActions";
+import { editProfile, getProfile } from "./ProfileActions";
 
 const ProfileSlice = createSlice({
     name: 'profile',
@@ -20,7 +20,7 @@ const ProfileSlice = createSlice({
         })
         .addCase(getProfile.rejected, (state) => {
             state.loading = false
-        })
+        })     
     },
 })
 
