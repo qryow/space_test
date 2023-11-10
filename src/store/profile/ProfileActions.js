@@ -5,7 +5,9 @@ import { getAuthConfig } from "../../helpers/functions";
 
 const config = getAuthConfig();
 
-export const getProfile = createAsyncThunk("profile/getProfiles", async () => {
+export const getProfile = createAsyncThunk(
+  "profile/getProfiles", 
+  async () => {
   const { data } = await axios.get(`${API}/profile/profile/`);
   console.log(data);
   return data;

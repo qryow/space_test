@@ -10,6 +10,7 @@ import edit from "../../img/profile/editbtn.svg";
 import { getProfile } from "../../store/profile/ProfileActions";
 import { useDispatch, useSelector } from "react-redux";
 import EditName from "./ProfileModals/EditName";
+import { addDataToLocalStorage } from "../../helpers/functions";
 
 const Profile = () => {
   const { profiles, loading } = useSelector((state) => state.profile);
@@ -20,6 +21,10 @@ const Profile = () => {
   console.log(emailWithoutQuotes);
 
   const [matchingUser, setMatchingUser] = useState(null);
+  console.log(matchingUser);
+
+  const dispatch = useDispatch();
+
 
   useEffect(() => {
     if (profiles.length > 0) {
@@ -33,7 +38,6 @@ const Profile = () => {
     }
   }, [profiles]);
 
-  const dispatch = useDispatch();
 
   useEffect(() => {
     dispatch(getProfile());

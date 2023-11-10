@@ -1,11 +1,11 @@
 import React from 'react';
 
-const ProjectUpdate = () => {
+const PostCreate = () => {
     return (
         <div>
-            
+            PostCreate
         </div>
     );
 };
 
-export default ProjectUpdate;
+export default PostCreate;

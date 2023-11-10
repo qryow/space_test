@@ -1,0 +1,32 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap');
+
+*{
+  color: #ffffff;
+  font-family: 'Roboto', sans-serif;
+}
+
+.wrapper__list{
+  width: 100%;
+  height: auto;
+  display: flex;
+  justify-content: start;
+  background-color: #333333;
+}
+
+/* postItem */
+
+.posts_carts {
+  width: 100%;
+  min-height: 200px;
+  display: flex;
+  flex-direction: column;
+  align-items: start;
+  flex-wrap: wrap;
+}
+
+.post_cart{
+    width: 70%;
+    height: auto;
+    padding: 20px 40px;
+
+}

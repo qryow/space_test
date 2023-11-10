@@ -1,5 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { editProfile, getProfile } from "./ProfileActions";
+import { getProfile } from "./ProfileActions";
 
 const ProfileSlice = createSlice({
     name: 'profile',

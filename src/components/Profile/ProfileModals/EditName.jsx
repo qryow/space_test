@@ -7,37 +7,39 @@ import { editProfile } from "../../../store/profile/ProfileActions";
 import arrowDown from "../../../img/ArrowDown.svg";
 
 const EditName = ({ activeName, setActiveName, user }) => {
+  const [oneUser, setOneUser] = useState(user);
   const { countries } = useSelector((state) => state.countries);
-  const [selectedCountry, setSelectedCountry] = useState("");
+  const [selectedCountry, setSelectedCountry] = useState(oneUser.country);
   const [filteredCountries, setFilteredCountries] = useState(countries);
   const [countryDropdown, setCountryDropdown] = useState(true);
-  const [oneUser, setOneUser] = useState(user);
+
   const profileId = oneUser.id;
-
-  const dispatch = useDispatch();
-
+  
   const handleCountryClick = (country) => {
     setSelectedCountry(country);
     setCountryDropdown(true);
 
-    dispatch(editProfile({ ...oneUser, country }));
+    setOneUser({ ...oneUser, country });
   };
 
-  const handleInputChange = (event) => {
-    const inputValue = event.target.value;
+  const handleInputChange = (e) => {
+    const inputValue = e.target.value;
     setSelectedCountry(inputValue);
-
-    dispatch(editProfile({ ...oneUser, country: inputValue }));
-
+  
+    setOneUser({ ...oneUser, country: inputValue });
+  
     const filtered = countries.filter((country) =>
       country.name.common.toLowerCase().includes(inputValue.toLowerCase())
     );
     setFilteredCountries(filtered);
   };
+  
+
+  const dispatch = useDispatch();
 
   useEffect(() => {
     dispatch(getCountries());
-  }, [dispatch]);
+  }, []);
 
   useEffect(() => {
     setFilteredCountries(countries);
@@ -97,55 +99,33 @@ const EditName = ({ activeName, setActiveName, user }) => {
           />
         </div>
         <div className={style.country__wrapper}>
-          <div className={style.input__drop}>
-            <h5 className={style.input__title}>Country</h5>
-            <div>
-              <input
-                placeholder="Choose country"
-                className={style.drop__input}
-                type="text"
-                value={oneUser.country}
-                onChange={(e) => {
-                  handleInputChange(e);
-                  setCountryDropdown(false);
-                }}
-                onClick={() => setCountryDropdown(!countryDropdown)}
-              />
-              <img
-                className={
-                  countryDropdown
-                    ? `${style.arrow__down}`
-                    : `${style.arrow__up}`
-                }
-                src={arrowDown}
-                alt=""
-                onClick={() => setCountryDropdown(!countryDropdown)}
-              />
-            </div>
+        <div className={style.input__drop}>
+                              <h5 className={style.input__title}>Country</h5>
+                              <div>
+                                <input 
+                                  placeholder='Choose country'
+                                  className={style.drop__input}
+                                  type="text"
+                                  value={selectedCountry}
+                                  onChange={(e) => {
+                                    handleInputChange(e);
+                                    setCountryDropdown(false);
+                                  }}
+                                  onClick={() => setCountryDropdown(!countryDropdown)}
+                                  />
+                                <img className={countryDropdown ? `${style.arrow__down}` : `${style.arrow__up}`} src={arrowDown} alt=""  onClick={() => setCountryDropdown(!countryDropdown)} />
+                              </div>
 
-            <div
-              className={
-                countryDropdown
-                  ? `${style.countries__list}`
-                  : `${style.countries__list} ${style.list__unactive}`
-              }
-            >
-              {filteredCountries.map((country, index) => (
-                <div
-                  className={style.one__country}
-                  key={index}
-                  onClick={() => handleCountryClick(country.name.common)}
-                >
-                  <img
-                    className={style.flag__icon}
-                    src={country.flags.svg}
-                    alt=""
-                  />
-                  <h5 className={style.country__name}>{country.name.common}</h5>
-                </div>
-              ))}
-            </div>
-          </div>
+                              <div className={countryDropdown ? `${style.countries__list}` : `${style.countries__list} ${style.list__unactive}`}>
+                                {filteredCountries.map((country, index) => (
+                                  <div className={style.one__country} key={index} onClick={() => handleCountryClick(country.name.common)}>
+                                    <img className={style.flag__icon} src={country.flags.svg} alt="" />
+                                    <h5 className={style.country__name}>{country.name.common}</h5>
+                                  </div>
+                                ))}
+                              </div>
+
+                            </div>
           <div className={style.name__block2_block}>
             <h3>Area</h3>
             <input

@@ -7,15 +7,10 @@ const projectsSlice = createSlice({
         projects: [],
         loading: false,
         oneProject: null,
-        currentPage: 1,
-        totalPages: 1
     },
     reducers: {
         clearOneProjectState: (state) => {
             state.oneProject = null;
-        },
-        changePage: (state, action) => {
-            state.currentPage = action.payload.page;
         }
     },
     extraReducers: (builder) => {
@@ -39,5 +34,5 @@ const projectsSlice = createSlice({
 
 })
 
-export const { clearOneProjectState, changePage } = projectsSlice.actions;
+export const { clearOneProjectState } = projectsSlice.actions;
 export default projectsSlice.reducer;
