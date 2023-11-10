@@ -9,7 +9,7 @@ export const getProfile = createAsyncThunk(
   "profile/getProfiles", 
   async () => {
   const { data } = await axios.get(`${API}/profile/profile/`);
-  console.log(data);
+  // console.log(data);
   return data;
 });
 

@@ -16,7 +16,7 @@ const ProfileSlice = createSlice({
         .addCase(getProfile.fulfilled, (state, action) => {
             state.loading = false;
             state.profiles = action.payload.results;
-            console.log(action.payload);
+            // console.log(action.payload);
         })
         .addCase(getProfile.rejected, (state) => {
             state.loading = false
