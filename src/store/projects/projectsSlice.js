@@ -7,15 +7,10 @@ const projectsSlice = createSlice({
         projects: [],
         loading: false,
         oneProject: null,
-        currentPage: 1,
-        totalPages: 1
     },
     reducers: {
         clearOneProjectState: (state) => {
             state.oneProject = null;
-        },
-        changePage: (state, action) => {
-            state.currentPage = action.payload.page;
         }
     },
     extraReducers: (builder) => {
@@ -25,8 +20,9 @@ const projectsSlice = createSlice({
         })
         .addCase(getProjects.fulfilled, (state, action) => {
             state.loading = false;
-            state.projects = action.payload.results;
+            state.projects = action.payload;
             state.totalPages = Math.ceil(action.payload.count / 6);
+            console.log(action.payload);
         })
         .addCase(getProjects.rejected, (state) => {
             state.loading = false;
@@ -38,5 +34,5 @@ const projectsSlice = createSlice({
 
 })
 
-export const { clearOneProjectState, changePage } = projectsSlice.actions;
+export const { clearOneProjectState } = projectsSlice.actions;
 export default projectsSlice.reducer;

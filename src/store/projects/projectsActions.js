@@ -9,6 +9,7 @@ export const getProjects = createAsyncThunk(
         const { currentPage } = getState().projects;
         const config = getAuthConfig();
         const { data } = await axios.get(`${API}/space-hub/projects/?page=${currentPage}`, config ? config : null);
+        console.log(data);
         return data;
     }
     

@@ -3,6 +3,7 @@ import AccountSlice from "./account/AccountSlice";
 import countriesActions from './countries/CountriesActions'
 import ProfileSlice from "./profile/ProfileSlice";
 import projectsSlice from "./projects/projectsSlice";
+import postsSlice from "./posts/postsSlice";
 
 export default configureStore({
   middleware: getDefaultMiddleware => getDefaultMiddleware({
@@ -12,6 +13,7 @@ export default configureStore({
     account: AccountSlice,
     countries: countriesActions,
     profile: ProfileSlice,
-    projects: projectsSlice
+    projects: projectsSlice,
+    posts: postsSlice
   }
 })

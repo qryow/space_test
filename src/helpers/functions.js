@@ -1,9 +1,10 @@
 import axios from "axios";
 import { API } from "./consts";
 
-export const addDataToLocalStorage = (user, tokens) => {
+export const addDataToLocalStorage = (user, tokens, id) => {
   localStorage.setItem('account', JSON.stringify(user))
   localStorage.setItem('tokens', JSON.stringify(tokens))
+  localStorage.setItem('id', JSON.stringify(id))
 }
 
 export const updateToken = () => {
