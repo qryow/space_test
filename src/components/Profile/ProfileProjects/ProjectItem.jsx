@@ -2,12 +2,12 @@ import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import style from './styles/Projects.module.css';
 
-import project_img from '../../img/project_img.svg';
-import save from '../../img/profile/archive.svg';
-import saveActive from '../../img/profile/saveActive.svg';
-import location from '../../img/profile/Location2.svg';
-import like from '../../img/profile/like.svg';
-import eyes from '../../img/profile/eyes icon.svg';
+import project_img from '../../../img/project_img.svg';
+import save from '../../../img/profile/archive.svg';
+import saveActive from '../../../img/profile/saveActive.svg';
+import location from '../../../img/profile/Location2.svg';
+import like from '../../../img/profile/like.svg';
+import eyes from '../../../img/profile/eyes icon.svg';
 
 const ProjectItem = ({ project }) => {
     const navigate = useNavigate();

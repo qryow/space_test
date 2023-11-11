@@ -20,7 +20,7 @@ const ProfileSlice = createSlice({
         })
         .addCase(getProfile.rejected, (state) => {
             state.loading = false
-        })
+        })     
     },
 })
 
