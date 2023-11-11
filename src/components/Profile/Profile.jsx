@@ -17,7 +17,6 @@ const Profile = () => {
 
   const localEmail = localStorage.getItem("account");
   const emailWithoutQuotes = localEmail ? localEmail.replace(/"/g, "") : "";
-  console.log(emailWithoutQuotes);
 
   const [matchingUser, setMatchingUser] = useState(null);
   const profileId = matchingUser ? matchingUser.id : null;
@@ -25,12 +24,6 @@ const Profile = () => {
   const dispatch = useDispatch();
 
 
-
-  const ava = matchingUser ? matchingUser.profile_image : null;
-  const [profileAvatar, setProfileAvatar] = useState(ava);
-  
-  console.log(profileAvatar);
-  
   const fileInputRef = useRef(null);
 
   const handleEditButtonClick = () => {
@@ -38,11 +31,11 @@ const Profile = () => {
       fileInputRef.current.click();
     }
   };
-  const handleFileChange = (event) => {
-    const newSelectedAvatar = event.target.files[0];
-    setProfileAvatar(newSelectedAvatar)
-
-    dispatch(editProfile({ editedObj: matchingUser, id: profileId }));
+  
+  const handleFileChange = async (event) => {
+    const updatedUser = { ...matchingUser, profile_image: event.target.files[0] };
+    setMatchingUser(updatedUser);
+    dispatch(editProfile({ editedObj: updatedUser, id: profileId }));
   };
   
   
@@ -58,10 +51,10 @@ const Profile = () => {
       console.log(userWithMatchingEmail);
       if (userWithMatchingEmail) {
         setMatchingUser(userWithMatchingEmail);
-        setProfileAvatar({ profile_image: userWithMatchingEmail.profile_image });
       }
     }
   }, [profiles, emailWithoutQuotes]);
+  
 
 
 
@@ -79,10 +72,10 @@ const Profile = () => {
             <div className={style.content}>
               <div className={style.avatar}>
                 <div className={style.avatar__block}>
-                {profileAvatar.profile_image ? (
+                {matchingUser.profile_image ? (
               <img
                 className={style.account__img}
-                src={profileAvatar.profile_image}
+                src={matchingUser.profile_image}
                 alt="User Profile"
               />
             ) : (

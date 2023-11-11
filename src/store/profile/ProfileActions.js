@@ -9,13 +9,13 @@ export const getProfile = createAsyncThunk(
   "profile/getProfiles", 
   async () => {
   const { data } = await axios.get(`${API}/profile/profile/`);
-  // console.log(data);
+  console.log(data);
   return data;
 });
 
 export const editProfile = createAsyncThunk(
   "profile/editProfile",
-  async ({ editedObj, id }, { getState }) => {
+  async ({ editedObj, id }) => {
     const config = getAuthConfig();
     const updatedProfile = { ...editedObj };
 
