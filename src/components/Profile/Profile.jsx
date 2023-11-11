@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import style from "./styles/ProfileStyles.module.css";
 import { editProfile } from "../../store/profile/ProfileActions";
 
@@ -10,7 +10,6 @@ import edit from "../../img/profile/editbtn.svg";
 import { getProfile } from "../../store/profile/ProfileActions";
 import { useDispatch, useSelector } from "react-redux";
 import EditName from "./ProfileModals/EditName";
-import { addDataToLocalStorage } from "../../helpers/functions";
 
 const Profile = () => {
   const { profiles, loading } = useSelector((state) => state.profile);
@@ -21,10 +20,35 @@ const Profile = () => {
   console.log(emailWithoutQuotes);
 
   const [matchingUser, setMatchingUser] = useState(null);
-  console.log(matchingUser);
+  const profileId = matchingUser ? matchingUser.id : null;
 
   const dispatch = useDispatch();
 
+
+
+  const ava = matchingUser ? matchingUser.profile_image : null;
+  const [profileAvatar, setProfileAvatar] = useState(ava);
+  
+  console.log(profileAvatar);
+  
+  const fileInputRef = useRef(null);
+
+  const handleEditButtonClick = () => {
+    if (fileInputRef.current) {
+      fileInputRef.current.click();
+    }
+  };
+  const handleFileChange = (event) => {
+    const newSelectedAvatar = event.target.files[0];
+    setProfileAvatar(newSelectedAvatar)
+
+    dispatch(editProfile({ editedObj: matchingUser, id: profileId }));
+  };
+  
+  
+  useEffect(() => {
+    dispatch(getProfile());
+  }, [dispatch]);
 
   useEffect(() => {
     if (profiles.length > 0) {
@@ -34,14 +58,12 @@ const Profile = () => {
       console.log(userWithMatchingEmail);
       if (userWithMatchingEmail) {
         setMatchingUser(userWithMatchingEmail);
+        setProfileAvatar({ profile_image: userWithMatchingEmail.profile_image });
       }
     }
-  }, [profiles]);
+  }, [profiles, emailWithoutQuotes]);
 
 
-  useEffect(() => {
-    dispatch(getProfile());
-  }, []);
 
   return (
     <>
@@ -57,9 +79,25 @@ const Profile = () => {
             <div className={style.content}>
               <div className={style.avatar}>
                 <div className={style.avatar__block}>
-                  <img className={style.account__img} src={user} alt="" />
+                {profileAvatar.profile_image ? (
+              <img
+                className={style.account__img}
+                src={profileAvatar.profile_image}
+                alt="User Profile"
+              />
+            ) : (
+              <img
+                className={style.account__img}
+                src={user}
+                alt="Default User Profile"
+              />
+            )}
+
                 </div>
-                <button className={style.edit__btn}>
+                <button
+                  className={style.edit__btn}
+                  onClick={handleEditButtonClick}
+                >
                   <img src={edit} alt="" />
                 </button>
               </div>
@@ -104,7 +142,13 @@ const Profile = () => {
             activeName={editNameModal}
             setActiveName={setEditNameModal}
             user={matchingUser}
-            editProfile={editProfile}
+          />
+                    <input
+            type="file"
+            accept="image/*"
+            style={{ display: "none" }}
+            ref={fileInputRef}
+            onChange={handleFileChange}
           />
         </>
       ) : (
