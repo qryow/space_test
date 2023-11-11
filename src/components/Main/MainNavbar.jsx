@@ -55,6 +55,9 @@ const MainNavbar = () => {
   useClickOutside(detailRef, () => {
     setIsHovered(false)
   })
+  const handleChat = () => {
+    navigate('/chat')
+  }
 
   return (
     <nav className={style.nav}>
@@ -165,7 +168,7 @@ const MainNavbar = () => {
                     <img className={style.acc__img} src={detailAccount} alt="" />
                     <h5 className={style.details__title}>My Account</h5>
                   </div>
-                  <div className={style.detail__item}>
+                  <div onClick={handleChat} className={style.detail__item}>
                     <img className={style.acc__img} src={messanger} alt="" />
                     <h5 className={style.details__title}>Messanger</h5>
                   </div>
