@@ -15,6 +15,7 @@ import MainPage from '../pages/MainPages/MainPage'
 import ProfilePage from '../pages/ProfilePages/ProfilePage'
 
 import About from '../components/Main/About'
+import ChatPage from '../pages/ChatPages/ChatPage'
 
 const MainRouter = () => {
   return (
@@ -33,6 +34,7 @@ const MainRouter = () => {
       <Route path='/profile' element={<ProfilePage />} />
 
       <Route path='/about' element={<About />} />
+      <Route path='/chat' element={<ChatPage />} />
     </Routes>
   )
 }
