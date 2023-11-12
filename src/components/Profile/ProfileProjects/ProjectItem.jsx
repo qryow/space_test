@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import style from './styles/Projects.module.css';
 
 import project_img from '../../../img/project_img.svg';
-import save from '../../../img/profile/archive.svg';
+import repost from '../../../img/profile/archive.svg';
 import saveActive from '../../../img/profile/saveActive.svg';
 import location from '../../../img/profile/Location2.svg';
 import like from '../../../img/profile/like.svg';
@@ -17,7 +17,7 @@ const ProjectItem = ({ project }) => {
             <img src={project_img} alt="" />
             <div className={style.project_name}>
             <h2>{ project.title }</h2>
-            <img src={save} alt="" />
+            <img src={repost} alt="" />
             </div>
             <p>{ project.description }</p>
             <div className={style.location}>

@@ -1,8 +1,8 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import style from "./styles/ProfileStyles.module.css";
 import { editProfile } from "../../store/profile/ProfileActions";
 
-import bg from "../../img/profile/bg.png";
+import bg3 from "../../img/profile/bg.png";
 import bg2 from "../../img/programming-code-colorful.jpg";
 import user from "../../img/profile/user.svg";
 import avatar from "../../img/avatar.jpg";
@@ -10,7 +10,6 @@ import edit from "../../img/profile/editbtn.svg";
 import { getProfile } from "../../store/profile/ProfileActions";
 import { useDispatch, useSelector } from "react-redux";
 import EditName from "./ProfileModals/EditName";
-import { addDataToLocalStorage } from "../../helpers/functions";
 
 const Profile = () => {
   const { profiles, loading } = useSelector((state) => state.profile);
@@ -18,13 +17,46 @@ const Profile = () => {
 
   const localEmail = localStorage.getItem("account");
   const emailWithoutQuotes = localEmail ? localEmail.replace(/"/g, "") : "";
-  console.log(emailWithoutQuotes);
 
   const [matchingUser, setMatchingUser] = useState(null);
-  console.log(matchingUser);
+  const profileId = matchingUser ? matchingUser.id : null;
 
   const dispatch = useDispatch();
 
+  const bg = matchingUser ? matchingUser.profile_background : bg2
+  const [bgImage, setBgImage] = useState(bg);
+
+  const imgInputRef = useRef(null);
+  const backInputRef = useRef(null);
+
+  const handleEditImageClick = () => {
+    if (imgInputRef.current) {
+      imgInputRef.current.click();
+    }
+  };
+
+  const handleEditBackClick = () => {
+    if (backInputRef.current) {
+      backInputRef.current.click();
+    }
+  };
+
+  const handleFileChange = async (event) => {
+    const updatedUser = { ...matchingUser, profile_image: URL.createObjectURL(event.target.files[0]) };
+    setMatchingUser(updatedUser.profile_image);
+    dispatch(editProfile({ editedObj: updatedUser, id: profileId }));
+  };
+
+  const handleBgChange = async (event) => {
+    const updatedUser = { ...matchingUser, profile_background: URL.createObjectURL(event.target.files[0]) };
+    setBgImage(updatedUser.profile_background);
+    dispatch(editProfile({ editedObj: updatedUser, id: profileId }));
+  };
+  
+
+  useEffect(() => {
+    dispatch(getProfile());
+  }, [dispatch]);
 
   useEffect(() => {
     if (profiles.length > 0) {
@@ -36,12 +68,8 @@ const Profile = () => {
         setMatchingUser(userWithMatchingEmail);
       }
     }
-  }, [profiles]);
+  }, [profiles, emailWithoutQuotes]);
 
-
-  useEffect(() => {
-    dispatch(getProfile());
-  }, []);
 
   return (
     <>
@@ -51,15 +79,31 @@ const Profile = () => {
         <>
           <div className={style.profile}>
             <div className={style.background}>
-              <img className={style.bg} src={bg2} alt="" />
-              <button className={style.edit__cover}>Edit cover</button>
+              <img className={style.bg} src={bgImage} alt="" />
+              <button className={style.edit__cover} onClick={handleEditBackClick}>Edit cover</button>
             </div>
             <div className={style.content}>
               <div className={style.avatar}>
                 <div className={style.avatar__block}>
-                  <img className={style.account__img} src={user} alt="" />
+                {matchingUser.profile_image ? (
+              <img
+                className={style.account__img}
+                src={matchingUser.profile_image}
+                alt="User Profile"
+              />
+            ) : (
+              <img
+                className={style.account__img}
+                src={user}
+                alt="Default User Profile"
+              />
+            )}
+
                 </div>
-                <button className={style.edit__btn}>
+                <button
+                  className={style.edit__btn}
+                  onClick={handleEditImageClick}
+                >
                   <img src={edit} alt="" />
                 </button>
               </div>
@@ -105,7 +149,20 @@ const Profile = () => {
             activeName={editNameModal}
             setActiveName={setEditNameModal}
             user={matchingUser}
-            editProfile={editProfile}
+          />
+                    <input
+            type="file"
+            accept="image/*"
+            style={{ display: "none" }}
+            ref={imgInputRef}
+            onChange={handleFileChange}
+          />
+                    <input
+            type="file"
+            accept="image/*"
+            style={{ display: "none" }}
+            ref={backInputRef}
+            onChange={handleBgChange}
           />
         </>
       ) : (

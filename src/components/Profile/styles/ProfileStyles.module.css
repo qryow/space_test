@@ -254,7 +254,8 @@
   transition: 0.3s;
 }
 .account__img {
-  width: 100%;
+  width: calc(100%);
+  height: calc(100%);
   object-fit: cover;
   position: relative;
 }

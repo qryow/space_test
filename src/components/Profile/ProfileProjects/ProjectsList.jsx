@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { getProjects } from '../../../store/projects/projectsActions';
+import { getProjects } from '../../../store/projects/ProjectsActions';
 import { useDispatch, useSelector } from 'react-redux';
 import ProjectItem from './ProjectItem';
 import style from './styles/Projects.module.css';
@@ -28,7 +28,7 @@ useEffect(() => {
             <div className={style.wrapper}>
         <div className={style.project_carts}>
             {projects.map(project => (
-            <ProjectItem key={project.id} project={project} />
+            <ProjectItem project={project} />
             ))}
         </div>
         </div>
