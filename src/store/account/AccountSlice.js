@@ -2,7 +2,6 @@ import { createSlice } from "@reduxjs/toolkit";
 import { registerUser, activateUser, loginUser, changePassword, losePassword, losePasswordComplete, getUsers, patchUser, addLang } from "./AccountActions";
 import { addDataToLocalStorage, updateToken } from "../../helpers/functions";
 
-
 const accountSlice = createSlice({
   name: 'account',
   initialState: {
@@ -18,7 +17,8 @@ const accountSlice = createSlice({
       state.currentAccount = null;
     },
     clearStatus: (state) => {
-      state.status = ''
+      state.status = '';
+      state.profileStatus = ''
     }
   },
   extraReducers: (builder) => {
@@ -53,6 +53,9 @@ const accountSlice = createSlice({
       state.currentAccount = action.payload.user;
       addDataToLocalStorage(action.payload.user, action.payload.data);
       updateToken();
+      //action.payload.navigate('/')
+      console.log(action.payload)
+      action.payload.navigate(action.payload.isProfileComplete ? '/create-profile' : '/create-profile')
     })
     .addCase(loginUser.rejected, (state) => {
       state.loading = false;

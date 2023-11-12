@@ -6,6 +6,7 @@ import { addLang, getUsers, loginUser, patchUser } from '../../store/account/Acc
 import { getCountries, getLanguages } from '../../store/countries/CountriesActions';
 import style from './styles/CreateProfile.module.css'
 import MainNavbar from '../Main/MainNavbar';
+import { getAuthConfig } from "../../helpers/functions";
 
 
 import arrowDown from '../../img/ArrowDown.svg'
@@ -23,10 +24,9 @@ const CreateProfile = () => {
     arial: '',
   })
 
-
   const { currentAccount, profileStatus, profileLoading, users } = useSelector(state => state.account);
   console.log(currentAccount);
-  console.log(profileStatus);
+  console.log(profileStatus); 
 
 
   const { countries } = useSelector(state => state.countries);
@@ -70,15 +70,6 @@ const CreateProfile = () => {
 
   const dispatch = useDispatch();
   const navigate = useNavigate()
-    
-  useEffect(() => {
-    dispatch(clearStatus());
-    dispatch(getUsers());
-    dispatch(getCountries());
-    dispatch(loginUser())
-    //dispatch(patchUser());
-    //dispatch(addLang())
-  }, [])
 
   useEffect(() => {
     setFilteredCountries(countries);
@@ -86,6 +77,12 @@ const CreateProfile = () => {
 
   const localEmail = localStorage.getItem('account');
   const emailWithoutQuotes = localEmail ? localEmail.replace(/"/g, '') : '';
+
+  const config = getAuthConfig();
+
+  //useEffect(() => {
+  //  getAuthConfig()
+  //}, [config])
 
 
   //errors
@@ -140,6 +137,17 @@ const CreateProfile = () => {
       }
     }
   }, [users]);
+
+
+  useEffect(() => {
+    dispatch(clearStatus());
+    dispatch(getUsers());
+    dispatch(getCountries());
+    //dispatch(loginUser())
+    dispatch(patchUser());
+    //dispatch(getAuthConfig())
+    //dispatch(addLang())
+  }, [])
   
   return (
     <>
@@ -166,6 +174,8 @@ const CreateProfile = () => {
             <>
               {profileStatus === 'error' && (
                 <>
+                {config && (
+
                   <div className={style.wrapper}>
                     <div className={style.container}>
                       <MainNavbar />
@@ -238,11 +248,13 @@ const CreateProfile = () => {
                       </div>
                     </div>
                   </div>
+                )}
                 </>
               )}
             </>
           ) : (
             <>
+            {config && (
               <div className={style.wrapper}>
                 <div className={style.container}>
                   <MainNavbar />
@@ -317,6 +329,7 @@ const CreateProfile = () => {
                   </div>
                 </div>
               </div>
+            )}
             </>
           )}
         </>
