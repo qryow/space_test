@@ -6,42 +6,51 @@
 }
 /* !edit name */
 
-.editName {
-  height: 100vh;
-  width: 100%;
-  background-color: rgba(0, 0, 0, 0.6);
-  position: fixed;
-  top: 0;
-  left: 0;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  opacity: 0;
-  pointer-events: none;
-  transition: 0.2s;
-  z-index: 2;
-  backdrop-filter: blur(5px);
+.editName{
+    height: 100vh;
+    width: 100%;
+    background-color: rgba(0, 0, 0, 0.6);
+    position: fixed;
+    top: 0;
+    left: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    /*opacity: 1;*/
+    pointer-events: none;
+    transition: 0.2s;
+    z-index: 2;
+    opacity: 0;
+    backdrop-filter: blur(5px);
 }
 
 .editName.activeName {
-  opacity: 1;
-  pointer-events: all;
+    opacity: 1;
+    pointer-events: all;
 }
 
 .editName__content {
-  padding: 50px;
-  border-radius: 30px;
-  background-color: #32292e;
-  width: 50%;
-  height: 80vh;
-  transform: scale(0.5);
-  transition: 0.4s all;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-}
-.editName__content.activeName {
-  transform: scale(1);
+    padding: 100px;
+    border-radius: 30px;
+    background-color: #32292E;
+    width: 90%;
+    height: 160vh;
+    transform: scale(0);
+    transition: 0.4s all;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+  }
+  .active {
+    transform: scale(0.5);
+  }
+
+.name__block{
+    width: 100%;
+    height: 200px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
 }
 
 .name__block {
@@ -71,8 +80,7 @@
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  width: 40%;
-  height: 100px;
+  width: 45%;
 }
 
 .name__buttons {
@@ -121,13 +129,10 @@
   height: 70px;
   padding-left: 20px;
   background-color: transparent;
-  border: 2px solid #888888;
-  border-radius: 12px;
+  border: 2px solid #dadada59;
+  border-radius: 20px;
   outline: none;
-  font-family: 'Roboto', sans-serif;
-  font-weight: 400;
-  font-size: 18px;
-  margin-bottom: 5px;
+  font-size: 20px;
   cursor: pointer;
 }
 .arrow__down {

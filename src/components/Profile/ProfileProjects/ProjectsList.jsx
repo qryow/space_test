@@ -28,7 +28,7 @@ useEffect(() => {
             <div className={style.wrapper}>
         <div className={style.project_carts}>
             {projects.map(project => (
-            <ProjectItem key={project.id} project={project} />
+            <ProjectItem project={project} />
             ))}
         </div>
         </div>

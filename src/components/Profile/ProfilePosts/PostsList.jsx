@@ -5,27 +5,27 @@ import style from "./styles/Posts.module.css";
 import PostItem from "./PostItem";
 
 const PostsList = () => {
-//   const { posts, loading } = useSelector((state) => state.posts);
-//   const dispatch = useDispatch();
+  const { posts, loading } = useSelector((state) => state.posts);
+  const dispatch = useDispatch();
 
-//   useEffect(() => {
-//     dispatch(getPosts());
-//   }, []);
+  useEffect(() => {
+    dispatch(getPosts());
+  }, []);
+  console.log(posts);
 
   return (
-    <div>
-        {/* {loading ? (
+    <div className={style.wrapper__list}>
+        {loading ? (
           <p>Loading...</p>
-        ) : posts.length > 0 ? ( */}
-        <div className={style.wrapper__list}></div>
-          <div className={style.post_carts}>
-            {/* {posts.map((posts) => ( */}
-              <PostItem />
-            {/* ))} */}
-          </div>
-        {/* ) : (
+        ) : posts.length > 0 ? (
+          <div className={style.posts_carts}>
+            {posts.map((post) => (
+              <PostItem post={post} />
+            ))}
+            </div>
+        ) : (
           <p>No data available</p>
-        )} */}
+        )}
     </div>
   );
 };

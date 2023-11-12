@@ -14,7 +14,7 @@ const EditName = ({ activeName, setActiveName, user }) => {
   const [countryDropdown, setCountryDropdown] = useState(true);
 
   const profileId = oneUser.id;
-  
+
   const handleCountryClick = (country) => {
     setSelectedCountry(country);
     setCountryDropdown(true);
@@ -25,15 +25,14 @@ const EditName = ({ activeName, setActiveName, user }) => {
   const handleInputChange = (e) => {
     const inputValue = e.target.value;
     setSelectedCountry(inputValue);
-  
+
     setOneUser({ ...oneUser, country: inputValue });
-  
+
     const filtered = countries.filter((country) =>
       country.name.common.toLowerCase().includes(inputValue.toLowerCase())
     );
     setFilteredCountries(filtered);
   };
-  
 
   const dispatch = useDispatch();
 
@@ -46,14 +45,7 @@ const EditName = ({ activeName, setActiveName, user }) => {
   }, [countries]);
 
   return (
-    <div
-      className={
-        activeName
-          ? `${style.editName} ${style.activeName}`
-          : `${style.editName}`
-      }
-      onClick={() => setActiveName(false)}
-    >
+    <div className={ activeName ? `${style.editName} ${style.activeName}` : `${style.editName}` } onClick={(e) => { setActiveName(false); e.stopPropagation(); }}>
       <div
         className={
           activeName
@@ -99,33 +91,55 @@ const EditName = ({ activeName, setActiveName, user }) => {
           />
         </div>
         <div className={style.country__wrapper}>
-        <div className={style.input__drop}>
-                              <h5 className={style.input__title}>Country</h5>
-                              <div>
-                                <input 
-                                  placeholder='Choose country'
-                                  className={style.drop__input}
-                                  type="text"
-                                  value={selectedCountry}
-                                  onChange={(e) => {
-                                    handleInputChange(e);
-                                    setCountryDropdown(false);
-                                  }}
-                                  onClick={() => setCountryDropdown(!countryDropdown)}
-                                  />
-                                <img className={countryDropdown ? `${style.arrow__down}` : `${style.arrow__up}`} src={arrowDown} alt=""  onClick={() => setCountryDropdown(!countryDropdown)} />
-                              </div>
+          <div className={style.input__drop}>
+            <h3 className={style.input__title}>Country</h3>
+            <div>
+              <input
+                placeholder="Choose country"
+                className={style.drop__input}
+                type="text"
+                value={selectedCountry}
+                onChange={(e) => {
+                  handleInputChange(e);
+                  setCountryDropdown(false);
+                }}
+                onClick={() => setCountryDropdown(!countryDropdown)}
+              />
+              <img
+                className={
+                  countryDropdown
+                    ? `${style.arrow__down}`
+                    : `${style.arrow__up}`
+                }
+                src={arrowDown}
+                alt=""
+                onClick={() => setCountryDropdown(!countryDropdown)}
+              />
+            </div>
 
-                              <div className={countryDropdown ? `${style.countries__list}` : `${style.countries__list} ${style.list__unactive}`}>
-                                {filteredCountries.map((country, index) => (
-                                  <div className={style.one__country} key={index} onClick={() => handleCountryClick(country.name.common)}>
-                                    <img className={style.flag__icon} src={country.flags.svg} alt="" />
-                                    <h5 className={style.country__name}>{country.name.common}</h5>
-                                  </div>
-                                ))}
-                              </div>
-
-                            </div>
+            <div
+              className={
+                countryDropdown
+                  ? `${style.countries__list}`
+                  : `${style.countries__list} ${style.list__unactive}`
+              }
+            >
+              {filteredCountries.map((country, index) => (
+                <div
+                  className={style.one__country}
+                  key={index}
+                  onClick={() => handleCountryClick(country.name.common)}
+                >
+                  <img
+                    className={style.flag__icon}
+                    src={country.flags.svg}
+                    alt=""
+                  />
+                  <h5 className={style.country__name}>{country.name.common}</h5>
+                </div>
+              ))}
+            </div>
+          </div>
           <div className={style.name__block2_block}>
             <h3>Area</h3>
             <input
@@ -138,23 +152,6 @@ const EditName = ({ activeName, setActiveName, user }) => {
               }
             />
           </div>
-        </div>
-        <div className={style.name__buttons}>
-          <button
-            className={style.name__button1}
-            onClick={() => setActiveName(false)}
-          >
-            Cancel
-          </button>
-          <button
-            className={style.name__button2}
-            onClick={() => {
-              setActiveName(false);
-              dispatch(editProfile({ editedObj: oneUser, id: profileId }));
-            }}
-          >
-            Save
-          </button>
         </div>
       </div>
     </div>

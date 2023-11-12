@@ -48,8 +48,21 @@ const Login = () => {
   }, [])
 
 
+  //const [matchingUser, setMatchingUser] = useState(null);
+  //console.log(matchingUser);
+  //console.log(matchingUser.is_profile_complete);
+
+  //useEffect(() => {
+  //  if (users.length > 0) {
+  //    const userWithMatchingEmail = users.find(user => user.email === emailWithoutQuotes);
+  //    if (userWithMatchingEmail) {
+  //      setMatchingUser(userWithMatchingEmail);
+  //      console.log(userWithMatchingEmail);
+  //    }
+  //  }
+  //}, [users]);
+
   const [matchingUser, setMatchingUser] = useState(null);
-  console.log(matchingUser);
 
   useEffect(() => {
     if (users.length > 0) {
@@ -59,6 +72,13 @@ const Login = () => {
       }
     }
   }, [users]);
+
+  useEffect(() => {
+    if (matchingUser) {
+      console.log(matchingUser);
+      console.log(matchingUser.is_profile_complete);
+    }
+  }, [matchingUser]);
 
   return (
     <>
@@ -168,7 +188,10 @@ const Login = () => {
                         <a className={style.forgot} onClick={() => navigate('/lose-password')} href="">Forgot your password ?</a>
                       </div>
 
-                      <button className={style.reg__btn} onClick={() => {dispatch(loginUser({ userObj })); handleCreateAccount(); matchingUser.is_profile_complete ? navigate("/create-profile") : navigate("/create-profile")  }}>Login</button>
+                      {/*{matchingUser && (*/}
+
+                      <button className={style.reg__btn} onClick={() => {dispatch(loginUser({ userObj, navigate, isProfileComplete: matchingUser.is_profile_complete })); handleCreateAccount();   }}>Login</button>
+                      {/*)}*/} 
                       <p className={style.block__subtitle}>Don't have an ccount? <a onClick={() => navigate('/register')} className={style.link}>Sign up</a></p>
                     </div>
                   </div>
