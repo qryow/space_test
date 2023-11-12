@@ -110,6 +110,7 @@ const Profile = () => {
 
               <div className={style.content__block}>
                 <div className={style.names}>
+
                   <h3 className={style.name}>
                     {matchingUser.username}
                     <button

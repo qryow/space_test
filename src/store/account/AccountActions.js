@@ -34,13 +34,14 @@ export const activateUser = createAsyncThunk(
 
 export const loginUser = createAsyncThunk(
   'account/loginUser',
-  async ({ userObj, navigate}) => {
+  async ({ userObj, navigate, isProfileComplete}) => {
     let formData = new FormData();
     formData.append('email', userObj.email);
     formData.append('password', userObj.password);
     let { data } = await axios.post(`${API}/account/login/`, formData);
     console.log(data);
-    return { data, user: userObj.email}
+    console.log(isProfileComplete)
+    return { data, user: userObj.email, navigate, isProfileComplete}
   }
 )
 
@@ -95,6 +96,13 @@ export const getUsers = createAsyncThunk(
 export const patchUser = createAsyncThunk(
   'account/patchUser',
   async ({ userObj, navigate, id }) => {
+    const tokens = JSON.parse(localStorage.getItem('tokens'));
+    const Authorization = `Bearer ${tokens.access}`;
+    const config = {
+      headers: {
+        Authorization,
+      },
+    };
     let formData = new FormData();
     formData.append('username', userObj.username);
     formData.append('first_name', userObj.first_name);
@@ -102,12 +110,41 @@ export const patchUser = createAsyncThunk(
     formData.append('professions', userObj.professions);
     formData.append('country', userObj.country);
     formData.append('arial', userObj.arial);
-    let { data } = await axios.put(`${API}/profile/profile/${id}/`, formData, config ? config : null)
+    let { data } = await axios.put(`${API}/profile/profile/${id}/`, formData, config ? config : null  )
     console.log(data);
     console.log(id);
     return { data, navigate }
   }
 )
+
+//export const patchUser = createAsyncThunk(
+//  'account/patchUser',
+//  async ({ userObj, navigate, id }) => {
+//    try {
+//      // Чтение токена из localStorag
+
+//      let formData = new FormData();
+//      formData.append('username', userObj.username);
+//      formData.append('first_name', userObj.first_name);
+//      formData.append('last_name', userObj.last_name);
+//      formData.append('professions', userObj.professions);
+//      formData.append('country', userObj.country);
+//      formData.append('arial', userObj.arial);
+
+//      let { data } = await axios.put(`${API}/profile/profile/${id}/`, formData, config ? config : null);
+
+//      console.log(data);
+//      console.log(id);
+
+//      return { data, navigate };
+//    } catch (error) {
+//      console.error('Error during profile patch:', error);
+//      throw error;
+//    }
+//  }
+//);
+
+
 
 //export const addLang = createAsyncThunk(
 //  'account/addLang',

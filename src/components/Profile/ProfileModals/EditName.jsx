@@ -160,26 +160,7 @@ const EditName = ({ activeName, setActiveName, user }) => {
             />
           </div>
         </div>
-        <div className={style.name__buttons}>
-          <button
-            className={style.name__button1}
-            onClick={() => setActiveName(false)}
-          >
-            Cancel
-          </button>
-          <button
-            className={style.name__button2}
-            onClick={() => {
-              setActiveName(false);
-              dispatch(editProfile({ editedObj: oneUser, id: profileId }));
-            }}
-          >
-            Save
-          </button>
-        </div>
-      </div>
-    </div>
-  );
+    );
 };
 
 export default EditName;
