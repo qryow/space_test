@@ -15,7 +15,7 @@ export const getProfile = createAsyncThunk(
 
 export const editProfile = createAsyncThunk(
   "profile/editProfile",
-  async ({ editedObj, id }, { getState }) => {
+  async ({ editedObj, id }) => {
     const config = getAuthConfig();
     const updatedProfile = { ...editedObj };
 
