@@ -1,25 +1,35 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { registerUser, activateUser, loginUser, changePassword, losePassword, losePasswordComplete, getUsers, patchUser, addLang } from "./AccountActions";
+import {
+    registerUser,
+    activateUser,
+    loginUser,
+    changePassword,
+    losePassword,
+    losePasswordComplete,
+    getUsers,
+    patchUser,
+    addLang,
+} from "./AccountActions";
 import { addDataToLocalStorage, updateToken } from "../../helpers/functions";
 
 const accountSlice = createSlice({
-  name: 'account',
-  initialState: {
-    currentAccount: null,
-    currentProfile: [],
-    loading: false,
-    status: '',
-    profileStatus: '',
-    users: []
-  },
-  reducers: {
-    clearCurrentAccount: (state) => {
-      state.currentAccount = null;
+    name: "account",
+    initialState: {
+        currentAccount: null,
+        currentProfile: [],
+        loading: false,
+        status: "",
+        profileStatus: "",
+        users: [],
     },
-    clearStatus: (state) => {
-      state.status = '';
-      state.profileStatus = ''
-    }
+    reducers: {
+        clearCurrentAccount: (state) => {
+            state.currentAccount = null;
+        },
+        clearStatus: (state) => {
+          state.status = '';
+          state.profileStatus = ''
+      }
   },
   extraReducers: (builder) => {
     builder
