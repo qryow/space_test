@@ -45,14 +45,7 @@ const EditName = ({ activeName, setActiveName, user }) => {
   }, [countries]);
 
   return (
-    <div
-      className={
-        activeName
-          ? `${style.editName} ${style.activeName}`
-          : `${style.editName}`
-      }
-      onClick={() => setActiveName(false)}
-    >
+    <div className={ activeName ? `${style.editName} ${style.activeName}` : `${style.editName}` } onClick={(e) => { setActiveName(false); e.stopPropagation(); }}>
       <div
         className={
           activeName
@@ -160,7 +153,9 @@ const EditName = ({ activeName, setActiveName, user }) => {
             />
           </div>
         </div>
-    );
+      </div>
+    </div>
+  );
 };
 
 export default EditName;

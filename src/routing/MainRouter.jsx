@@ -15,6 +15,7 @@ import MainPage from "../pages/MainPages/MainPage";
 import ProfilePage from "../pages/ProfilePages/ProfilePage";
 
 import About from "../components/Main/About";
+import ChatPage from '../pages/ChatPages/ChatPage'
 
 import ProjectsListPage from "../pages/AccountPages/ProjectsListPage";
 
@@ -40,6 +41,8 @@ const MainRouter = () => {
             <Route path="/about" element={<About />} />
 
             <Route path="/projects" element={<ProjectsListPage />} />
+
+            <Route path='/chat' element={<ChatPage />} />
         </Routes>
     );
 };

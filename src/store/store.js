@@ -1,9 +1,9 @@
 import { configureStore } from "@reduxjs/toolkit";
 import AccountSlice from "./account/AccountSlice";
 import countriesActions from "./countries/CountriesActions";
-import ProfileSlice from "./profile/ProfileSlice";
-import ProjectsSlice from "./projects/ProjectsSlice";
-import PostsSlice from "./posts/PostsSlice";
+import profileSlice from "./profile/ProfileSlice";
+import projectsSlice from "./projects/projectsSlice";
+import postsSlice from "./posts/postsSlice";
 
 export default configureStore({
     middleware: (getDefaultMiddleware) =>
@@ -13,7 +13,7 @@ export default configureStore({
     reducer: {
         account: AccountSlice,
         countries: countriesActions,
-        profile: ProfileSlice,
+        profile: profileSlice,
         projects: projectsSlice,
         posts: postsSlice,
     },
