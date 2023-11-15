@@ -13,10 +13,11 @@ const Profile = () => {
   const { users } = useSelector((state) => state.account);
   const { profile } = useSelector((state) => state.profile);
   const [editNameModal, setEditNameModal] = useState(false);
-  const [oneUser, setOneUser] = useState(profile);
+  const [ava, setAva] = useState(profile.profile_image);
+  const [fone, setFone] = useState(profile.profile_background);
 
   const dispatch = useDispatch();
-  const profileId = oneUser ? oneUser.id : null;
+  const profileId = profile ? profile.id : null;
 
   const fileInputRef = useRef(null);
   const fileInputRef2 = useRef(null);
@@ -26,30 +27,27 @@ const Profile = () => {
 
   const handleFileChange = (e) => {
     const selectedFile = e.target.files[0];
-    if (selectedFile && profileId) {
-      setOneUser((prevOneUser) => ({
-        ...prevOneUser,
-        profile_background: URL.createObjectURL(selectedFile),
-      }));
-      dispatch(
-        editProfile({ profile_background: selectedFile, id: profileId })
-      );
-    }
+    setAva(selectedFile);
+    const editedProfile = {
+      id: profileId,
+      profile_background: ava,
+    };
+    dispatch(editProfile({ editedObj: editedProfile, id: profileId }));
   };
 
   const handleFileChange2 = (e) => {
     const selectedAvatar = e.target.files[0];
-    if (selectedAvatar && profileId) {
-      setOneUser((prevOneUser) => ({
-        ...prevOneUser,
-        profile_image: URL.createObjectURL(selectedAvatar),
-      }));
-      dispatch(editProfile({ profile_image: selectedAvatar, id: profileId }));
-    }
+    setFone(selectedAvatar);
+    const editedProfile = {
+      id: profileId,
+      profile_image: fone,
+    };
+    dispatch(editProfile({ editedObj: editedProfile, id: profileId }));
   };
 
   useEffect(() => {
-    setOneUser(profile);
+    setAva(profile.profile_image);
+    setFone(profile.profile_background);
   }, [profile]);
 
   useEffect(() => {
@@ -70,12 +68,12 @@ const Profile = () => {
 
   return (
     <>
-      {oneUser && (
+      {profile && (
         <div className={style.profile}>
           <div className={style.background}>
             <img
               className={style.bg}
-              src={oneUser.profile_background || bg2}
+              src={profile.profile_background || bg2}
               alt=""
             />
             <button
@@ -96,7 +94,7 @@ const Profile = () => {
               <div className={style.avatar__block}>
                 <img
                   className={style.account__img}
-                  src={oneUser.profile_image || user}
+                  src={profile.profile_image || user}
                   alt="Default User Profile"
                 />
                 <input
@@ -117,7 +115,7 @@ const Profile = () => {
             <div className={style.content__block}>
               <div className={style.names}>
                 <h3 className={style.name}>
-                  {oneUser.username}
+                  {profile.username}
                   <button
                     className={style.edit__btn}
                     onClick={() => setEditNameModal(true)}
@@ -125,18 +123,18 @@ const Profile = () => {
                     <img src={edit} alt="" />
                   </button>
                 </h3>
-                <h4 className={style.user__job}>{oneUser.professions}</h4>
+                <h4 className={style.user__job}>{profile.professions}</h4>
               </div>
 
               <div className={style.followers__wrapper}>
                 <div className={style.follow__block}>
                   <div className={style.followers}>
-                    <p className={style.count}>{oneUser.followers_count}</p>
+                    <p className={style.count}>{profile.followers_count}</p>
                     <p className={style.text}>Followers</p>
                   </div>
                   <hr />
                   <div className={style.following}>
-                    <p className={style.count}>{oneUser.subscriptions_count}</p>
+                    <p className={style.count}>{profile.subscriptions_count}</p>
                     <p className={style.text}>Following</p>
                   </div>
                 </div>
@@ -146,11 +144,7 @@ const Profile = () => {
         </div>
       )}
 
-      <EditName
-        activeName={editNameModal}
-        setActiveName={setEditNameModal}
-        user={oneUser}
-      />
+      <EditName activeName={editNameModal} setActiveName={setEditNameModal} />
     </>
   );
 };

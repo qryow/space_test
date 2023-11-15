@@ -72,10 +72,10 @@ export const editProfile = createAsyncThunk(
     formData.append("country", editedObj.country);
     formData.append("arial", editedObj.arial);
     console.log(formData);
-    if (typeof editedObj.image === "object") {
+    if (typeof editedObj.profile_background === "object") {
       formData.append("profile_background", editedObj.profile_background);
     }
-    if (typeof editedObj.image === "object") {
+    if (typeof editedObj.profile_image === "object") {
       formData.append("profile_image", editedObj.profile_image);
     }
     let { data } = await axios.patch(
@@ -85,6 +85,7 @@ export const editProfile = createAsyncThunk(
     );
     console.log(data);
     console.log(id);
+    window.location.reload();
     return { data };
   }
 );
