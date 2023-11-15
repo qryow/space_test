@@ -24,39 +24,6 @@ const Profile = () => {
   const bg = matchingUser ? matchingUser.profile_background : bg2
   const [bgImage, setBgImage] = useState(bg);
 
-  const imgInputRef = useRef(null);
-  const backInputRef = useRef(null);
-
-  const handleEditImageClick = () => {
-    if (imgInputRef.current) {
-      imgInputRef.current.click();
-    }
-  };
-
-  const handleEditBackClick = () => {
-    if (backInputRef.current) {
-      backInputRef.current.click();
-    }
-  };
-
-  //const handleFileChange = async (event) => {
-  //  const updatedUser = { ...matchingUser, profile_image: URL.createObjectURL(event.target.files[0]) };
-  //  setMatchingUser(updatedUser.profile_image);
-  //  dispatch(editProfile({ editedObj: updatedUser, id: profileId }));
-  //};
-
-  const handleBgChange = async (event) => {
-    const updatedUser = { ...matchingUser, profile_background: URL.createObjectURL(event.target.files[0]) };
-    setBgImage(updatedUser.profile_background);
-    dispatch(editProfile({ editedObj: updatedUser, id: profileId }));
-  };
-  
-
-
-
-
-
-
 
   const [editedObj, setEditedObj] = useState({
     username: '',
@@ -81,14 +48,12 @@ const Profile = () => {
     const selectedAvatar = e.target.files[0];
     if (selectedFile) {
       setEditedObj((prevEditedObj) => {
-        // Используем предыдущее состояние для гарантии актуальности изменений
         return {
           ...prevEditedObj,
           profile_background: selectedFile,
         };
       });
   
-      // Вызываем editProfile с актуальным состоянием
       dispatch(editProfile({ editedObj, id: profileId }));
     }
   };
@@ -96,14 +61,12 @@ const Profile = () => {
     const selectedAvatar = e.target.files[0];
     if (selectedAvatar) {
       setEditedObj((prevEditedObj) => {
-        // Используем предыдущее состояние для гарантии актуальности изменений
         return {
           ...prevEditedObj,
           profile_image: selectedAvatar,
         };
       });
   
-      // Вызываем editProfile с актуальным состоянием
       dispatch(editProfile({ editedObj, id: profileId }));
     }
   };
@@ -114,7 +77,6 @@ const Profile = () => {
 
   useEffect(() => {
     if (editedObj.profile_image) {
-      // Вызываете вашу функцию editProfile с актуальным состоянием
       dispatch(editProfile({ editedObj, id: profileId }));
     } if (editedObj.profile_background) {
       dispatch(editProfile({ editedObj, id: profileId }));
@@ -135,18 +97,6 @@ const Profile = () => {
       
     }
   }, [users]);
-  
-  //useEffect(() => {
-  //  if (users.length > 0) {
-  //    const userWithMatchingEmail = profiles.find(
-  //      (profile) => profile.user === emailWithoutQuotes
-  //    );
-  //    console.log(userWithMatchingEmail);
-  //    if (userWithMatchingEmail) {
-  //      setMatchingUser(userWithMatchingEmail);
-  //    }
-  //  }
-  //}, [users, emailWithoutQuotes]);
 
   useEffect(() => {
     dispatch(getProfile());
@@ -159,14 +109,14 @@ const Profile = () => {
     <>
       <div className={style.profile}>
         <div className={style.background}>
-          <img className={style.bg} src={bgImage} alt="" />
+          <img className={style.bg} src={profile.profile_background} alt="" />
           <button className={style.edit__cover} onClick={() => fileInputRef.current.click()}>Edit cover</button>
           <input type="file" ref={fileInputRef} style={{ display: 'none' }} onChange={handleFileChange} />
         </div>
         <div className={style.content}>
           <div className={style.avatar}>
             <div className={style.avatar__block}>
-              <img className={style.account__img} src={user} alt="Default User Profile" />
+              <img className={style.account__img} src={profile.profile_image} alt="Default User Profile" />
               <input type="file" ref={fileInputRef2} style={{ display: 'none' }} onChange={handleFileChange2} />
             </div>
             <button className={style.edit__btn} onClick={() => fileInputRef2.current.click()} >
@@ -208,7 +158,6 @@ const Profile = () => {
         </div>
       </div>
       <EditName activeName={editNameModal} setActiveName={setEditNameModal} user={matchingUser} />
-      <input type="file"  accept="image/*" style={{ display: "none" }} ref={backInputRef} onChange={handleBgChange} />
     </>
   );
 };
