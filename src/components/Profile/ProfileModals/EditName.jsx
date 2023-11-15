@@ -9,11 +9,12 @@ import arrowDown from "../../../img/ArrowDown.svg";
 const EditName = ({ activeName, setActiveName, user }) => {
   const [oneUser, setOneUser] = useState(user);
   const { countries } = useSelector((state) => state.countries);
-  const [selectedCountry, setSelectedCountry] = useState();
+  const [selectedCountry, setSelectedCountry] = useState(oneUser.country);
   const [filteredCountries, setFilteredCountries] = useState(countries);
   const [countryDropdown, setCountryDropdown] = useState(true);
+  console.log(oneUser);
 
-  const profileId = ''
+  const profileId = oneUser.id;
 
   const handleCountryClick = (country) => {
     setSelectedCountry(country);
@@ -45,13 +46,30 @@ const EditName = ({ activeName, setActiveName, user }) => {
   }, [countries]);
 
   return (
-    <div className={ activeName ? `${style.editName} ${style.activeName}` : `${style.editName}` } onClick={(e) => { setActiveName(false); e.stopPropagation(); }}>
-      <div className={activeName ? `${style.editName__content} ${style.active}` : `${style.editName__content}` } onClick={(e) => e.stopPropagation()} >
+    <div
+      className={
+        activeName
+          ? `${style.editName} ${style.activeName}`
+          : `${style.editName}`
+      }
+      onClick={(e) => {
+        setActiveName(false);
+        e.stopPropagation();
+      }}
+    >
+      <div
+        className={
+          activeName
+            ? `${style.editName__content} ${style.active}`
+            : `${style.editName__content}`
+        }
+        onClick={(e) => e.stopPropagation()}
+      >
         <div className={style.name__block}>
-          <h3>Username</h3>
+          <h3 className={style.h3}>Username</h3>
           <input
             className={style.name__input}
-            //value={oneUser.username}
+            value={oneUser.username}
             type="text"
             placeholder="@username"
             onChange={(e) =>
@@ -60,10 +78,10 @@ const EditName = ({ activeName, setActiveName, user }) => {
           />
         </div>
         <div className={style.name__block}>
-          <h3>Name</h3>
+          <h3 className={style.h3}>Name</h3>
           <input
             className={style.name__input}
-            //value={oneUser.first_name}
+            value={oneUser.first_name}
             type="text"
             placeholder="Username"
             onChange={(e) =>
@@ -72,10 +90,10 @@ const EditName = ({ activeName, setActiveName, user }) => {
           />
         </div>
         <div className={style.name__block}>
-          <h3>Professional role</h3>
+          <h3 className={style.h3}>Professional role</h3>
           <input
             className={style.name__input}
-            //value={oneUser.professions}
+            value={oneUser.professions}
             type="text"
             placeholder="Professional role"
             onChange={(e) =>
@@ -85,7 +103,7 @@ const EditName = ({ activeName, setActiveName, user }) => {
         </div>
         <div className={style.country__wrapper}>
           <div className={style.input__drop}>
-            <h3 className={style.input__title}>Country</h3>
+            <h3 className={style.h3}>Country</h3>
             <div>
               <input
                 placeholder="Choose country"
@@ -134,10 +152,10 @@ const EditName = ({ activeName, setActiveName, user }) => {
             </div>
           </div>
           <div className={style.name__block2_block}>
-            <h3>Area</h3>
+            <h3 className={style.h3}>Area</h3>
             <input
               className={style.name__input}
-              //value={oneUser.arial}
+              value={oneUser.arial}
               type="text"
               placeholder="Enter your area"
               onChange={(e) =>
@@ -145,6 +163,22 @@ const EditName = ({ activeName, setActiveName, user }) => {
               }
             />
           </div>
+        </div>
+        <div className={style.name__buttons}>
+          <button
+            className={style.name__button1}
+            onClick={(e) => setActiveName(false)}
+          >
+            Cancel
+          </button>
+          <button
+            className={style.name__button2}
+            // onClick={dispatch(
+            //   editProfile({ editedObj: oneUser, id: profileId })
+            // )}
+          >
+            Save
+          </button>
         </div>
       </div>
     </div>
