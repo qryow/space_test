@@ -9,6 +9,7 @@ import {
     getUsers,
     patchUser,
     addLang,
+    editProfile,
 } from "./AccountActions";
 import { addDataToLocalStorage, updateToken } from "../../helpers/functions";
 
@@ -65,7 +66,7 @@ const accountSlice = createSlice({
       updateToken();
       //action.payload.navigate('/')
       console.log(action.payload)
-      action.payload.navigate(action.payload.isProfileComplete ? '/create-profile' : '/create-profile')
+      action.payload.navigate(action.payload.isProfileComplete ? '/' : '/create-profile')
     })
     .addCase(loginUser.rejected, (state) => {
       state.loading = false;

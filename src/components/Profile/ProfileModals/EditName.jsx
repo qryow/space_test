@@ -9,11 +9,11 @@ import arrowDown from "../../../img/ArrowDown.svg";
 const EditName = ({ activeName, setActiveName, user }) => {
   const [oneUser, setOneUser] = useState(user);
   const { countries } = useSelector((state) => state.countries);
-  const [selectedCountry, setSelectedCountry] = useState(oneUser.country);
+  const [selectedCountry, setSelectedCountry] = useState();
   const [filteredCountries, setFilteredCountries] = useState(countries);
   const [countryDropdown, setCountryDropdown] = useState(true);
 
-  const profileId = oneUser.id;
+  const profileId = ''
 
   const handleCountryClick = (country) => {
     setSelectedCountry(country);
@@ -46,19 +46,12 @@ const EditName = ({ activeName, setActiveName, user }) => {
 
   return (
     <div className={ activeName ? `${style.editName} ${style.activeName}` : `${style.editName}` } onClick={(e) => { setActiveName(false); e.stopPropagation(); }}>
-      <div
-        className={
-          activeName
-            ? `${style.editName__content} ${style.activeName}`
-            : `${style.editName__content}`
-        }
-        onClick={(e) => e.stopPropagation()}
-      >
+      <div className={activeName ? `${style.editName__content} ${style.active}` : `${style.editName__content}` } onClick={(e) => e.stopPropagation()} >
         <div className={style.name__block}>
           <h3>Username</h3>
           <input
             className={style.name__input}
-            value={oneUser.username}
+            //value={oneUser.username}
             type="text"
             placeholder="@username"
             onChange={(e) =>
@@ -70,7 +63,7 @@ const EditName = ({ activeName, setActiveName, user }) => {
           <h3>Name</h3>
           <input
             className={style.name__input}
-            value={oneUser.first_name}
+            //value={oneUser.first_name}
             type="text"
             placeholder="Username"
             onChange={(e) =>
@@ -82,7 +75,7 @@ const EditName = ({ activeName, setActiveName, user }) => {
           <h3>Professional role</h3>
           <input
             className={style.name__input}
-            value={oneUser.professions}
+            //value={oneUser.professions}
             type="text"
             placeholder="Professional role"
             onChange={(e) =>
@@ -144,7 +137,7 @@ const EditName = ({ activeName, setActiveName, user }) => {
             <h3>Area</h3>
             <input
               className={style.name__input}
-              value={oneUser.arial}
+              //value={oneUser.arial}
               type="text"
               placeholder="Enter your area"
               onChange={(e) =>

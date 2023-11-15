@@ -1,11 +1,12 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { getProfile } from "./ProfileActions";
+import { editProfile, getProfile } from "./ProfileActions";
 
 const ProfileSlice = createSlice({
     name: 'profile',
     initialState:{
         loading: false,
-        profiles: []
+        error: null,
+        profile: []
     },
     reducers: {},    
     extraReducers: (builder) => {
@@ -15,11 +16,24 @@ const ProfileSlice = createSlice({
         })
         .addCase(getProfile.fulfilled, (state, action) => {
             state.loading = false;
-            state.profiles = action.payload.results;
+            state.profile = action.payload;
+            console.log(action.payload)
         })
         .addCase(getProfile.rejected, (state) => {
             state.loading = false
-        })     
+        })   
+        .addCase(editProfile.pending, (state) => {
+          state.loading = true;
+        })  
+        .addCase(editProfile.fulfilled, (state, action) => {
+          state.loading = false;
+          console.log(action.payload)
+          //action.payload.navigate('/')
+        })  
+        .addCase(editProfile.rejected, (state) => {
+          state.loading = false;
+          state.error = 'error'
+        })  
     },
 })
 

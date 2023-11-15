@@ -25,24 +25,20 @@ const SideBar = () => {
   const location = useLocation();
 
   const { profiles, loading } = useSelector(state => state.profile);
-  console.log(profiles);
 
   const localEmail = localStorage.getItem('account');
 const emailWithoutQuotes = localEmail ? localEmail.replace(/"/g, '') : '';
-console.log(emailWithoutQuotes);
 
 const [matchingUser, setMatchingUser] = useState(null);
-console.log(matchingUser);
 
-useEffect(() => {
-  if (profiles.length > 0) {
-    const userWithMatchingEmail = profiles.find(profile => profile.user === emailWithoutQuotes);
-    console.log(userWithMatchingEmail);
-    if (userWithMatchingEmail) {
-      setMatchingUser(userWithMatchingEmail);
-    }
-  }
-}, [profiles]);
+//useEffect(() => {
+//  if (profiles.length > 0) {
+//    const userWithMatchingEmail = profiles.find(profile => profile.user === emailWithoutQuotes);
+//    if (userWithMatchingEmail) {
+//      setMatchingUser(userWithMatchingEmail);
+//    }
+//  }
+//}, [profiles]);
 
 const dispatch = useDispatch()
 
