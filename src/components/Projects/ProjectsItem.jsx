@@ -4,6 +4,7 @@ import style from "./ProjectsItemStyles.module.css";
 
 const ProjectsItem = ({ item }) => {
     const navigate = useNavigate();
+    console.log(item);
     return (
         <>
             {/* это сама карточка */}

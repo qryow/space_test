@@ -12,7 +12,7 @@ const ProjectsList = () => {
     useEffect(() => {
         dispatch(getProjects());
     }, []);
-    console.log(projects);
+    // console.log(projects);
     return (
         <div>
             {loading ? (
