@@ -17,14 +17,19 @@ const Profile = () => {
   const [editNameModal, setEditNameModal] = useState(false);
 
   const [matchingUser, setMatchingUser] = useState(null);
-  const profileId = matchingUser ? matchingUser.id : null;
+
+  const [matchingUserId, setMatchingUserId] = useState(null);
+  console.log(matchingUserId);
+
+  // const profileId = matchingUser ? matchingUser.id : null;
+  const profileId = matchingUserId ? matchingUser : null;
 
   const dispatch = useDispatch();
-
+  
   const bg = matchingUser ? matchingUser.profile_background : bg2
   const [bgImage, setBgImage] = useState(bg);
-
-
+  
+  
   const [editedObj, setEditedObj] = useState({
     username: '',
     first_name: '',
@@ -36,7 +41,7 @@ const Profile = () => {
     arial: '',
   });
 
-
+console.log(matchingUser);
   const fileInputRef = useRef(null);
   const fileInputRef2 = useRef(null);
 
@@ -83,8 +88,7 @@ const Profile = () => {
     }
   }, [editedObj.profile_image, editedObj.profile_background]);
 
-  const [matchingUserId, setMatchingUserId] = useState(null);
-  console.log(matchingUserId);
+  
 
   useEffect(() => {
     if (users.length > 0) {
