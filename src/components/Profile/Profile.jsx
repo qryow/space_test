@@ -82,7 +82,6 @@ const Profile = () => {
       console.log(userWithMatchingEmail)
       if (userWithMatchingEmail) {
         setMatchingUserId(userWithMatchingEmail.id);
-        //dispatch(getProfile({id: userWithMatchingEmail.id}))    
       }
 
     }
