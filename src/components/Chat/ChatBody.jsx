@@ -68,16 +68,7 @@ const clickGroupInfo = () => {
                   
                  
                   <LeftMessage/>
-                  <RightMessage/>
-                  <LeftMessage/>
-                  <LeftMessage/>
-                  <RightMessage/>
-                  <LeftMessage/>
-                  <LeftMessage/>
-                  <RightMessage/>
-                  <LeftMessage/>
-                  <LeftMessage/>
-                  <GroupMessage/>
+                  
 
                   </div>
                {groupInfo ? 
