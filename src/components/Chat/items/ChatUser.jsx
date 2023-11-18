@@ -1,7 +1,7 @@
 import React from 'react';
 import style from '../styles/ChatStyles.module.css'
 
-const ChatUser = () => {
+const ChatUser = ({username}) => {
    return (
       <div className={style.chatuser}>
          <div className={style.pfp__circle}>
@@ -12,10 +12,10 @@ const ChatUser = () => {
          </div>
          <div>
             <div className={style.nametime}>
-               <div className={style.username}>user name</div>
+               <div className={style.username}>{username}</div>
                <div className={style.time__bar}>19:00</div>
             </div>
-            <div className={style.msg__bar}>some msg</div>
+            {/* <div className={style.msg__bar}>some msg</div> */}
          </div>
       </div>
    );

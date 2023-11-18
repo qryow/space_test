@@ -1,1 +1,1 @@
-export const API = "http://34.70.191.18/api/v1";
+export const API = "http://server.space-hub.info/api/v1";
