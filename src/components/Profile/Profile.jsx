@@ -31,10 +31,11 @@ const Profile = () => {
       id: profileId,
       profile_background: selectedFile,
       username: profile.username,
-      first_name: profile.firstName,
+      first_name: profile.first_name,
+      last_name: profile.last_name,
       professions: profile.professions,
       country: profile.country,
-      arial: profile.area,
+      arial: profile.arial,
     };
     dispatch(editProfile({ editedObj: editedProfile, id: profileId }));
     setAva(selectedFile);
@@ -46,10 +47,11 @@ const Profile = () => {
       id: profileId,
       profile_image: selectedAvatar,
       username: profile.username,
-      first_name: profile.firstName,
+      first_name: profile.first_name,
+      last_name: profile.last_name,
       professions: profile.professions,
       country: profile.country,
-      arial: profile.area,
+      arial: profile.arial,
     };
     dispatch(editProfile({ editedObj: editedProfile, id: profileId }));
     setFone(selectedAvatar);
