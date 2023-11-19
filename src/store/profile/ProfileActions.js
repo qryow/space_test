@@ -46,9 +46,23 @@ export const editProfile = createAsyncThunk(
       formData,
       config ? config : null
     );
-    console.log(data);
-    console.log(id);
     window.location.reload();
     return { data };
+  }
+);
+
+export const getLanguages = createAsyncThunk(
+  "language/getLanguage",
+  async (_, { getState }) => {
+    const localEmail = localStorage.getItem("account");
+    const emailWithoutQuotes = localEmail ? localEmail.replace(/"/g, "") : "";
+
+    const { data } = await axios.get(`${API}/e_h/add_language/`);
+    const filteredData = data.results.filter(
+      (item) => item.user === emailWithoutQuotes
+    );
+
+    console.log(filteredData);
+    return filteredData;
   }
 );
