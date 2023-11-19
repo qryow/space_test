@@ -238,7 +238,7 @@
   border-radius: 30px;
   background-color: #32292e;
   width: 90%;
-  height: 160vh;
+  height: 150vh;
   transform: scale(0);
   transition: 0.4s all;
   display: flex;

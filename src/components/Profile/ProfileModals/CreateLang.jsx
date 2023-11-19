@@ -1,28 +1,28 @@
 import React from "react";
 import style from "./styles/ProfileModals.module.css";
 
-const CreateLang = ({ editLangModal, setEditNameModal }) => {
+const CreateLang = ({ createLangModal, setCreateLangModal }) => {
   return (
     <div
       className={
-        editLangModal
+        createLangModal
           ? `${style.langModal} ${style.activeLang}`
           : `${style.langModal}`
       }
       onClick={(e) => {
-        setEditNameModal(false);
+        setCreateLangModal(false);
         e.stopPropagation();
       }}
     >
       <div
         className={
-          editLangModal
+          createLangModal
             ? `${style.createLang__content} ${style.active}`
             : `${style.createLang__content}`
         }
         onClick={(e) => e.stopPropagation()}
       >
-        CreateLang
+        qwdqwdqwdqwd
       </div>
     </div>
   );
