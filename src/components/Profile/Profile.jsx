@@ -10,109 +10,78 @@ import EditName from "./ProfileModals/EditName";
 import { getUsers } from "../../store/account/AccountActions";
 
 const Profile = () => {
-  const dispatch = useDispatch();
+  const { users } = useSelector((state) => state.account);
+  const { profile } = useSelector((state) => state.profile);
   const [editNameModal, setEditNameModal] = useState(false);
+  const [ava, setAva] = useState(profile.profile_image);
+  const [fone, setFone] = useState(profile.profile_background);
 
-
-  const [editedObj, setEditedObj] = useState({
-    username: '',
-    first_name: '',
-    last_name: '',
-    profile_image: '',
-    profile_background: '',
-    professions: '',
-    country: '',
-    arial: '',
-  });
+  const dispatch = useDispatch();
+  const profileId = profile ? profile.id : null;
 
   const fileInputRef = useRef(null);
   const fileInputRef2 = useRef(null);
 
-  const localEmail = localStorage.getItem('account');
-  const emailWithoutQuotes = localEmail ? localEmail.replace(/"/g, '') : '';
+  const localEmail = localStorage.getItem("account");
+  const emailWithoutQuotes = localEmail ? localEmail.replace(/"/g, "") : "";
 
-  const [matchingUserId, setMatchingUserId] = useState(null);
-  console.log(matchingUserId);  
-
-  const { users } = useSelector(state => state.account);
-  const { profile } = useSelector(state => state.profile);
-  console.log(profile)
-
-
-  const handleFileChange = async (e) => {
+  const handleFileChange = (e) => {
     const selectedFile = e.target.files[0];
-    if (selectedFile) {
-      setEditedObj((prevEditedObj) => ({
-        ...prevEditedObj,
-        profile_background: selectedFile,
-      }));
-      try {
-        await dispatch(editProfile({ editedObj, id: matchingUserId }));
-        await dispatch(getProfile({ id: matchingUserId }));
-      } catch (error) {
-        console.error('Error editing profile:', error);
-      }
-    }
+    const editedProfile = {
+      id: profileId,
+      profile_background: selectedFile,
+      username: profile.username,
+      first_name: profile.firstName,
+      professions: profile.professions,
+      country: profile.country,
+      arial: profile.area,
+    };
+    dispatch(editProfile({ editedObj: editedProfile, id: profileId }));
+    setAva(selectedFile);
   };
 
-  const handleFileChange2 = async (e) => {
+  const handleFileChange2 = (e) => {
     const selectedAvatar = e.target.files[0];
-    if (selectedAvatar) {
-      setEditedObj((prevEditedObj) => {
-              return {
-                ...prevEditedObj,
-                profile_image: selectedAvatar,
-              };
-            });
-      try {
-        
-        await dispatch(editProfile({ editedObj, id: matchingUserId }));
-        await dispatch(getProfile({ id: matchingUserId })); 
-      } catch (error) {
-        console.error('Error editing profile:', error);
-      }
-    }
+    const editedProfile = {
+      id: profileId,
+      profile_image: selectedAvatar,
+      username: profile.username,
+      first_name: profile.firstName,
+      professions: profile.professions,
+      country: profile.country,
+      arial: profile.area,
+    };
+    dispatch(editProfile({ editedObj: editedProfile, id: profileId }));
+    setFone(selectedAvatar);
   };
 
+  useEffect(() => {
+    setAva(profile.profile_image);
+    setFone(profile.profile_background);
+  }, [profile]);
 
   useEffect(() => {
     if (users.length > 0) {
-      const userWithMatchingEmail = users.find(user => user.email === emailWithoutQuotes);
-      console.log(userWithMatchingEmail)
+      const userWithMatchingEmail = users.find(
+        (user) => user.email === emailWithoutQuotes
+      );
       if (userWithMatchingEmail) {
-        setMatchingUserId(userWithMatchingEmail.id);
+        dispatch(getProfile({ id: userWithMatchingEmail.id }));
       }
-
     }
-  }, [users]);
+  }, [dispatch, users, emailWithoutQuotes]);
 
   useEffect(() => {
-    if (editedObj.profile_background) {
-      dispatch(editProfile({ editedObj, id: matchingUserId }));
-      dispatch(getProfile({id: matchingUserId}))
-    } if (editedObj.profile_image) {
-      dispatch(editProfile({ editedObj, id: matchingUserId }));
-      dispatch(getProfile({id: matchingUserId}))
-    }
-  }, [editedObj, matchingUserId]);
-
-  useEffect(() => {
-    dispatch(editProfile({ editedObj, id: 4 }));
-    dispatch(getUsers())
-    dispatch(getProfile({id: matchingUserId}))
-  }, [matchingUserId]);
-
+    dispatch(getProfile());
+    dispatch(getUsers());
+  }, [dispatch]);
 
   return (
     <>
       {profile && (
         <div className={style.profile}>
           <div className={style.background}>
-            <img
-              className={style.bg}
-              src={profile.profile_background}
-              alt=""
-            />
+            <img className={style.bg} src={fone || bg2} alt="" />
             <button
               className={style.edit__cover}
               onClick={() => fileInputRef.current.click()}
@@ -123,7 +92,9 @@ const Profile = () => {
               type="file"
               ref={fileInputRef}
               style={{ display: "none" }}
-              onChange={handleFileChange}
+              onChange={(event) =>
+                handleFileChange(event, "profile_background")
+              }
             />
           </div>
           <div className={style.content}>
@@ -131,14 +102,16 @@ const Profile = () => {
               <div className={style.avatar__block}>
                 <img
                   className={style.account__img}
-                  src={profile.profile_image}
+                  src={ava || user}
                   alt="Default User Profile"
                 />
                 <input
                   type="file"
                   ref={fileInputRef2}
                   style={{ display: "none" }}
-                  onChange={handleFileChange2}
+                  onChange={(event) =>
+                    handleFileChange2(event, "profile_image")
+                  }
                 />
               </div>
               <button

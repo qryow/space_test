@@ -64,6 +64,7 @@ const EditName = ({ activeName, setActiveName }) => {
 
   useEffect(() => {
     dispatch(getCountries());
+    dispatch(getProfile());
   }, [dispatch]);
 
   useEffect(() => {
