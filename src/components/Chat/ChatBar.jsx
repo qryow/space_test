@@ -4,23 +4,33 @@ import ChatUser from './items/ChatUser';
 import ChatGroup from './ChatGroup';
 import CreateGroup from './group/CreateGroup';
 import axios from 'axios';
-import { useCreateChatRoomMutation } from '../../store/chat/chatApi';
+import { useDispatch, useSelector } from 'react-redux';
+import { addPrivateChatRoom, getRooms } from '../../store/chat/chatSlice';
+import ChatBody from './ChatBody';
+// import { useCreateChatRoomMutation } from '../../store/chat/chatApi';
 
 
 const ChatBar = () => {
-
+   
    const [showChat, setShowChat] = useState(false)
    const [showGroups, setShowGroups] = useState(false)
    const [createGroup, setCreateGroup] = useState(false)
    const [isIconVisible, setIsIconVisible] = useState(true);
    const [usersList, setUsersList] = useState([]);
    const [usersFil, setUsersFil] = useState([]);
-   const [particip, setParticip] = useState([])
    const [currUser, setCurrUser] = useState([]);
-   const [createChatRoom, {isError}] = useCreateChatRoomMutation()
+   const [title, setTitle] = useState('')
+   const [particip, setParticip] = useState([])
+   const [chatRooms, setChatRooms] = useState([])
+   // const [createChatRoom, {isError}] = useCreateChatRoomMutation()
    // const { data: users, isLoading } = useGetChatUsersQuery();
-
+   
    // console.log(users);
+
+   const dispatch = useDispatch();
+console.log(particip);
+   
+   
    const clickChat = () => {
       setShowChat(!showChat)
       setShowGroups(false)
@@ -38,77 +48,102 @@ const ChatBar = () => {
         if (event.target.value) {
             setIsIconVisible(false);
         } else {
-            setIsIconVisible(true);
+           setIsIconVisible(true);
         }
     };
-    let usersData
-    let currentUser
-   useEffect(() => {
-         const usersDatafunc = async (e) => {
-           try {
-   
-             const usersList = await axios('https://server.space-hub.info/api/v1/profile/profile/')
-             console.log(usersList);
-             const usersData = usersList.data
-             const storedEmail = JSON.parse(localStorage.getItem('account'));
-             const chatUser = usersData.results.find(user => user.user.toLowerCase() === storedEmail.toLowerCase());
-            setCurrUser(chatUser)
-             console.log(chatUser);
-            const usersFilt = usersData.results.filter((user) => 
-               user.user !== currUser.user
-            ) 
-            // ) 
-            console.log(usersFilt);
-            setUsersFil(usersFilt)
-           } catch (error) {
-             console.error(error);
-           } 
-         };
-         
-         usersDatafunc()
-      }, [])
 
-   const addChatRoom = async (user) => {
+    const rooms = useSelector(state => state.chat.privateChatRooms);
+    useEffect(() => {
+       setChatRooms(rooms)
+
+       console.log(chatRooms); 
+    },[])
+    useEffect(() => {
+       const getcard = async () => {
+          await dispatch(
+             getRooms()
+             );
+          };
+          getcard()
+         },[]) 
+         
+    useEffect(() => {
+       const usersDatafunc = async (e) => {
       try {
-         
-         console.log(user.id);
-         // if(particip) {
-       const tokens = JSON.parse(localStorage.getItem('tokens'));
-       const Authorization = `Bearer ${tokens.access}`;
-       const config = {
-         headers: {
-           Authorization,
-           'Content-Type': 'application/json'
-         },
-       };
-       let formData = new FormData();
-    formData.append("title", "123");
-    formData.append("participants", [2,6]);
-    let room = {
-      "title": "123",
-      "participants": [2,4]
-   }
-   console.log(Authorization);
-    console.log(room);
-         // await createChatRoom(formData)
-         console.log('created');
-         // console.log(formData);
-    const response = await axios.post(
-       `https://server.space-hub.info/api/v1/chat/chatrooms/`,
-       room,
-       config
-       );
-       console.log(response);
-   // } 
-} catch (error) {
-   console.error();
 
-}
+         const usersList = await axios('https://server.space-hub.info/api/v1/profile/profile/')
+         console.log(usersList);
+         const usersData = usersList.data
+         const storedEmail = JSON.parse(localStorage.getItem('account'));
+         const chatUser = usersData.results.find(user => user.user.toLowerCase() === storedEmail.toLowerCase());
+      setCurrUser(chatUser)
+      const usersFilt = usersData.results.filter((user) => 
+         user.user !== currUser.user
+      ) 
+      // ) 
+      setUsersFil(usersFilt)
+   } catch (error) {
+      console.error(error);
+   } 
+};
+
+usersDatafunc()
+}, [])
+
+// const addChatRoom = async (user) => {
+//    try {
+//       setTitle(user.user)
+//       setParticip([user.id, currUser.id,2])
+// } catch (error) {
+// console.error();
+
+// }
+
+// }
+const addRoom = async (user) => {
+   setTitle(user.user)
+   setParticip([2,currUser.id,user.id])
+   console.log(particip);
+   const rss = chatRooms[0].results
+
+   const sortedRoomParticipants = rss.
+   map(i => i.participants.slice().sort())
    
-   }
+const sortedParticip = particip.slice().sort();
+if (chatRooms && chatRooms.length > 0) {
+   const rss = chatRooms[0].results;
+
+   const existingRoom = rss.find(
+      (room) =>
+        room.title === user.user &&
+        sortedRoomParticipants.some((participant) =>
+          participant.every((p, i) => p === sortedParticip[i])
+        )
+    );
+
+   if (existingRoom) {
+     console.log('Already has', existingRoom);
+   } else {
+     console.log("It doesn't");
+     console.log(particip);
+     console.log(rss);
+   //   await dispatch( 
+        
+   //         addPrivateChatRoom({
+   //               title,
+   //               particip 
+   //      })
+   //   )
+   
+}
+} else {
+   console.log('chatRooms is undefined or empty');
+}
+}
+
     
    return (
-      <div>
+      <div style={{display: "flex"}}>
          {createGroup ? <CreateGroup setCreateGroup={setCreateGroup}/> : 
          <div className={style.bar__topside}>
 
@@ -141,7 +176,7 @@ const ChatBar = () => {
                      <div>
                         {usersFil && usersFil.map(user => {
                            return (
-                              <div key={user.id} onClick={() => addChatRoom(user)}>
+                              <div key={user.id} onClick={() => addRoom(user)}>
 
                               <ChatUser  {...user}/>
                               </div>
@@ -162,6 +197,7 @@ const ChatBar = () => {
             </div>
          </div>
          }
+         <ChatBody title={title}/>
       </div>
    );
 };

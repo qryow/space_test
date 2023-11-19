@@ -2,6 +2,10 @@ import React from 'react';
 import style from './styles/ChatStyles.module.css'
 
 const ChatFooter = () => {
+
+   // const { data = [], isLoading } = useGetChatUsersQuery();
+
+   
    return (
       <div className={style.chat__footer}>
          <div className={style.type__field}>

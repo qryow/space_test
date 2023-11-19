@@ -1,4 +1,4 @@
-import React, { useRef, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import style from './styles/ChatStyles.module.css'
 import ChatFooter from './ChatFooter';
 import LeftMessage from './items/LeftMessage';
@@ -6,15 +6,30 @@ import RightMessage from './items/RightMessage';
 import GroupInfo from './group/GroupInfo';
 import Replying from './items/Replying';
 import GroupMessage from './items/GroupMessage';
+import { useDispatch, useSelector } from 'react-redux';
+import { getRooms } from '../../store/chat/chatSlice';
 
 
-const ChatBody = () => {
+const ChatBody = ({title}) => {
  
 const [groupInfo,setGroupInfo] = useState(false)
 
 const clickGroupInfo = () => {
    setGroupInfo(true)
 }
+
+const rooms = useSelector(state => state.chat.privateChatRooms);
+const dispatch = useDispatch()
+useEffect(() => {
+   const getcard = async () => {
+      await dispatch(
+         getRooms()
+         );
+      };
+      getcard()
+   },[]) 
+
+   console.log(rooms);
    return (             
       <div className={style.chatbody}>
          <div>

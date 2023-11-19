@@ -37,6 +37,28 @@ export const chatApi = createApi({
           console.log('Request Body:', data);
         },
       },
+    }),
+    sendMessage: build.mutation({
+      query: (data) => ({
+        url: '/messages/',
+        method: 'POST',
+        body: data
+      }),
+      invalidatesTags: [{ type: 'Posts', id: 'LIST' }],
+      options: {
+        headers: (getHeaders, { getState }) => {
+          const tokens = JSON.parse(localStorage.getItem('tokens'));
+          const Authorization = `Bearer ${tokens.access}`;
+          return {
+            Authorization,
+            "Content-Type": 'application/json'
+          };
+        },
+        onSuccess: ({ data, requestId, dispatch }) => {
+          console.log('Request ID:', requestId);
+          console.log('Request Body:', data);
+        },
+      },
     })
   }),
         
@@ -46,4 +68,5 @@ export const chatApi = createApi({
 export const {
   useGetChatRoomsQuery,
   useCreateChatRoomMutation,
+  useSendMessageMutation
 } = chatApi;

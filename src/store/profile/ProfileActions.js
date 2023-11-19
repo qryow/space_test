@@ -36,7 +36,7 @@ export const editProfile = createAsyncThunk(
       }
     }
     console.log(editedObj);
-    let { data } = await axios.patch(`${API}/profile/profile/4/`, formData, config ? config : null  )
+    let { data } = await axios.patch(`${API}/profile/profile/6/`, formData, config ? config : null  )
     console.log(data);
     return { data }
   }
