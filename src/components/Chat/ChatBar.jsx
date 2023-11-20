@@ -22,6 +22,7 @@ const ChatBar = () => {
    const [title, setTitle] = useState('')
    const [particip, setParticip] = useState([])
    const [chatRooms, setChatRooms] = useState([])
+   const [currentRoom, setCurrentRoom] = useState([])
    // const [createChatRoom, {isError}] = useCreateChatRoomMutation()
    // const { data: users, isLoading } = useGetChatUsersQuery();
    
@@ -67,21 +68,28 @@ console.log(particip);
           getcard()
          },[]) 
          
-    useEffect(() => {
-       const usersDatafunc = async (e) => {
-      try {
+useEffect(() => {
+   const usersDatafunc = async (e) => {
+   try {
 
-         const usersList = await axios('https://server.space-hub.info/api/v1/profile/profile/')
-         console.log(usersList);
-         const usersData = usersList.data
-         const storedEmail = JSON.parse(localStorage.getItem('account'));
-         const chatUser = usersData.results.find(user => user.user.toLowerCase() === storedEmail.toLowerCase());
-      setCurrUser(chatUser)
+   const usersList = await axios('https://server.space-hub.info/api/v1/profile/profile/')
+   console.log(usersList);
+   const usersData = usersList.data
+   const storedEmail = JSON.parse(localStorage.getItem('account'));
+   const chatUser = usersData.results.find(user => user.user.toLowerCase() === storedEmail.toLowerCase());
+   setCurrUser(chatUser)
+   console.log(chatUser);
+   console.log(currUser);
+   // if(currUser.length > 0) {
+
       const usersFilt = usersData.results.filter((user) => 
-         user.user !== currUser.user
+      user.user !== chatUser.user
       ) 
       // ) 
       setUsersFil(usersFilt)
+      console.log(usersFilt);
+      console.log(currUser);
+   // }
    } catch (error) {
       console.error(error);
    } 
@@ -100,46 +108,106 @@ usersDatafunc()
 // }
 
 // }
-const addRoom = async (user) => {
-   setTitle(user.user)
-   setParticip([2,currUser.id,user.id])
-   console.log(particip);
-   const rss = chatRooms[0].results
 
-   const sortedRoomParticipants = rss.
-   map(i => i.participants.slice().sort())
-   
-const sortedParticip = particip.slice().sort();
-if (chatRooms && chatRooms.length > 0) {
-   const rss = chatRooms[0].results;
 
-   const existingRoom = rss.find(
-      (room) =>
-        room.title === user.user &&
-        sortedRoomParticipants.some((participant) =>
-          participant.every((p, i) => p === sortedParticip[i])
-        )
-    );
 
-   if (existingRoom) {
-     console.log('Already has', existingRoom);
-   } else {
-     console.log("It doesn't");
-     console.log(particip);
-     console.log(rss);
-   //   await dispatch( 
+
+// useEffect(() => {
+//    console.log('Current Room:', currentRoom);
+//  }, [currentRoom]);
+
+// const addRoom = async (user) => {
+//    setTitle(user.user)
+//    setParticip([2,currUser.id,user.id])
+//    console.log(particip);
+//    if (rooms && rooms.length > 0) {
+//       const rss = rooms[0].results;
+      
+//       if (rss && rss.length > 0) {
+//         const sortedRoomParticipants = rss.map(i => i.participants.slice().sort());
+//         const sortedParticip = particip.slice().sort();
+  
+//         const existingRoom = rss.find(
+//           (room) =>
+//             room.title === user.user &&
+//             sortedRoomParticipants.some((participant) =>
+//               participant.every((p, i) => p === sortedParticip[i])
+//             )
+//             );
+//             setCurrentRoom(existingRoom)
         
-   //         addPrivateChatRoom({
-   //               title,
-   //               particip 
-   //      })
-   //   )
-   
-}
-} else {
-   console.log('chatRooms is undefined or empty');
-}
-}
+//         if (existingRoom) {
+//            console.log('Already has', existingRoom);
+//         } else {
+//           console.log("It doesn't");
+//           console.log(particip);
+//           console.log(rss);
+//           // await dispatch(
+//           //   addPrivateChatRoom({
+//           //     title,
+//           //     particip
+//           //   })
+//           // )
+//         }
+//       } else {
+//         console.log('rss is undefined or empty');
+//       }
+//     } else {
+//       console.log(rooms);
+//       console.log('chatRooms is undefined or empty');
+//     }
+// }
+
+const addRoom = async (user) => {
+   if (!user.id) {
+      console.error('User ID is undefined.');
+      return;
+   }
+
+   setTitle(user.user);
+   setParticip([2, currUser.id, user.id]);
+   console.log(particip);
+
+   if (rooms && rooms.length > 0) {
+      const rss = rooms[0].results;
+
+      if (rss && rss.length > 0) {
+         const sortedRoomParticipants = rss.map(i => i.participants.slice().sort());
+         const sortedParticip = particip.slice().sort();
+
+         const existingRoom = rss.find(
+            (room) =>
+               room.title === user.user &&
+               sortedRoomParticipants.some((participant) =>
+                  participant.every((p, i) => p === sortedParticip[i])
+               )
+         );
+         setCurrentRoom(existingRoom);
+
+         if (existingRoom) {
+            console.log('Already has', existingRoom);
+         } else {
+            console.log("It doesn't");
+            console.log(particip);
+
+            // Make sure user.id is defined before dispatching the action
+            if (user.id) {
+               await dispatch(
+                  addPrivateChatRoom({
+                     title,
+                     particip,
+                  })
+               );
+            }
+         }
+      } else {
+         console.log('rss is undefined or empty');
+      }
+   } else {
+      console.log(rooms);
+      console.log('chatRooms is undefined or empty');
+   }
+};
 
     
    return (
@@ -197,7 +265,7 @@ if (chatRooms && chatRooms.length > 0) {
             </div>
          </div>
          }
-         <ChatBody title={title}/>
+         <ChatBody title={title} currentRoom={currentRoom} />
       </div>
    );
 };
