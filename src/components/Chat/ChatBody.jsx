@@ -1,4 +1,4 @@
-import React, { useRef, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import style from './styles/ChatStyles.module.css'
 import ChatFooter from './ChatFooter';
 import LeftMessage from './items/LeftMessage';
@@ -6,15 +6,82 @@ import RightMessage from './items/RightMessage';
 import GroupInfo from './group/GroupInfo';
 import Replying from './items/Replying';
 import GroupMessage from './items/GroupMessage';
+import { useDispatch, useSelector } from 'react-redux';
+import { getOneRoom, getRooms } from '../../store/chat/chatSlice';
 
 
-const ChatBody = () => {
- 
-const [groupInfo,setGroupInfo] = useState(false)
-
+const ChatBody = ({title,currentRoom}) => {
+   
+   const [groupInfo,setGroupInfo] = useState(false)
+   const dispatch = useDispatch()
+   const roomdata = useSelector((state)  => state.chat.oneRoom)
+   console.log(roomdata);
+   
 const clickGroupInfo = () => {
    setGroupInfo(true)
 }
+// const rooms = useSelector(state => state.chat.privateChatRooms);
+
+const [id, setId] = useState()
+  const chatroom = currentRoom
+
+
+  
+//    useEffect(() => {
+//       if (currentRoom && currentRoom.id) {
+//         setId(currentRoom.id);
+//       }
+// //     }, [currentRoom]);
+  
+
+
+
+// // useEffect(() => {
+// const oneRoom = async () => {
+//    await dispatch(
+//       getOneRoom(id)
+//       );
+//    };
+//    oneRoom()
+//    console.log(id);
+// },[currentRoom]) 
+////////////////////////
+// useEffect(() => {
+//    const oneRoom = async () => {
+//       await dispatch(getOneRoom(id));
+//    };
+//    oneRoom();
+//    console.log(id);
+// }, [currentRoom, roomdata]);
+
+// useEffect(() => {
+//    console.log("Updated roomdata:", roomdata);
+// }, [roomdata]);
+
+useEffect(() => {
+   // Update id when currentRoom changes
+   if (currentRoom && currentRoom.id) {
+     setId(currentRoom.id);
+   }
+ }, [currentRoom]);
+
+ useEffect(() => {
+   const oneRoom = async () => {
+     // Check if id is not null before making the API call
+     if (id !== null) {
+       await dispatch(getOneRoom(id));
+     }
+   };
+   oneRoom();
+   console.log(id);
+ }, [id, dispatch]);
+
+ useEffect(() => {
+   console.log("Updated roomdata:", roomdata);
+ }, [roomdata]);
+
+ console.log(roomdata);
+
    return (             
       <div className={style.chatbody}>
          <div>
@@ -64,12 +131,10 @@ const clickGroupInfo = () => {
             <div className={style.message__container}>
                <div className={style.scrollbar}>
                   <div className={style.msgs__list}>
-
+                  {Array.isArray(roomdata[0]?.messages) && roomdata[0].messages.map(msgs => {
+                     return <LeftMessage key={msgs.id} {...msgs}/>
+                  })}
                   
-                 
-                  <LeftMessage/>
-                  
-
                   </div>
                {groupInfo ? 
             <GroupInfo groupInfo={groupInfo}  setGroupInfo={setGroupInfo}/>
@@ -78,7 +143,7 @@ const clickGroupInfo = () => {
             </div>
          </div>
          {/* <Replying/> */}
-         <ChatFooter/>
+         <ChatFooter currentRoom={currentRoom}/>
       </div>
    );
 };
