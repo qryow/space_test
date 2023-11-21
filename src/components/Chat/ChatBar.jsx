@@ -265,7 +265,7 @@ const addRoom = async (user) => {
             </div>
          </div>
          }
-         <ChatBody title={title} currentRoom={currentRoom} />
+         <ChatBody title={title} currentRoom={currentRoom} currUser={currUser} />
       </div>
    );
 };
