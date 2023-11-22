@@ -1,5 +1,6 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit"
 import axios from "axios";
+import { useEffect } from "react";
 
 export const getUsers = createAsyncThunk(
    'chat/getusers',
@@ -137,12 +138,8 @@ export const sendMessage = createAsyncThunk(
      }
       console.log(chatroom); 
       console.log(text); 
-       const messageData = new FormData()
-       messageData.append('chatroom', chatroom)
- 
-       messageData.append('text', text)
        
-       console.log(messageData);
+       console.log(msg);
        const tokens = JSON.parse(localStorage.getItem('tokens'));
          const Authorization = `Bearer ${tokens.access}`;
          const config = {
@@ -162,9 +159,11 @@ export const sendMessage = createAsyncThunk(
        // if (!response.ok) {
        //   throw new Error("Can't add task. Server error.");
        // }
-       const data = await response.json()
-       dispatch(sendMessage(data));
-       // dispatch(addCardAcc(response.data));
+      //  const data = await response.json()
+
+       const data = response.data
+       dispatch(chatSlice.actions.sendMessage(data));
+       dispatch(getOneRoom())
      } catch (error) {
        return rejectWithValue(error);
      }
@@ -218,15 +217,17 @@ const chatSlice = createSlice({
          state.privateChatRooms.push(payload);
          console.log('success addPrivateChatRoom');
        });
-      builder.addCase(sendMessage.pending, (state) => {
+      builder.addCase(sendMessage.pending, (state,action) => {
          console.log('pending sendMessageReducer pending');
+         console.log(action.payload);
        });
-       builder.addCase(sendMessage.rejected, (state) => {
-         console.log('error sendMessageReducer');
+       builder.addCase(sendMessage.rejected, (state,action) => {
+         console.log('error sendMessageReducer', action);
        });
        builder.addCase(sendMessage.fulfilled, (state, { payload }) => {
          // state.privateChatRooms.push(payload);
          state.messages.push(payload);
+
          console.log('success sendMessagesReducer');
        });
    },

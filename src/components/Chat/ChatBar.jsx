@@ -208,7 +208,7 @@ const addRoom = async (user) => {
       console.log('chatRooms is undefined or empty');
    }
 };
-
+console.log(rooms );
     
    return (
       <div style={{display: "flex"}}>
@@ -265,7 +265,7 @@ const addRoom = async (user) => {
             </div>
          </div>
          }
-         <ChatBody title={title} currentRoom={currentRoom} />
+         <ChatBody title={title} currentRoom={currentRoom} currUser={currUser} />
       </div>
    );
 };

@@ -3,7 +3,7 @@ import style from './styles/ChatStyles.module.css'
 import { useDispatch } from 'react-redux';
 import { sendMessage } from '../../store/chat/chatSlice';
 
-const ChatFooter = ({currentRoom}) => {
+const ChatFooter = ({currentRoom,oneRoomRer}) => {
 const [text, setText] = useState('')
 const [roomId, setRoomId] = useState()
   const dispatch = useDispatch();
@@ -24,7 +24,8 @@ const sendMsg = async () => {
       sendMessage({
          chatroom: roomId,
          text,
-      })
+      }),
+      oneRoomRer()
    );
    }
 };
