@@ -95,3 +95,11 @@ export const editLanguage = createAsyncThunk(
     return { data };
   }
 );
+
+export const deleteLanguage = createAsyncThunk(
+  "language/deleteLanguage",
+  async ({ id }, { dispatch }) => {
+    await axios.delete(`${API}/e_h/add_language/${id}`);
+    dispatch(getLanguages());
+  }
+);

@@ -62,21 +62,29 @@ const CreateLang = ({ createLangModal, setCreateLangModal }) => {
             />
           </div>
           <div>
-            <input
-              type="text"
-              placeholder="Search for proficiency level"
+            <select
+              placeholder="Search for language"
               onClick={() => setLevelDropdown(!levelDropdown)}
               onChange={(e) =>
                 setLeng({ ...lang, languages_level: e.target.value })
               }
-            />
+              className={style.dropdown}
+            >
+              <option value="A1">A1</option>
+              <option value="A2">A2</option>
+              <option value="B1">B1</option>
+              <option value="B2">B2</option>
+              <option value="C1">C1</option>
+              <option value="C2">C2</option>
+            </select>
             <img
               src={arrowDown}
               alt=""
               className={
-                levelDropdown ? `${style.arrow__down}` : `${style.arrow__up}`
+                levelDropdown
+                  ? `${style.arrow__down} ${style.langArrowBtn}`
+                  : `${style.arrow__up} ${style.langArrowBtn}`
               }
-              onClick={() => setLevelDropdown(!levelDropdown)}
             />
           </div>
         </div>

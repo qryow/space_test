@@ -8,6 +8,10 @@ const EditLang = ({ editLangModal, setEditLangModal }) => {
   const { languages, loading } = useSelector((state) => state.profile);
   const dispatch = useDispatch();
 
+  const handleSave = () => {
+    alert("Функция кнопки выполнена!");
+  };
+
   useEffect(() => {
     dispatch(getLanguages());
   }, []);
@@ -45,15 +49,20 @@ const EditLang = ({ editLangModal, setEditLangModal }) => {
           <h3>Loading...</h3>
         ) : (
           <div className={style.lang__down}>
-            {languages.map((lang) => (
-              <EditLangItem
-                key={lang.id}
-                lang={lang}
-                setEditLangModal={setEditLangModal}
-              />
-            ))}
+            {languages && languages.length > 0 ? (
+              languages.map((lang) => (
+                <EditLangItem
+                  key={lang.id}
+                  lang={lang}
+                  handleSave={handleSave}
+                />
+              ))
+            ) : (
+              <div className={style.p}>No languages</div>
+            )}
           </div>
         )}
+
         <div className={style.name__buttons}>
           <button
             className={style.name__button1}
@@ -61,7 +70,9 @@ const EditLang = ({ editLangModal, setEditLangModal }) => {
           >
             Cancel
           </button>
-          <button className={style.name__button2}>Save</button>
+          <button className={style.name__button2} onClick={handleSave}>
+            Save
+          </button>
         </div>
       </div>
     </div>

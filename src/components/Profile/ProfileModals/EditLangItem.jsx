@@ -3,14 +3,17 @@ import { useDispatch } from "react-redux";
 import style from "./styles/ProfileModals.module.css";
 import { editLanguage } from "../../../store/profile/ProfileActions";
 import deleteBtn from "../../../img/profile/delete.svg";
+import arrowDown from "../../../img/ArrowDown.svg";
+import { deleteLanguage } from "../../../store/profile/ProfileActions";
 
-const EditLangItem = ({ lang }) => {
+const EditLangItem = ({ lang, handleSave }) => {
   const dispatch = useDispatch();
 
   const [language, setLanguage] = useState(lang.languages);
   const [level, setLevel] = useState(lang.languages_level);
+  const [isRotated, setIsRotated] = useState(false);
 
-  const handleSave = () => {
+  const handleSaveClick = () => {
     const editedLang = {
       id: lang.id,
       user: lang.user,
@@ -18,6 +21,11 @@ const EditLangItem = ({ lang }) => {
       languages_level: level,
     };
     dispatch(editLanguage({ language: editedLang, id: lang.id }));
+    handleSave();
+  };
+
+  const toggleRotation = () => {
+    setIsRotated(!isRotated);
   };
 
   useEffect(() => {
@@ -37,16 +45,38 @@ const EditLangItem = ({ lang }) => {
           />
         </div>
         <div className={style.lang__item__input}>
-          <input
-            value={level}
-            type="text"
-            placeholder="Search for proficiency level"
-            onChange={(e) => setLevel(e.target.value)}
-          />
+          <div>
+            <select
+              value={level}
+              onChange={(e) => setLevel(e.target.value)}
+              className={style.dropdown}
+              onClick={toggleRotation}
+            >
+              <option value="A1">A1</option>
+              <option value="A2">A2</option>
+              <option value="B1">B1</option>
+              <option value="B2">B2</option>
+              <option value="C1">C1</option>
+              <option value="C2">C2</option>
+            </select>
+            <img
+              src={arrowDown}
+              alt=""
+              className={
+                isRotated
+                  ? `${style.arrow__down} ${style.langArrowBtn}`
+                  : `${style.arrow__up} ${style.langArrowBtn}`
+              }
+            />
+          </div>
         </div>
       </div>
       <button>
-        <img src={deleteBtn} alt="" />
+        <img
+          src={deleteBtn}
+          alt=""
+          onClick={() => dispatch(deleteLanguage({ id: lang.id }))}
+        />
       </button>
     </div>
   );

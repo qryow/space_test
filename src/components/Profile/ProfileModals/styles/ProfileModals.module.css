@@ -288,9 +288,16 @@
 
 /* !Edit Lang  */
 .lang__down {
-  height: 120vh;
+  min-height: 50vh;
   overflow-y: auto;
   margin: 20px 0;
+  position: relative;
+}
+.lang__down > .p {
+  position: absolute;
+  font-size: 30px;
+  top: 50%;
+  right: 40%;
 }
 
 .lang_up2 {
@@ -335,14 +342,31 @@
   width: 100%;
   display: flex;
   justify-content: start;
+  position: relative;
 }
 
-.lang__item__input > input {
+.lang__item__input > div {
+  width: 100%;
+  position: relative;
+}
+
+.lang__item__input > input,
+select {
   width: 90%;
   padding: 40px;
   font-size: 35px;
   border-radius: 20px;
   border: 2px solid #dadada59;
-  background: none;
 }
-/* Lang item */
+
+.dropdown {
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  outline: none;
+  background-color: #32292e;
+}
+
+.langArrowBtn {
+  right: 20%;
+}

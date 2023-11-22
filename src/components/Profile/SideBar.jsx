@@ -206,9 +206,13 @@ const SideBar = () => {
                 </div>
                 {languages ? (
                   <div className={style.lang}>
-                    {languages.map((lang) => (
-                      <LangBlock lang={lang} />
-                    ))}
+                    {languages.length > 0 ? (
+                      languages.map((lang) => (
+                        <LangBlock lang={lang} key={lang.id} />
+                      ))
+                    ) : (
+                      <p>No languages</p>
+                    )}
                   </div>
                 ) : (
                   <h3>Loading...</h3>
