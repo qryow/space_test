@@ -6,8 +6,8 @@ import EditLangItem from "./EditLangItem";
 
 const EditLang = ({ editLangModal, setEditLangModal }) => {
   const { languages, loading } = useSelector((state) => state.profile);
-  const dispatch = useDispatch();
   const [func, setFunc] = useState(false)
+  const dispatch = useDispatch();
 
   const handleSave = () => {
     alert("Функция кнопки выполнена!");

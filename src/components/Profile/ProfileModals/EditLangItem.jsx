@@ -16,22 +16,22 @@ const EditLangItem = ({ lang, handleSave,func }) => {
   
   const handleSaveClick = () => {
     const editedLang = {
-        id: lang.id,
-        user: lang.user,
-        languages: language,
-        languages_level: level,
-      };
-      // dispatch(editLanguage({ language: editedLang, id: lang.id }));
-      // handleSave();
-      console.log("workedd");
+      id: lang.id,
+      user: lang.user,
+      languages: language,
+      languages_level: level,
     };
-    useEffect(() => {
-      handleSaveClick()
-    },[func,handleSave])
-    
+    // dispatch(editLanguage({ language: editedLang, id: lang.id }));
+    console.log("workeddd");
+  };
+
   const toggleRotation = () => {
     setIsRotated(!isRotated);
   };
+  useEffect(() => {
+    
+    handleSaveClick()
+  },[func, handleSave]) 
 
   useEffect(() => {
     setLanguage(lang.languages);
