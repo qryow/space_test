@@ -14,7 +14,6 @@ export default configureStore({
     getDefaultMiddleware({
             serializableCheck: false,
         }),
-        // .concat(chatApi.middleware),
 
     reducer: {
         account: AccountSlice,
@@ -22,7 +21,6 @@ export default configureStore({
         profile: profileSlice,
         projects: projectsSlice,
         posts: postsSlice,
-        // [chatApi.reducerPath]: chatApi.reducer,
         chat: chatSlice
     },
 });

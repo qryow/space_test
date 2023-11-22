@@ -14,6 +14,7 @@ const ChatBody = ({title,currentRoom, currUser}) => {
    
    const [groupInfo,setGroupInfo] = useState(false)
    const [sortedMsgs,setSortedMsgs] = useState([])
+   const lastMessageRef = useRef(null)
    const dispatch = useDispatch()
    const roomdata = useSelector((state)  => state.chat.oneRoom)
    console.log(roomdata);
@@ -66,7 +67,11 @@ useEffect(() => {
    console.log("Updated roomdata:", roomdata);
 }, [roomdata]);
  console.log(roomdata);
- 
+
+ useEffect(() => {
+   // 👇️ scroll to bottom every time messages change
+   lastMessageRef.current?.scrollIntoView({ behavior: 'smooth' });
+ }, [sortedMsgs]);
 
    return (             
       <div className={style.chatbody}>
@@ -122,7 +127,7 @@ useEffect(() => {
                      })} */}
                   {/* ////////////////// */}
                   {Array.isArray(sortedMsgs) && sortedMsgs.map(msgs => (
-                     <LeftMessage key={msgs.id} {...msgs}/>
+                     <LeftMessage key={msgs.id} msgs={msgs} lastMessageRef={lastMessageRef}/>
                   ))}
                   
                   </div>
