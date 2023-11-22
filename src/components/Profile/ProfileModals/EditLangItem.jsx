@@ -6,7 +6,7 @@ import deleteBtn from "../../../img/profile/delete.svg";
 import arrowDown from "../../../img/ArrowDown.svg";
 import { deleteLanguage } from "../../../store/profile/ProfileActions";
 
-const EditLangItem = ({ lang, handleSave }) => {
+const EditLangItem = ({ lang, handleSave,func }) => {
   const dispatch = useDispatch();
 
   const [language, setLanguage] = useState(lang.languages);
@@ -20,13 +20,17 @@ const EditLangItem = ({ lang, handleSave }) => {
       languages: language,
       languages_level: level,
     };
-    dispatch(editLanguage({ language: editedLang, id: lang.id }));
-    handleSave();
+    // dispatch(editLanguage({ language: editedLang, id: lang.id }));
+    console.log("workeddd");
   };
 
   const toggleRotation = () => {
     setIsRotated(!isRotated);
   };
+  useEffect(() => {
+    
+    handleSaveClick()
+  },[func, handleSave]) 
 
   useEffect(() => {
     setLanguage(lang.languages);
