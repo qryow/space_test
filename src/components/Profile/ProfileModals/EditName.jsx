@@ -17,6 +17,7 @@ const EditName = ({ activeName, setActiveName }) => {
   const [firstName, setFirstName] = useState(profile.first_name);
   const [professions, setProfessions] = useState(profile.professions);
   const [selectedCountry, setSelectedCountry] = useState(profile.country);
+  const [last, setLast] = useState(profile.last_name);
   const [filteredCountries, setFilteredCountries] = useState([]);
   const [countryDropdown, setCountryDropdown] = useState(true);
   const [area, setArea] = useState(profile.arial);
@@ -49,6 +50,7 @@ const EditName = ({ activeName, setActiveName }) => {
       professions,
       country: selectedCountry,
       arial: area,
+      last_name: last,
     };
 
     dispatch(editProfile({ editedObj: editedProfile, id: profileId }));
@@ -60,10 +62,12 @@ const EditName = ({ activeName, setActiveName }) => {
     setProfessions(profile.professions);
     setSelectedCountry(profile.country);
     setArea(profile.arial);
+    setLast(profile.last_name);
   }, [profile]);
 
   useEffect(() => {
     dispatch(getCountries());
+    dispatch(getProfile());
   }, [dispatch]);
 
   useEffect(() => {
@@ -102,16 +106,30 @@ const EditName = ({ activeName, setActiveName }) => {
             onChange={(e) => setUsername(e.target.value)}
           />
         </div>
-        <div className={style.name__block}>
-          <h3 className={style.h3}>Name</h3>
-          <input
-            className={style.name__input}
-            value={firstName}
-            type="text"
-            placeholder="Username"
-            onChange={(e) => setFirstName(e.target.value)}
-          />
+        <div className={style.name__wrapp}>
+          <div className={style.name__block2_block}>
+            <h3 className={style.h3}>Name</h3>
+            <input
+              className={style.name__input}
+              value={firstName}
+              type="text"
+              placeholder="Username"
+              onChange={(e) => setFirstName(e.target.value)}
+            />
+          </div>
+
+          <div className={style.name__block2_block}>
+            <h3 className={style.h3}>Last name</h3>
+            <input
+              className={style.name__input}
+              value={last}
+              type="text"
+              placeholder="Last name"
+              onChange={(e) => setLast(e.target.value)}
+            />
+          </div>
         </div>
+
         <div className={style.name__block}>
           <h3 className={style.h3}>Professional role</h3>
           <input
