@@ -238,10 +238,80 @@
   border-radius: 30px;
   background-color: #32292e;
   width: 90%;
-  height: 150vh;
+  min-height: 90vh;
   transform: scale(0);
   transition: 0.4s all;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
+}
+
+.active {
+  transform: scale(0.5);
+}
+
+.lang_up {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+}
+.lang_up__block {
+  width: 45%;
+}
+
+.createLangInp {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+}
+.createLangInp > div {
+  width: 45%;
+  display: flex;
+  justify-content: start;
+  position: relative;
+}
+
+.createLang__content input {
+  width: 100%;
+  padding: 40px;
+  font-size: 35px;
+  border-radius: 20px;
+  border: 2px solid #dadada59;
+  background: none;
+}
+
+.lang_up h3 {
+  font-size: 35px;
+  font-size: 500;
+}
+
+/* !Lang item */
+
+.lang__item {
+  width: 100%;
+  min-height: 100px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.lang__item__inputs {
+  width: 90%;
+  display: flex;
+  justify-content: space-between;
+}
+
+.lang__item__input {
+  width: 100%;
+  display: flex;
+  justify-content: start;
+}
+
+.lang__item__input > input {
+  width: 90%;
+  padding: 40px;
+  font-size: 35px;
+  border-radius: 20px;
+  border: 2px solid #dadada59;
+  background: none;
 }
