@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useDispatch } from "react-redux";
 import style from "./styles/ProfileModals.module.css";
 import { editLanguage } from "../../../store/profile/ProfileActions";
+import deleteBtn from "../../../img/profile/delete.svg";
 
 const EditLangItem = ({ lang }) => {
   const dispatch = useDispatch();
@@ -44,6 +45,9 @@ const EditLangItem = ({ lang }) => {
           />
         </div>
       </div>
+      <button>
+        <img src={deleteBtn} alt="" />
+      </button>
     </div>
   );
 };

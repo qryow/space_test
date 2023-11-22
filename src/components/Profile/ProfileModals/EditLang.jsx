@@ -32,7 +32,7 @@ const EditLang = ({ editLangModal, setEditLangModal }) => {
         }
         onClick={(e) => e.stopPropagation()}
       >
-        <div className={style.lang_up}>
+        <div className={style.lang_up2}>
           <div>
             <h3>Languages</h3>
           </div>
@@ -44,7 +44,7 @@ const EditLang = ({ editLangModal, setEditLangModal }) => {
         {loading ? (
           <h3>Loading...</h3>
         ) : (
-          <div>
+          <div className={style.lang__down}>
             {languages.map((lang) => (
               <EditLangItem
                 key={lang.id}

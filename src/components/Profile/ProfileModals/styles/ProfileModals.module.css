@@ -280,12 +280,41 @@
   background: none;
 }
 
-.lang_up h3 {
+.lang_up,
+.lang_up2 h3 {
   font-size: 35px;
   font-size: 500;
 }
 
-/* !Lang item */
+/* !Edit Lang  */
+.lang__down {
+  height: 120vh;
+  overflow-y: auto;
+  margin: 20px 0;
+}
+
+.lang_up2 {
+  display: flex;
+  justify-content: space-between;
+  width: 62%;
+}
+
+.lang__item > button {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 15px;
+  border-radius: 50%;
+  background-color: #444444;
+  cursor: pointer;
+  border: none;
+}
+
+.lang__item > button > img {
+  width: 60px;
+}
+
+/* Lang item */
 
 .lang__item {
   width: 100%;
@@ -293,6 +322,7 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
+  margin: 50px 0;
 }
 
 .lang__item__inputs {
@@ -315,3 +345,4 @@
   border: 2px solid #dadada59;
   background: none;
 }
+/* Lang item */
