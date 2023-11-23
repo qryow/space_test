@@ -18,26 +18,37 @@ import globe from "../../img/profile/Globe.svg";
 import plus from "../../img/profile/Add_PlusGray.svg";
 import edit from "../../img/profile/editbtn.svg";
 
-import { getProfile } from "../../store/profile/ProfileActions";
-import { getLanguages } from "../../store/profile/ProfileActions";
+import {
+  getProfile,
+  getLanguages,
+  getEducations,
+} from "../../store/profile/ProfileActions";
 import { useDispatch, useSelector } from "react-redux";
 import LangBlock from "./LangBlock";
 import CreateLang from "./ProfileModals/CreateLang";
 import EditLang from "./ProfileModals/EditLang";
+import EducationBlock from "./EducationBlock";
+import CreateEducation from "./ProfileModals/CreateEducation";
+import CreateSocial from "./ProfileModals/CreateSocial";
 
 const SideBar = () => {
   const [createLangModal, setCreateLangModal] = useState(false);
   const [editLangModal, setEditLangModal] = useState(false);
+  const [createEducationModal, setCreateEducationModal] = useState(false);
+  const [createSocialModal, setCreateSocialModal] = useState(false);
   const location = useLocation();
 
-  const { profile, loading, languages } = useSelector((state) => state.profile);
-  console.log(languages);
+  const { profile, loading, languages, educations } = useSelector(
+    (state) => state.profile
+  );
+  console.log(educations);
 
   const dispatch = useDispatch();
 
   useEffect(() => {
     dispatch(getProfile());
     dispatch(getLanguages());
+    dispatch(getEducations());
   }, []);
 
   return (
@@ -171,7 +182,10 @@ const SideBar = () => {
               </div>
 
               <div className={style.info_btns}>
-                <button className={style.edit__btn}>
+                <button
+                  className={style.edit__btn}
+                  onClick={() => setCreateSocialModal(true)}
+                >
                   <img src={plus} alt="" />
                 </button>
                 <button className={style.edit__btn}>
@@ -192,7 +206,7 @@ const SideBar = () => {
                   <div className={style.info_btns}>
                     <button
                       className={style.edit__btn}
-                      onClick={() => setCreateLangModal(true)}
+                      onClick={() => setEditLangModal(true)}
                     >
                       <img src={plus} alt="" />
                     </button>
@@ -219,33 +233,31 @@ const SideBar = () => {
                 )}
               </div>
               <div className={style.education__blocks}>
-                <h3>Education</h3>
-                <div className={style.education__block}>
-                  <div className={style.info_btns}>
-                    <button className={style.edit__btn}>
-                      <img src={plus} alt="" />
-                    </button>
-                    <button className={style.edit__btn}>
-                      <img src={edit} alt="" />
-                    </button>
+                <h3>
+                  Education
+                  <button
+                    className={style.edit__btn}
+                    onClick={() => setCreateEducationModal(true)}
+                  >
+                    <img src={plus} alt="" />
+                  </button>
+                </h3>
+                {educations ? (
+                  <div className={style.lang}>
+                    {educations.length > 0 ? (
+                      educations.map((education) => (
+                        <EducationBlock
+                          education={education}
+                          key={education.id}
+                        />
+                      ))
+                    ) : (
+                      <p>No educations</p>
+                    )}
                   </div>
-                  <h4>Northwestern University</h4>
-                  <p>Bachelor</p>
-                  <p>Astronomy</p>
-                </div>
-                <div className={style.education__block}>
-                  <div className={style.info_btns}>
-                    <button className={style.edit__btn}>
-                      <img src={plus} alt="" />
-                    </button>
-                    <button className={style.edit__btn}>
-                      <img src={edit} alt="" />
-                    </button>
-                  </div>
-                  <h4>Northwestern University</h4>
-                  <p>Bachelor</p>
-                  <p>Astronomy</p>
-                </div>
+                ) : (
+                  <h3>Loading...</h3>
+                )}
               </div>
             </div>
           </>
@@ -253,9 +265,17 @@ const SideBar = () => {
           <p>No data available</p>
         )}
       </div>
+      <CreateEducation
+        createEducationModal={createEducationModal}
+        setCreateEducationModal={setCreateEducationModal}
+      />
       <CreateLang
         createLangModal={createLangModal}
         setCreateLangModal={setCreateLangModal}
+      />
+      <CreateSocial
+        createSocialModal={createSocialModal}
+        setCreateSocialModal={setCreateSocialModal}
       />
       <EditLang
         editLangModal={editLangModal}

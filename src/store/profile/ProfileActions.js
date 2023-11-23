@@ -54,7 +54,6 @@ export const getLanguages = createAsyncThunk(
       (item) => item.user === emailWithoutQuotes
     );
 
-    console.log(filteredData);
     return filteredData;
   }
 );
@@ -79,9 +78,7 @@ export const createLanguage = createAsyncThunk(
 export const editLanguage = createAsyncThunk(
   "language/editLanguage",
   async ({ language, id }, { dispatch }) => {
-    console.log(id);
     const config = getAuthConfig();
-    console.log(language);
     let formData = new FormData();
     formData.append("languages", language.username);
     formData.append("languages_level", language.first_name);
@@ -101,5 +98,58 @@ export const deleteLanguage = createAsyncThunk(
   async ({ id }, { dispatch }) => {
     await axios.delete(`${API}/e_h/add_language/${id}`);
     dispatch(getLanguages());
+  }
+);
+
+export const getEducations = createAsyncThunk(
+  "education/getEducations",
+  async (_, { getState }) => {
+    const localEmail = localStorage.getItem("account");
+    const emailWithoutQuotes = localEmail ? localEmail.replace(/"/g, "") : "";
+
+    const { data } = await axios.get(`${API}/e_h/education_history/`);
+    const filteredData = data.results.filter(
+      (item) => item.user === emailWithoutQuotes
+    );
+
+    return filteredData;
+  }
+);
+
+export const createEducation = createAsyncThunk(
+  "education/createEducation",
+  async ({ education }, { dispatch }) => {
+    const config = getAuthConfig();
+    const newEduc = new FormData();
+    newEduc.append("school", education.school);
+    newEduc.append("degree", education.degree);
+    newEduc.append("field_of_study", education.field_of_study);
+    newEduc.append("description", education.description);
+    const { data } = await axios.post(
+      `${API}/e_h/education_history/`,
+      newEduc,
+      config ? config : null
+    );
+    dispatch(getEducations());
+    return data;
+  }
+);
+
+export const editEducation = createAsyncThunk(
+  "education/editEducation",
+  async ({ education, id }, { dispatch }) => {
+    const config = getAuthConfig();
+    let formData = new FormData();
+    formData.append("school", education.school);
+    formData.append("degree", education.degree);
+    formData.append("field_of_study", education.field_of_study);
+    formData.append("description", education.description);
+    let { data } = await axios.patch(
+      `${API}/e_h/education_history/${id}/`,
+      formData,
+      config ? config : null
+    );
+    dispatch(getEducations());
+    return { data };
   }
 );

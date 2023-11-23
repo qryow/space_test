@@ -2,9 +2,7 @@ import React, { useState, useEffect } from "react";
 import style from "./styles/ProfileModals.module.css";
 import { useSelector, useDispatch } from "react-redux";
 import { getCountries } from "../../../store/countries/CountriesActions";
-import { editProfile } from "../../../store/profile/ProfileActions";
-import { getProfile } from "../../../store/profile/ProfileActions";
-
+import { editProfile, getProfile } from "../../../store/profile/ProfileActions";
 import arrowDown from "../../../img/ArrowDown.svg";
 
 const EditName = ({ activeName, setActiveName }) => {

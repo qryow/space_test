@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import style from "./styles/ProfileModals.module.css";
 import arrowDown from "../../../img/ArrowDown.svg";
 import { useDispatch } from "react-redux";
