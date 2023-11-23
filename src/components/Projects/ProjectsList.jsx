@@ -8,29 +8,29 @@ import MainHeader from "../Main/MainHeader";
 import style from "./ProjectsItemStyles.module.css";
 
 const ProjectsList = () => {
-    const dispatch = useDispatch();
-    const navigate = useNavigate();
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
 
-    const { projects, loading } = useSelector((state) => state.projects);
-    useEffect(() => {
-        dispatch(getProjects());
-    }, []);
-    // console.log(projects);
-    return (
-        <div className={style.mainDiv}>
-            <MainNavbar />
+  const { projects, loading } = useSelector((state) => state.projects);
+  useEffect(() => {
+    dispatch(getProjects());
+  }, []);
+  // console.log(projects);
+  return (
+    <div className={style.mainDiv}>
+      <MainNavbar />
 
-            {loading ? (
-                <h2>loading...</h2>
-            ) : (
-                <div className={style.projectList}>
-                    {projects.map((item, index) => (
-                        <ProjectsItem key={index} item={item} />
-                    ))}
-                </div>
-            )}
+      {loading ? (
+        <h2>loading...</h2>
+      ) : (
+        <div className={style.projectList}>
+          {projects.map((item, index) => (
+            <ProjectsItem key={index} item={item} />
+          ))}
         </div>
-    );
+      )}
+    </div>
+  );
 };
 
 export default ProjectsList;
