@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import style from "./styles/ProfileModals.module.css";
 import { useSelector, useDispatch } from "react-redux";
 import { getLanguages } from "../../../store/profile/ProfileActions";
@@ -6,10 +6,12 @@ import EditLangItem from "./EditLangItem";
 
 const EditLang = ({ editLangModal, setEditLangModal }) => {
   const { languages, loading } = useSelector((state) => state.profile);
+  const [func, setFunc] = useState(false);
   const dispatch = useDispatch();
 
   const handleSave = () => {
-    alert("Функция кнопки выполнена!");
+    setFunc(!func);
+    setEditLangModal(false);
   };
 
   useEffect(() => {
@@ -55,6 +57,7 @@ const EditLang = ({ editLangModal, setEditLangModal }) => {
                   key={lang.id}
                   lang={lang}
                   handleSave={handleSave}
+                  func={func}
                 />
               ))
             ) : (
