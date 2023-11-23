@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import { getProjects } from "../../../store/projects/ProjectsActions";
+import { getProjects } from "../../../store/projects/projectsActions";
 import { useDispatch, useSelector } from "react-redux";
 import ProjectItem from "./ProjectItem";
 import style from "./styles/Projects.module.css";
