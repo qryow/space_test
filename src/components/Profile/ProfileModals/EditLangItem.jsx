@@ -6,7 +6,9 @@ import deleteBtn from "../../../img/profile/delete.svg";
 import arrowDown from "../../../img/ArrowDown.svg";
 import { deleteLanguage } from "../../../store/profile/ProfileActions";
 
+
 const EditLangItem = ({ lang, handleSave, func }) => {
+
   const dispatch = useDispatch();
   console.log(lang);
 
@@ -22,7 +24,6 @@ const EditLangItem = ({ lang, handleSave, func }) => {
       languages_level: level,
     };
     dispatch(editLanguage({ language: editedLang, id: lang.id }));
-    console.log("workeddd");
   };
 
   const toggleRotation = () => {
@@ -31,6 +32,7 @@ const EditLangItem = ({ lang, handleSave, func }) => {
   useEffect(() => {
     handleSaveClick();
   }, [func, handleSave]);
+
 
   useEffect(() => {
     setLanguage(lang.languages);
