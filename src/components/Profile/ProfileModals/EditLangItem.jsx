@@ -22,7 +22,6 @@ const EditLangItem = ({ lang, handleSave, func }) => {
       languages_level: level,
     };
     dispatch(editLanguage({ language: editedLang, id: lang.id }));
-    console.log("workeddd");
   };
 
   const toggleRotation = () => {
