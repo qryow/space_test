@@ -156,6 +156,9 @@
   display: flex;
   justify-content: space-between;
 }
+.lang > * {
+  margin: 10px 0;
+}
 .education__blocks {
   margin-top: 30px;
   min-height: 120px;

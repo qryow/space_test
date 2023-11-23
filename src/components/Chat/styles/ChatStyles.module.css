@@ -1,7 +1,7 @@
 /*///////////// Chat bar ///////////*/
 .chatbar__input {
    display: flex;
-width: 280px;
+width: 300px;
 height: 50px;
 padding: 15px 20px;
 justify-content: center;
@@ -25,7 +25,7 @@ color: white;
  }
 .chatbar__top {
    display: flex;
-   width: 280px;
+   width: 300px;
 height: 34px;
 justify-content: space-between;
 align-items: center;
@@ -51,7 +51,7 @@ flex-shrink: 0;
 }
 .bar__tab {
    display: flex;
-width: 130px;
+width: 140px;
 padding: 8px 0px;
 justify-content: center;
 align-items: center;
@@ -69,7 +69,7 @@ line-height: normal;
 }
 .bar__tabfalse {
    display: flex;
-width: 130px;
+width: 140px;
 padding: 8px 0px;
 justify-content: center;
 align-items: center;
@@ -99,7 +99,7 @@ align-items: center;
 }
 .chatuser {
    display: flex;
-width: 271px;
+width: 291px;
 padding: 10px 0px;
 align-items: flex-start;
 gap: 8px;
@@ -111,13 +111,13 @@ border-right: 3px rgb(204, 29, 176) solid;  */
 }
 .nametime {
    display: flex;
-width: 200px;
+width: 220px;
 justify-content: space-between;
 align-items: center;
 }
 .bar__topside {
    display: flex;
-width: 300px;
+width: 320px;
 height: 759px;
 padding: 10px 0px;
 flex-direction: column;
@@ -195,7 +195,8 @@ line-height: normal;
 }
 .chatbody {
    display: flex;
-   width: 798px;
+   /* width: 798px; */
+   width: 778px;
    /* width: 60%; */
    height: 759px;
    flex-direction: column;
@@ -257,9 +258,9 @@ justify-content: center;
 align-items: flex-end;
 gap: 4px;
 border-radius: 12px;
-margin-right: -10px;
+margin-right: -6px;
 background: linear-gradient(0deg, #432738 0%, #432738 100%), var(--w, #FFF);
-max-width: 500px
+max-width: 470px
 }
 .chat__message {
    display: flex;
@@ -276,7 +277,7 @@ align-items: flex-start;
 gap: 4px;
 border-radius: 12px;
 background: #333;
-max-width: 500px
+max-width: 470px
 
 }
 .left__message {

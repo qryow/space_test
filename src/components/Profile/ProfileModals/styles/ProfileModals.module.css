@@ -6,64 +6,68 @@
 }
 /* !edit name */
 
-.editName{
-    height: 100vh;
-    width: 100%;
-    background-color: rgba(0, 0, 0, 0.6);
-    position: fixed;
-    top: 0;
-    left: 0;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    opacity: 1;
-    pointer-events: none;
-    transition: 0.2s;
-    z-index: 2;
-    opacity: 0;
-    backdrop-filter: blur(5px);
+.editName {
+  height: 100vh;
+  width: 100%;
+  background-color: rgba(0, 0, 0, 0.6);
+  position: fixed;
+  top: 0;
+  left: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  pointer-events: none;
+  transition: 0.2s;
+  z-index: 2;
+  opacity: 0;
+  backdrop-filter: blur(5px);
 }
 
 .editName.activeName {
-    opacity: 1;
-    pointer-events: all;
+  opacity: 1;
+  pointer-events: all;
 }
 
 .editName__content {
-    padding: 100px;
-    border-radius: 30px;
-    background-color: #32292E;
-    width: 90%;
-    height: 160vh;
-    transform: scale(0);
-    transition: 0.4s all;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-  }
-  .active {
-    transform: scale(0.5);
-  }
-
-.name__block{
-    width: 100%;
-    height: 200px;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
+  padding: 100px;
+  border-radius: 30px;
+  background-color: #32292e;
+  width: 90%;
+  height: 160vh;
+  transform: scale(0);
+  transition: 0.4s all;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+.active {
+  transform: scale(0.5);
 }
 
 .name__block {
   width: 100%;
-  height: 100px;
+  height: 200px;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
 }
 
+.name__wrapp {
+  width: 100%;
+  height: auto;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.h3 {
+  font-size: 35px;
+}
+
 .name__input {
-  padding: 20px;
-  font-size: 20px;
+  padding: 40px;
+  font-size: 35px;
   border-radius: 20px;
   border: 2px solid #dadada59;
   background: none;
@@ -90,25 +94,23 @@
 }
 
 .name__button1 {
-  padding: 10px 40px;
+  padding: 20px 60px;
   border-radius: 50px;
   margin-right: 50px;
-  font-size: 25px;
+  font-size: 50px;
   background: none;
   border: 2px solid #bbbbbb;
   cursor: pointer;
 }
 
 .name__button2 {
-  padding: 20px 40px;
+  padding: 20px 60px;
   border-radius: 50px;
-  font-size: 25px;
+  font-size: 50px;
   background: linear-gradient(to right, #cc1db0 0%, #cd2c3f 100%);
   border: none;
   cursor: pointer;
 }
-
-
 
 .country__wrapper {
   width: 100%;
@@ -125,39 +127,39 @@
   position: relative;
 }
 .drop__input {
+  padding: 40px;
+  font-size: 35px;
   width: 100%;
-  height: 70px;
-  padding-left: 20px;
   background-color: transparent;
   border: 2px solid #dadada59;
   border-radius: 20px;
   outline: none;
-  font-size: 20px;
   cursor: pointer;
 }
 .arrow__down {
+  width: 35px;
   position: absolute;
-  margin-top: 25px;
+  margin-top: 50px;
   right: 5%;
   transition: 0.5s;
   cursor: pointer;
 }
 .arrow__up {
+  width: 35px;
   position: absolute;
-  margin-top: 25px;
+  margin-top: 50px;
   right: 5%;
   rotate: 180deg;
   transition: 0.5s;
   cursor: pointer;
 }
 
-
 .countries__list {
   position: absolute;
   background-color: #333333;
   z-index: 10;
   width: 100%;
-  height: 300px;
+  height: 350px;
   overflow-y: scroll;
   border: 1px solid #888888;
   border-radius: 5px;
@@ -188,7 +190,7 @@
 
 .one__country {
   width: 100%;
-  height: 60px;
+  height: 80px;
   display: flex;
   align-items: center;
   padding: 0px 25px;
@@ -202,7 +204,169 @@
   margin-right: 20px;
 }
 .country__name {
-  font-family: 'Roboto', sans-serif;
+  font-family: "Roboto", sans-serif;
   font-weight: 400;
-  font-size: 18px;
+  font-size: 30px;
+}
+
+/* !Create Lang */
+
+.langModal {
+  height: 100vh;
+  width: 100%;
+  background-color: rgba(0, 0, 0, 0.6);
+  position: fixed;
+  top: 0;
+  left: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  pointer-events: none;
+  transition: 0.2s;
+  z-index: 2;
+  backdrop-filter: blur(5px);
+}
+
+.langModal.activeLang {
+  opacity: 1;
+  pointer-events: all;
+}
+
+.createLang__content {
+  padding: 100px;
+  border-radius: 30px;
+  background-color: #32292e;
+  width: 90%;
+  min-height: 90vh;
+  transform: scale(0);
+  transition: 0.4s all;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.active {
+  transform: scale(0.5);
+}
+
+.lang_up {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+}
+.lang_up__block {
+  width: 45%;
+}
+
+.createLangInp {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+}
+.createLangInp > div {
+  width: 45%;
+  display: flex;
+  justify-content: start;
+  position: relative;
+}
+
+.createLang__content input {
+  width: 100%;
+  padding: 40px;
+  font-size: 35px;
+  border-radius: 20px;
+  border: 2px solid #dadada59;
+  background: none;
+}
+
+.lang_up,
+.lang_up2 h3 {
+  font-size: 35px;
+  font-size: 500;
+}
+
+/* !Edit Lang  */
+.lang__down {
+  min-height: 50vh;
+  overflow-y: auto;
+  margin: 20px 0;
+  position: relative;
+}
+.lang__down > .p {
+  position: absolute;
+  font-size: 30px;
+  top: 50%;
+  right: 40%;
+}
+
+.lang_up2 {
+  display: flex;
+  justify-content: space-between;
+  width: 62%;
+}
+
+.lang__item > button {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 15px;
+  border-radius: 50%;
+  background-color: #444444;
+  cursor: pointer;
+  border: none;
+}
+
+.lang__item > button > img {
+  width: 60px;
+}
+
+/* Lang item */
+
+.lang__item {
+  width: 100%;
+  min-height: 100px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin: 50px 0;
+}
+
+.lang__item__inputs {
+  width: 90%;
+  display: flex;
+  justify-content: space-between;
+}
+
+.lang__item__input {
+  width: 100%;
+  display: flex;
+  justify-content: start;
+  position: relative;
+}
+
+.lang__item__input > div {
+  width: 100%;
+  position: relative;
+}
+
+.lang__item__input > input,
+select {
+  width: 90%;
+  padding: 40px;
+  font-size: 35px;
+  border-radius: 20px;
+  border: 2px solid #dadada59;
+}
+
+.dropdown {
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  outline: none;
+  background-color: #32292e;
+}
+
+.langArrowBtn {
+  right: 20%;
 }

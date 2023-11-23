@@ -1,14 +1,16 @@
 * {
-  box-sizing: border-box;
-  margin: 0;
-  padding: 0;
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    user-select: none;
 }
 
-ul, ol {
-  padding: 0;
-  margin: 0;
+ul,
+ol {
+    padding: 0;
+    margin: 0;
 }
 
 li {
-  list-style-type: none;
+    list-style-type: none;
 }

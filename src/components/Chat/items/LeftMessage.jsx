@@ -2,18 +2,20 @@ import React, { useState } from 'react';
 import style from '../styles/ChatStyles.module.css'
 
 
-const LeftMessage = () => {
+const LeftMessage = ({msgs,lastMessageRef}) => {
    const [showOptions, setShowOptions] = useState(false)
    const clickOptions = () => {
       setShowOptions(!showOptions)
    }
+   console.log(msgs);
 
    return (
       <div>
-          <div className={style.left__message}>
+         {msgs ? 
+          <div className={style.left__message} ref={lastMessageRef}>
                      <div className={style.message__recipient}>
                         <div>
-                           <p className={style.sender__text}>sadfsafsd</p>
+                           <p className={style.sender__text}>{msgs?.text}</p>
                            <div className={style.time__bar}>
                               19:00
                            </div>
@@ -46,6 +48,7 @@ const LeftMessage = () => {
                         </div>
                      </div>
                   </div>
+        : null}
       </div>
    );
 };

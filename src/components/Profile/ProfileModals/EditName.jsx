@@ -3,89 +3,146 @@ import style from "./styles/ProfileModals.module.css";
 import { useSelector, useDispatch } from "react-redux";
 import { getCountries } from "../../../store/countries/CountriesActions";
 import { editProfile } from "../../../store/profile/ProfileActions";
+import { getProfile } from "../../../store/profile/ProfileActions";
 
 import arrowDown from "../../../img/ArrowDown.svg";
 
-const EditName = ({ activeName, setActiveName, user }) => {
-  const [oneUser, setOneUser] = useState(user);
-  const { countries } = useSelector((state) => state.countries);
-  const [selectedCountry, setSelectedCountry] = useState();
-  const [filteredCountries, setFilteredCountries] = useState(countries);
-  const [countryDropdown, setCountryDropdown] = useState(true);
+const EditName = ({ activeName, setActiveName }) => {
+  const { profile, countries } = useSelector((state) => ({
+    profile: state.profile.profile,
+    countries: state.countries.countries,
+  }));
 
-  const profileId = ''
+  const [username, setUsername] = useState(profile.username);
+  const [firstName, setFirstName] = useState(profile.first_name);
+  const [professions, setProfessions] = useState(profile.professions);
+  const [selectedCountry, setSelectedCountry] = useState(profile.country);
+  const [last, setLast] = useState(profile.last_name);
+  const [filteredCountries, setFilteredCountries] = useState([]);
+  const [countryDropdown, setCountryDropdown] = useState(true);
+  const [area, setArea] = useState(profile.arial);
+
+  const profileId = profile.id;
+  const dispatch = useDispatch();
 
   const handleCountryClick = (country) => {
     setSelectedCountry(country);
     setCountryDropdown(true);
-
-    setOneUser({ ...oneUser, country });
   };
 
   const handleInputChange = (e) => {
     const inputValue = e.target.value;
     setSelectedCountry(inputValue);
 
-    setOneUser({ ...oneUser, country: inputValue });
-
-    const filtered = countries.filter((country) =>
-      country.name.common.toLowerCase().includes(inputValue.toLowerCase())
-    );
+    const filtered = countries
+      ? countries.filter((country) =>
+          country.name.common.toLowerCase().includes(inputValue.toLowerCase())
+        )
+      : [];
     setFilteredCountries(filtered);
   };
 
-  const dispatch = useDispatch();
+  const handleSave = () => {
+    const editedProfile = {
+      id: profileId,
+      username,
+      first_name: firstName,
+      professions,
+      country: selectedCountry,
+      arial: area,
+      last_name: last,
+    };
+
+    dispatch(editProfile({ editedObj: editedProfile, id: profileId }));
+  };
+
+  useEffect(() => {
+    setUsername(profile.username);
+    setFirstName(profile.first_name);
+    setProfessions(profile.professions);
+    setSelectedCountry(profile.country);
+    setArea(profile.arial);
+    setLast(profile.last_name);
+  }, [profile]);
 
   useEffect(() => {
     dispatch(getCountries());
-  }, []);
+    dispatch(getProfile());
+  }, [dispatch]);
 
   useEffect(() => {
-    setFilteredCountries(countries);
+    if (countries) {
+      setFilteredCountries(countries);
+    }
   }, [countries]);
 
   return (
-    <div className={ activeName ? `${style.editName} ${style.activeName}` : `${style.editName}` } onClick={(e) => { setActiveName(false); e.stopPropagation(); }}>
-      <div className={activeName ? `${style.editName__content} ${style.active}` : `${style.editName__content}` } onClick={(e) => e.stopPropagation()} >
+    <div
+      className={
+        activeName
+          ? `${style.editName} ${style.activeName}`
+          : `${style.editName}`
+      }
+      onClick={(e) => {
+        setActiveName(false);
+        e.stopPropagation();
+      }}
+    >
+      <div
+        className={
+          activeName
+            ? `${style.editName__content} ${style.active}`
+            : `${style.editName__content}`
+        }
+        onClick={(e) => e.stopPropagation()}
+      >
         <div className={style.name__block}>
-          <h3>Username</h3>
+          <h3 className={style.h3}>Username</h3>
           <input
             className={style.name__input}
-            //value={oneUser.username}
+            value={username}
             type="text"
             placeholder="@username"
-            onChange={(e) =>
-              setOneUser({ ...oneUser, username: e.target.value })
-            }
+            onChange={(e) => setUsername(e.target.value)}
           />
         </div>
-        <div className={style.name__block}>
-          <h3>Name</h3>
-          <input
-            className={style.name__input}
-            //value={oneUser.first_name}
-            type="text"
-            placeholder="Username"
-            onChange={(e) =>
-              setOneUser({ ...oneUser, first_name: e.target.value })
-            }
-          />
+        <div className={style.name__wrapp}>
+          <div className={style.name__block2_block}>
+            <h3 className={style.h3}>Name</h3>
+            <input
+              className={style.name__input}
+              value={firstName}
+              type="text"
+              placeholder="Username"
+              onChange={(e) => setFirstName(e.target.value)}
+            />
+          </div>
+
+          <div className={style.name__block2_block}>
+            <h3 className={style.h3}>Last name</h3>
+            <input
+              className={style.name__input}
+              value={last}
+              type="text"
+              placeholder="Last name"
+              onChange={(e) => setLast(e.target.value)}
+            />
+          </div>
         </div>
+
         <div className={style.name__block}>
-          <h3>Professional role</h3>
+          <h3 className={style.h3}>Professional role</h3>
           <input
             className={style.name__input}
-            //value={oneUser.professions}
+            value={professions}
             type="text"
             placeholder="Professional role"
-            onChange={(e) =>
-              setOneUser({ ...oneUser, professions: e.target.value })
-            }
+            onChange={(e) => setProfessions(e.target.value)}
           />
         </div>
         <div className={style.country__wrapper}>
           <div className={style.input__drop}>
-            <h3 className={style.input__title}>Country</h3>
+            <h3 className={style.h3}>Country</h3>
             <div>
               <input
                 placeholder="Choose country"
@@ -134,17 +191,32 @@ const EditName = ({ activeName, setActiveName, user }) => {
             </div>
           </div>
           <div className={style.name__block2_block}>
-            <h3>Area</h3>
+            <h3 className={style.h3}>Area</h3>
             <input
               className={style.name__input}
-              //value={oneUser.arial}
+              value={area}
               type="text"
               placeholder="Enter your area"
-              onChange={(e) =>
-                setOneUser({ ...oneUser, arial: e.target.value })
-              }
+              onChange={(e) => setArea(e.target.value)}
             />
           </div>
+        </div>
+        <div className={style.name__buttons}>
+          <button
+            className={style.name__button1}
+            onClick={(e) => setActiveName(false)}
+          >
+            Cancel
+          </button>
+          <button
+            className={style.name__button2}
+            onClick={(e) => {
+              handleSave();
+              setActiveName(false);
+            }}
+          >
+            Save
+          </button>
         </div>
       </div>
     </div>
