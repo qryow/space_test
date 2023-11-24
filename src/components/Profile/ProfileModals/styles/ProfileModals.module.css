@@ -250,7 +250,8 @@
   transform: scale(0.5);
 }
 
-.lang_up {
+.lang_up,
+.social_up {
   display: flex;
   justify-content: space-between;
   width: 100%;
@@ -281,7 +282,8 @@
 }
 
 .lang_up,
-.lang_up2 h3 {
+.lang_up2,
+.social_up h3 {
   font-size: 35px;
   font-size: 500;
 }
@@ -369,4 +371,70 @@ select {
 
 .langArrowBtn {
   right: 20%;
+}
+
+/* !Create Education */
+
+.editEducation__content {
+  padding: 100px;
+  border-radius: 30px;
+  background-color: #32292e;
+  width: 90%;
+  height: 160vh;
+  transform: scale(0);
+  transition: 0.4s all;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+.active {
+  transform: scale(0.5);
+}
+
+.create_education__block {
+  width: 100%;
+  height: 200px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.create_education__block > h3 {
+  font-size: 35px;
+}
+
+.create_education__block > input {
+  width: 100%;
+  padding: 40px;
+  font-size: 35px;
+  border-radius: 20px;
+  border: 2px solid #dadada59;
+  background: none;
+}
+
+/* !Create Social */
+
+.social_up__block {
+  width: 50%;
+}
+
+.createSocialInp {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+}
+.createSocialInp > div {
+  width: 100%;
+  display: flex;
+  justify-content: start;
+  position: relative;
+}
+
+.createSocialInp input {
+  width: 100%;
+  padding: 40px;
+  font-size: 35px;
+  border-radius: 20px;
+  border: 2px solid #dadada59;
+  background: none;
 }

@@ -1,5 +1,10 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { editProfile, getProfile, getLanguages } from "./ProfileActions";
+import {
+  editProfile,
+  getProfile,
+  getLanguages,
+  getEducations,
+} from "./ProfileActions";
 
 const ProfileSlice = createSlice({
   name: "profile",
@@ -8,6 +13,7 @@ const ProfileSlice = createSlice({
     error: null,
     profile: [],
     languages: [],
+    educations: [],
   },
   reducers: {},
   extraReducers: (builder) => {
@@ -38,6 +44,10 @@ const ProfileSlice = createSlice({
       .addCase(getLanguages.fulfilled, (state, action) => {
         state.loading = false;
         state.languages = action.payload;
+      })
+      .addCase(getEducations.fulfilled, (state, action) => {
+        state.loading = false;
+        state.educations = action.payload;
       });
   },
 });

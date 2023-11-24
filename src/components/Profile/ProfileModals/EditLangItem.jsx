@@ -6,11 +6,12 @@ import deleteBtn from "../../../img/profile/delete.svg";
 import arrowDown from "../../../img/ArrowDown.svg";
 import { deleteLanguage } from "../../../store/profile/ProfileActions";
 
-const EditLangItem = ({ lang, handleSave,func }) => {
+const EditLangItem = ({ lang, handleSave, func }) => {
   const dispatch = useDispatch();
+  console.log(lang);
 
-  const [language, setLanguage] = useState(lang.languages);
-  const [level, setLevel] = useState(lang.languages_level);
+  const [language, setLanguage] = useState(lang.languages || "");
+  const [level, setLevel] = useState(lang.languages_level || "");
   const [isRotated, setIsRotated] = useState(false);
   
   
@@ -21,17 +22,15 @@ const EditLangItem = ({ lang, handleSave,func }) => {
       languages: language,
       languages_level: level,
     };
-    // dispatch(editLanguage({ language: editedLang, id: lang.id }));
-    console.log("workeddd");
+    dispatch(editLanguage({ language: editedLang, id: lang.id }));
   };
 
   const toggleRotation = () => {
     setIsRotated(!isRotated);
   };
   useEffect(() => {
-    
-    handleSaveClick()
-  },[func, handleSave]) 
+    handleSaveClick();
+  }, [func, handleSave]);
 
   useEffect(() => {
     setLanguage(lang.languages);
@@ -83,6 +82,7 @@ const EditLangItem = ({ lang, handleSave,func }) => {
           onClick={() => dispatch(deleteLanguage({ id: lang.id }))}
         />
       </button>
+      <button onClick={handleSaveClick}>save</button>
     </div>
   );
 };
