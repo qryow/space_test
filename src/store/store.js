@@ -6,6 +6,7 @@ import projectsSlice from "./projects/ProjectsSlice";
 import postsSlice from "./posts/PostsSlice";
 import { chatApi } from "./chat/chatApi";
 import { usersApi } from "./chat/usersApi";
+import chatSlice from "./chat/chatSlice";
 
 export default configureStore({
   middleware: (getDefaultMiddleware) =>
@@ -19,6 +20,8 @@ export default configureStore({
     profile: profileSlice,
     projects: projectsSlice,
     posts: postsSlice,
+    chat: chatSlice
     [chatApi.reducerPath]: chatApi.reducer,
   },
+
 });

@@ -1,4 +1,4 @@
-import React, { useRef, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import style from './styles/ChatStyles.module.css'
 import ChatFooter from './ChatFooter';
 import LeftMessage from './items/LeftMessage';
@@ -6,15 +6,73 @@ import RightMessage from './items/RightMessage';
 import GroupInfo from './group/GroupInfo';
 import Replying from './items/Replying';
 import GroupMessage from './items/GroupMessage';
+import { useDispatch, useSelector } from 'react-redux';
+import { getOneRoom, getRooms } from '../../store/chat/chatSlice';
 
 
-const ChatBody = () => {
- 
-const [groupInfo,setGroupInfo] = useState(false)
-
+const ChatBody = ({title,currentRoom, currUser}) => {
+   
+   const [groupInfo,setGroupInfo] = useState(false)
+   const [sortedMsgs,setSortedMsgs] = useState([])
+   const lastMessageRef = useRef(null)
+   const dispatch = useDispatch()
+   const roomdata = useSelector((state)  => state.chat.oneRoom)
+   console.log(roomdata);
+  
+   
 const clickGroupInfo = () => {
    setGroupInfo(true)
 }
+
+const [id, setId] = useState()
+  const chatroom = currentRoom
+
+
+
+useEffect(() => {
+   // Update id when currentRoom changes
+   if (currentRoom && currentRoom.id) {
+     setId(currentRoom.id);
+   }
+ }, [currentRoom]);
+
+ useEffect(() => {
+   const oneRoom = async () => {
+     // Check if id is not null before making the API call
+     if (id !== null) {
+       await dispatch(getOneRoom(id));
+     }
+   };
+   oneRoom();
+   console.log(id);
+ }, [id, dispatch]);
+
+ const oneRoomRer = async () => {
+   // Check if id is not null before making the API call
+   if (id !== null) {
+     await dispatch(getOneRoom(id));
+   }
+};
+
+useEffect(() => {
+
+   const sorted = Array.isArray(roomdata[0]?.messages)
+   ? [...roomdata[0]?.messages].sort((a, b) => new Date(a.timestamp) - new Date(b.timestamp))
+   : [];
+   setSortedMsgs(sorted)
+   console.log(sorted);
+},[roomdata])
+
+useEffect(() => {
+   console.log("Updated roomdata:", roomdata);
+}, [roomdata]);
+ console.log(roomdata);
+
+ useEffect(() => {
+   // 👇️ scroll to bottom every time messages change
+   lastMessageRef.current?.scrollIntoView({ behavior: 'smooth' });
+ }, [sortedMsgs]);
+
    return (             
       <div className={style.chatbody}>
          <div>
@@ -64,12 +122,14 @@ const clickGroupInfo = () => {
             <div className={style.message__container}>
                <div className={style.scrollbar}>
                   <div className={style.msgs__list}>
-
+                     {/* {Array.isArray(roomdata[0]?.messages) && roomdata[0].messages.map(msgs => {
+                        return <LeftMessage key={msgs.id} {...msgs}/>
+                     })} */}
+                  {/* ////////////////// */}
+                  {Array.isArray(sortedMsgs) && sortedMsgs.map(msgs => (
+                     <LeftMessage key={msgs.id} msgs={msgs} lastMessageRef={lastMessageRef}/>
+                  ))}
                   
-                 
-                  <LeftMessage/>
-                  
-
                   </div>
                {groupInfo ? 
             <GroupInfo groupInfo={groupInfo}  setGroupInfo={setGroupInfo}/>
@@ -78,7 +138,7 @@ const clickGroupInfo = () => {
             </div>
          </div>
          {/* <Replying/> */}
-         <ChatFooter/>
+         <ChatFooter currentRoom={currentRoom} oneRoomRer={oneRoomRer}/>
       </div>
    );
 };

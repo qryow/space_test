@@ -13,7 +13,8 @@ const EditLangItem = ({ lang, handleSave, func }) => {
   const [language, setLanguage] = useState(lang.languages || "");
   const [level, setLevel] = useState(lang.languages_level || "");
   const [isRotated, setIsRotated] = useState(false);
-
+  
+  
   const handleSaveClick = () => {
     const editedLang = {
       id: lang.id,

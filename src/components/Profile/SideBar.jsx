@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import style from "./styles/ProfileStyles.module.css";
-import { Link, useLocation } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 
 import profileActive from "../../img/profile/profile.svg";
 import massangerActive from "../../img/profile/messageActive.svg";
@@ -44,7 +44,11 @@ const SideBar = () => {
   console.log(educations);
 
   const dispatch = useDispatch();
+  const navigate = useNavigate()
 
+  const handleChat = () => {
+    navigate('/chat')
+  }
   useEffect(() => {
     dispatch(getProfile());
     dispatch(getLanguages());
@@ -90,7 +94,8 @@ const SideBar = () => {
                 }`}
                 alt=""
               />
-              <h4
+
+              <h4 onClick={handleChat}
                 className={`${style.nav__title} ${
                   location.pathname === "/massenger" ? style.active__text : ""
                 }`}
