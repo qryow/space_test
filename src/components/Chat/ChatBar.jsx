@@ -102,35 +102,38 @@ useEffect(() => {
 usersDatafunc()
 }, [])
 ///////////////////////////////////
+
+
 useEffect(() => {
-   const groupsDataFunc = async (e) => {
-   try {
+   const groupsDataFunc = async () => {
+      try {
+         if (currUser && currUser.id && rooms && rooms.length > 0) {
+            // Flatten the rooms array
+            const allRooms = rooms.flat();
 
-      if (currUser && currUser.id) {
-         console.log('currUser.id:', currUser.id);
+            // Filter rooms where currUser.id is among participants
+            const userGroups = allRooms.filter(
+               (group) =>
+                  group.participants.includes(currUser.id) &&
+                  group.title.startsWith('grouptag')
+            );
 
-         // Filter rooms where currUser.id is among participants
-         const userGroups = rooms[0].filter((group) =>
-           group.participants.includes(currUser.id)
-            && group.title.startsWith('grouptag')
-         );
+            // Set the filtered groups to groupsFil
+            setGroupsFil(userGroups);
+            console.log('userGroups:', userGroups);
+         } else {
+            console.log('currUser is not defined or does not have an id property, or rooms is undefined or empty');
+         }
+      } catch (error) {
+         console.error(error);
+      }
+   };
 
-         // Set the filtered groups to groupsFil
-         setGroupsFil(userGroups);
-         console.log('userGroups:', userGroups);
-       } else {
-         console.log('currUser is not defined or does not have an id property');
-       }
-   } catch (error) {
-      console.error(error);
-   } 
-};
+   groupsDataFunc();
+}, [currUser, rooms]);
+
 console.log(groupsFil);
-
-groupsDataFunc()
-}, [currUser])
-
-console.log(groupsFil);
+console.log(currUser);
 /////////////////////////////////
 
 

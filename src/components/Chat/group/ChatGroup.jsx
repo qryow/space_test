@@ -1,12 +1,29 @@
-import React from 'react';
+import React, { useState } from 'react';
 import style from '../styles/ChatStyles.module.css'
 
-const ChatGroup = ({title}) => {
+const ChatGroup = ({title,messages,id}) => {
    // console.log(title);
    const newStr = title.substring(8)
    console.log(newStr);
+   const lastmsg = messages.slice(-1)
+   console.log(lastmsg[0]?.text);
+   console.log(lastmsg && lastmsg[0]);
+
+   const [selectedUserId, setSelectedUserId] = useState(null);
+
+   const handleUserClick = () => {
+   //   setSelectedUserId(id);
+   // ///////
+   if (selectedUserId === id) {
+      // If the same user is clicked again, unselect it
+      setSelectedUserId(null);
+    } else {
+      setSelectedUserId(id);
+    }
+   };
    return (
-      <div className={style.chatuser}>
+      <div className={` ${selectedUserId === id ? style.chatuser__grad : style.chatuser}`}
+      onClick={handleUserClick}>
          <div className={style.pfp__circle}>
             <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20" fill="none">
                <path d="M14.1666 13.5229C16.1086 13.9805 17.5 15.2153 17.5 16.6666" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
