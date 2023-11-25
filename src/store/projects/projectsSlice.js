@@ -1,18 +1,16 @@
-import { createSlice } from "@reduxjs/toolkit";
-import { getProjects, createProject } from "./projectsActions";
+import { createSlice, isActionCreator } from "@reduxjs/toolkit";
+import { getProjects } from "./ProjectsActions";
 
 const projectsSlice = createSlice({
     name: "projects",
     initialState: {
-        projects: [],
+        currentAccount: null,
+        status: "",
         loading: false,
-        oneProject: null,
+        projects: [],
+        error: "",
     },
-    reducers: {
-        clearOneProjectState: (state) => {
-            state.oneProject = null;
-        },
-    },
+    reducers: {},
     extraReducers: (builder) => {
         builder
             .addCase(getProjects.pending, (state) => {
@@ -20,18 +18,13 @@ const projectsSlice = createSlice({
             })
             .addCase(getProjects.fulfilled, (state, action) => {
                 state.loading = false;
-                state.projects = action.payload;
-                state.totalPages = Math.ceil(action.payload.count / 6);
-                console.log(action.payload);
+                state.projects = action.payload.data;
             })
-            .addCase(getProjects.rejected, (state) => {
+            .addCase(getProjects.rejected, (state, action) => {
                 state.loading = false;
-            })
-            .addCase(createProject.fulfilled, (_, action) => {
-                action.payload.navigate("/profile");
+                state.error = action.error.message;
             });
     },
 });
 
-export const { clearOneProjectState } = projectsSlice.actions;
 export default projectsSlice.reducer;
