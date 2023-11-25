@@ -34,14 +34,26 @@ export const getRooms = createAsyncThunk(
           Authorization,
         },
       };
-       const response = await axios.get(`https://server.space-hub.info/api/v1/chat/chatrooms/`,config);
-       // if (!response) {
-       //   throw new Error('Server Error');
-       // }
-       console.log(response);
- 
-       const data = await response.data
-       return data;
+      
+      let apiUrl = "https://server.space-hub.info/api/v1/chat/chatrooms/";
+      let allResults = [];
+      
+      while (apiUrl) {
+        const response = await axios.get(apiUrl, config);
+        const data = await response.data;
+
+        const results = data.results;
+
+        // Concatenate the results to the array
+        allResults = allResults.concat(results);
+
+        // Check if there is a next page
+        apiUrl = data.next;
+      }
+
+      console.log(allResults);
+
+      return allResults;
  
      } catch (error) {
        console.log(error);

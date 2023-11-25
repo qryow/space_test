@@ -11,13 +11,13 @@ import { getOneRoom, getRooms } from '../../store/chat/chatSlice';
 
 
 const ChatBody = ({title,currentRoom, currUser}) => {
+
    
    const [groupInfo,setGroupInfo] = useState(false)
    const [sortedMsgs,setSortedMsgs] = useState([])
    const lastMessageRef = useRef(null)
    const dispatch = useDispatch()
    const roomdata = useSelector((state)  => state.chat.oneRoom)
-   console.log(roomdata);
   
    
 const clickGroupInfo = () => {
@@ -26,13 +26,19 @@ const clickGroupInfo = () => {
 
 const [id, setId] = useState()
   const chatroom = currentRoom
+console.log(currentRoom);
+  const check =  () => {
+     console.log(currentRoom);
 
+  }
+  console.log(currentRoom);
 
-
-useEffect(() => {
+useEffect( () => {
    // Update id when currentRoom changes
+   check()
    if (currentRoom && currentRoom.id) {
-     setId(currentRoom.id);
+      setId(currentRoom.id);
+     console.log('asdf');
    }
  }, [currentRoom]);
 
@@ -72,6 +78,13 @@ useEffect(() => {
    // 👇️ scroll to bottom every time messages change
    lastMessageRef.current?.scrollIntoView({ behavior: 'smooth' });
  }, [sortedMsgs]);
+ if(currentRoom?.id > 0) {
+
+    if(currentRoom?.title.startsWith('grouptag'))  {
+       const newStr = currentRoom.title.substring(8)
+       console.log(newStr);
+      }
+}
 
    return (             
       <div className={style.chatbody}>
@@ -85,7 +98,9 @@ useEffect(() => {
                      </svg>
                   </div>
                   <div className={style.nameprofession}>
-                     <div className={style.username}>user name</div>
+                     <div className={style.username}>{ currentRoom?.id > -1 ? currentRoom.title.startsWith('grouptag') ? 
+                  currentRoom.title.substring(8) : currentRoom.title : null 
+                  }</div>
                      <div className={style.profession}>profession</div>
                   </div>
                </div>

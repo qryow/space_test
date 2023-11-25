@@ -2,6 +2,7 @@ import React from 'react';
 import style from '../styles/ChatStyles.module.css'
 
 const ChatUser = ({username}) => {
+
    return (
       <div className={style.chatuser}>
          <div className={style.pfp__circle}>

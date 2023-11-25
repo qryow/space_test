@@ -1,12 +1,34 @@
-import React from 'react';
+import React, { useState } from 'react';
 import style from '../styles/ChatStyles.module.css'
 import PinkBtn from '../items/PinkBtn';
+import { useDispatch } from 'react-redux';
+import { addPrivateChatRoom } from '../../../store/chat/chatSlice';
 
-const AddDesc = ({addDesk, setAddDesc,setCreateGroup}) => {
+const AddDesc = ({addDesk,members, setAddDesc,setCreateGroup}) => {
+   const [groupTitle, setGroupTitle] = useState('')
+   const dispatch = useDispatch();
+   console.log(groupTitle);
 
-   const clickAddDesc = () => {
+
+
+   const addGroup = async () => {
       setAddDesc(false)
       setCreateGroup(false)
+      const membersId = await members.map((i => i.id))
+      console.log(membersId);
+      await dispatch(
+         addPrivateChatRoom({
+            title:`grouptag${groupTitle}`,
+            particip: membersId,
+         })
+         );
+      }
+
+
+   const clickAddDesc = () => {
+      // setAddDesc(false)
+      // setCreateGroup(false)
+
    }
    return (
       <div>
@@ -19,7 +41,7 @@ const AddDesc = ({addDesk, setAddDesc,setCreateGroup}) => {
                </svg>
                <p className={style.top__info}>Edit</p>
             </div>
-            <div className={style.edit__circle}>
+            {/* <div className={style.edit__circle}>
                   
                      <svg style={{position:'absolute'}} xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 40 40" fill="none">
                      <path d="M15 17.9167C12.4666 17.9167 10.4166 15.8667 10.4166 13.3333C10.4166 10.8 12.4666 8.75 15 8.75C17.5333 8.75 19.5833 10.8 19.5833 13.3333C19.5833 15.8667 17.5333 17.9167 15 17.9167ZM15 11.25C13.85 11.25 12.9166 12.1833 12.9166 13.3333C12.9166 14.4833 13.85 15.4167 15 15.4167C16.15 15.4167 17.0833 14.4833 17.0833 13.3333C17.0833 12.1833 16.15 11.25 15 11.25Z" fill="white"/>
@@ -28,19 +50,20 @@ const AddDesc = ({addDesk, setAddDesc,setCreateGroup}) => {
                      <path d="M30.8334 14.1667C30.15 14.1667 29.5834 13.6 29.5834 12.9167V3.75C29.5834 3.06667 30.15 2.5 30.8334 2.5C31.5167 2.5 32.0834 3.06667 32.0834 3.75V12.9167C32.0834 13.6 31.5167 14.1667 30.8334 14.1667Z" fill="white"/>
                      <path d="M4.44996 32.8336C4.04996 32.8336 3.64996 32.6336 3.41663 32.2836C3.03329 31.7169 3.18329 30.9336 3.74996 30.5503L11.9666 25.0336C13.7666 23.8336 16.25 23.9669 17.8833 25.3503L18.4333 25.8336C19.2666 26.5503 20.6833 26.5503 21.5 25.8336L28.4333 19.8836C30.2166 18.3669 32.9833 18.3669 34.7666 19.8836L37.4833 22.2169C38 22.6669 38.0666 23.4503 37.6166 23.9836C37.1666 24.5003 36.3833 24.5669 35.85 24.1169L33.1333 21.7836C32.3 21.0669 30.8833 21.0669 30.0666 21.7836L23.1333 27.7336C21.3666 29.2503 18.5833 29.2503 16.8 27.7336L16.25 27.2503C15.4833 26.6003 14.2166 26.5336 13.3666 27.1169L5.16663 32.6336C4.93329 32.7669 4.68329 32.8336 4.44996 32.8336Z" fill="white"/>
                      </svg>
-                  </div>
+                  </div> */}
                      <div className={style.addinput__box}>
-                        <input type="text" className={style.add__input} placeholder='Group name'/>
-                        <input type="text" className={style.add__input} placeholder='Description'/>
+                        <input type="text" value={groupTitle}
+                        onChange={e => setGroupTitle(e.target.value)} className={style.add__input} placeholder='Group name'/>
+                        {/* <input type="text" className={style.add__input} placeholder='Description'/> */}
                      </div>
                   <div>
                     
                    
                   </div>
             
-            <div onClick={clickAddDesc}>
+            <div onClick={addGroup}>
 
-            <PinkBtn/>
+               <PinkBtn/>
             </div>
          </div>
       </div>

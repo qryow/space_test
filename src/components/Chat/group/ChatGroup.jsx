@@ -1,7 +1,10 @@
 import React from 'react';
-import style from './styles/ChatStyles.module.css'
+import style from '../styles/ChatStyles.module.css'
 
-const ChatGroup = () => {
+const ChatGroup = ({title}) => {
+   // console.log(title);
+   const newStr = title.substring(8)
+   console.log(newStr);
    return (
       <div className={style.chatuser}>
          <div className={style.pfp__circle}>
@@ -14,7 +17,7 @@ const ChatGroup = () => {
          </div>
          <div>
             <div className={style.nametime}>
-               <div className={style.username}>Group name</div>
+               <div className={style.username}>{newStr}</div>
                <div className={style.time__bar}>19:00</div>
             </div>
             <div className={style.msg__bar}>some msg</div>
