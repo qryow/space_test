@@ -1,12 +1,63 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import style from '../styles/ChatStyles.module.css'
 import GroupMembers from './GroupMembers';
 import PinkBtn from '../items/PinkBtn';
 import AddDesc from './AddDesc';
+import AddGroupMember from '../items/AddGroupMember';
+import { useDispatch, useSelector } from 'react-redux';
+import axios from 'axios';
 
 const CreateGroup = ({setCreateGroup}) => {
    const [addDesc,setAddDesc] = useState(false)
+   const [title, setTitle] = useState('')
+   const [particip, setParticip] = useState([])
+   const rooms = useSelector(state => state.chat.privateChatRooms);
+   const dispatch = useDispatch();
+   const [usersFil, setUsersFil] = useState([]);
+   const [currUser, setCurrUser] = useState([]);
+   const [members, setMembers] = useState([{id:2}])
+   const [chatRooms, setChatRooms] = useState([])
+   const [currentRoom, setCurrentRoom] = useState([])
+   const [allRes, setAllRes] = useState([])
+   console.log(members);
 
+        useEffect(() => {
+         const usersDatafunc = async (e) => {
+         try {
+      
+         const usersList = await axios('https://server.space-hub.info/api/v1/profile/profile/')
+         console.log(usersList);
+         const usersData = usersList.data
+         const storedEmail = JSON.parse(localStorage.getItem('account'));
+         const chatUser = usersData.results.find(user => user.user.toLowerCase() === storedEmail.toLowerCase());
+         setCurrUser(chatUser)
+         console.log(chatUser);
+         console.log(currUser);
+         // if(currUser.length > 0) {
+      
+            const usersFilt = usersData.results.filter((user) => 
+            user.user !== chatUser.user
+            ) 
+            const usersFiltTwo = usersFilt.filter((user) => 
+            user.user !== 'admin@gmail.com'
+            ) 
+            // ) 
+            setUsersFil(usersFiltTwo)
+            console.log(usersFil);
+            console.log(currUser);
+            // if(currUser.id !== undefined) {
+
+               await setMembers(((prevMembers) => [...prevMembers, { id: chatUser.id }]))
+            // }
+         // }
+         } catch (error) {
+            console.error(error);
+         } 
+      };
+      usersDatafunc()
+}, [])     
+
+   console.log(particip);
    const clickAddDesc = () => {
       setAddDesc(true)
    }
@@ -22,7 +73,8 @@ const CreateGroup = ({setCreateGroup}) => {
     };
    return (
       <div>
-         {addDesc ? <AddDesc addDesc={addDesc} setAddDesc={setAddDesc} setCreateGroup={setCreateGroup}/> : 
+         {addDesc ? <AddDesc addDesc={addDesc} members={members}
+         setAddDesc={setAddDesc} setCreateGroup={setCreateGroup}/> : 
          <div className={style.bar__topside}>
             
             <div className={style.addmembers__top}>
@@ -46,20 +98,14 @@ const CreateGroup = ({setCreateGroup}) => {
                </div>
             </div>
             <div className={style.members__list}>
-               <div className={style.square}></div>
-               {/* <input type="checkbox" className={style.square} /> */}
-               <div className={style.usertab__box}>
-                  <div className={style.pfp__circle}>
-                     <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20" fill="none">
-                        <path d="M4.16667 17.4998C4.16667 14.2782 6.77834 11.6665 10 11.6665C13.2217 11.6665 15.8333 14.2782 15.8333 17.4998" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                        <path d="M10 9.16667C11.841 9.16667 13.3333 7.67428 13.3333 5.83333C13.3333 3.99238 11.841 2.5 10 2.5C8.15905 2.5 6.66667 3.99238 6.66667 5.83333C6.66667 7.67428 8.15905 9.16667 10 9.16667Z" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                     </svg>
-                  </div>
-                  <div className={style.nameprofession}>
-                     <div className={style.username}>username</div>
-                     <div className={style.profession}>profession</div>
-                  </div>
-               </div>
+            {usersFil && usersFil.map(user => {
+                           return (
+                              <div key={user.id}>
+                                 <AddGroupMember members={members} setMembers={setMembers} user={user}/>
+                              </div>
+
+                           ) 
+                        })}
             </div>
             <div onClick={clickAddDesc}>
                <PinkBtn/>

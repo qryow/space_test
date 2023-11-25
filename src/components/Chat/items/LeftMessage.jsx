@@ -7,7 +7,7 @@ const LeftMessage = ({msgs,lastMessageRef}) => {
    const clickOptions = () => {
       setShowOptions(!showOptions)
    }
-   console.log(msgs);
+   // console.log(msgs);
 
    return (
       <div>

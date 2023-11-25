@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import style from './styles/ChatStyles.module.css'
 import ChatUser from './items/ChatUser';
-import ChatGroup from './ChatGroup';
+import ChatGroup from './group/ChatGroup';
 import CreateGroup from './group/CreateGroup';
 import axios from 'axios';
 import { useDispatch, useSelector } from 'react-redux';
@@ -23,11 +23,14 @@ const ChatBar = () => {
    const [particip, setParticip] = useState([])
    const [chatRooms, setChatRooms] = useState([])
    const [currentRoom, setCurrentRoom] = useState([])
+   const [allRes, setAllRes] = useState([])
+   const [groupsFil, setGroupsFil] = useState([])
    // const [createChatRoom, {isError}] = useCreateChatRoomMutation()
-   // const { data: users, isLoading } = useGetChatUsersQuery();
+
    
    // console.log(users);
-
+   const rooms = useSelector(state => state.chat.privateChatRooms);
+   
    const dispatch = useDispatch();
 console.log(particip);
    
@@ -53,20 +56,18 @@ console.log(particip);
         }
     };
 
-    const rooms = useSelector(state => state.chat.privateChatRooms);
     useEffect(() => {
-       setChatRooms(rooms)
-
        console.log(chatRooms); 
     },[])
     useEffect(() => {
-       const getcard = async () => {
+       const getchatrms = async () => {
           await dispatch(
              getRooms()
              );
           };
-          getcard()
+          getchatrms()
          },[]) 
+         // console.log(allRes);
          
 useEffect(() => {
    const usersDatafunc = async (e) => {
@@ -85,8 +86,11 @@ useEffect(() => {
       const usersFilt = usersData.results.filter((user) => 
       user.user !== chatUser.user
       ) 
+      const usersFiltTwo = usersFilt.filter((user) => 
+      user.user !== 'admin@gmail.com'
+      ) 
       // ) 
-      setUsersFil(usersFilt)
+      setUsersFil(usersFiltTwo)
       console.log(usersFilt);
       console.log(currUser);
    // }
@@ -97,95 +101,79 @@ useEffect(() => {
 
 usersDatafunc()
 }, [])
-
-// const addChatRoom = async (user) => {
-//    try {
-//       setTitle(user.user)
-//       setParticip([user.id, currUser.id,2])
-// } catch (error) {
-// console.error();
-
-// }
-
-// }
+///////////////////////////////////
 
 
+useEffect(() => {
+   const groupsDataFunc = async () => {
+      try {
+         if (currUser && currUser.id && rooms && rooms.length > 0) {
+            // Flatten the rooms array
+            const allRooms = rooms.flat();
+
+            // Filter rooms where currUser.id is among participants
+            const userGroups = allRooms.filter(
+               (group) =>
+                  group.participants.includes(currUser.id) &&
+                  group.title.startsWith('grouptag')
+            );
+
+            // Set the filtered groups to groupsFil
+            setGroupsFil(userGroups);
+            console.log('userGroups:', userGroups);
+         } else {
+            console.log('currUser is not defined or does not have an id property, or rooms is undefined or empty');
+         }
+      } catch (error) {
+         console.error(error);
+      }
+   };
+
+   groupsDataFunc();
+}, [currUser, rooms]);
+
+console.log(groupsFil);
+console.log(currUser);
+/////////////////////////////////
 
 
-// useEffect(() => {
-//    console.log('Current Room:', currentRoom);
-//  }, [currentRoom]);
-
-// const addRoom = async (user) => {
-//    setTitle(user.user)
-//    setParticip([2,currUser.id,user.id])
-//    console.log(particip);
-//    if (rooms && rooms.length > 0) {
-//       const rss = rooms[0].results;
-      
-//       if (rss && rss.length > 0) {
-//         const sortedRoomParticipants = rss.map(i => i.participants.slice().sort());
-//         const sortedParticip = particip.slice().sort();
-  
-//         const existingRoom = rss.find(
-//           (room) =>
-//             room.title === user.user &&
-//             sortedRoomParticipants.some((participant) =>
-//               participant.every((p, i) => p === sortedParticip[i])
-//             )
-//             );
-//             setCurrentRoom(existingRoom)
-        
-//         if (existingRoom) {
-//            console.log('Already has', existingRoom);
-//         } else {
-//           console.log("It doesn't");
-//           console.log(particip);
-//           console.log(rss);
-//           // await dispatch(
-//           //   addPrivateChatRoom({
-//           //     title,
-//           //     particip
-//           //   })
-//           // )
-//         }
-//       } else {
-//         console.log('rss is undefined or empty');
-//       }
-//     } else {
-//       console.log(rooms);
-//       console.log('chatRooms is undefined or empty');
-//     }
-// }
+console.log(usersFil);
 
 const addRoom = async (user) => {
    if (!user.id) {
       console.error('User ID is undefined.');
       return;
    }
+   console.log(user);
+   
 
-   setTitle(user.user);
-   setParticip([2, currUser.id, user.id]);
+// console.log(allResults);
+    setTitle(user.user);
+    setParticip([2, currUser.id, user.id]);
    console.log(particip);
 
    if (rooms && rooms.length > 0) {
-      const rss = rooms[0].results;
+      const rss = rooms[0];
 
       if (rss && rss.length > 0) {
-         const sortedRoomParticipants = rss.map(i => i.participants.slice().sort());
-         const sortedParticip = particip.slice().sort();
+         // const checking = async () => {
 
-         const existingRoom = rss.find(
-            (room) =>
+            const sortedRoomParticipants = rss.map(i => i.participants.slice().sort());
+            const sortedParticip =  particip.slice().sort();
+            
+            const existingRoom = rss.find(
+               (room) =>
                room.title === user.user &&
                sortedRoomParticipants.some((participant) =>
-                  participant.every((p, i) => p === sortedParticip[i])
+               participant.every((p, i) => p === sortedParticip[i])
                )
-         );
-         setCurrentRoom(existingRoom);
-
-         if (existingRoom) {
-            console.log('Already has', existingRoom);
+               );
+               setCurrentRoom(existingRoom);
+               
+            // }
+            console.log(currentRoom);
+         if(currentRoom) {
+            console.log('Already has', currentRoom);
          } else {
             console.log("It doesn't");
             console.log(particip);
@@ -208,6 +196,12 @@ const addRoom = async (user) => {
       console.log('chatRooms is undefined or empty');
    }
 };
+
+const groupId = (id) => {
+   console.log(id);
+   setCurrentRoom(id)
+}
+
 console.log(rooms );
     
    return (
@@ -255,7 +249,15 @@ console.log(rooms );
                      : null}
                      {showGroups ? 
                      <div>
-                        <ChatGroup/>
+                        {groupsFil && groupsFil.map(group => {
+                           return (
+                              <div key={group.id} onClick={() => groupId(group)}>
+
+                                 <ChatGroup {...group}/>
+                              </div>
+
+                           ) 
+                        })}
                         
                      </div>
                      : null}
