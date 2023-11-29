@@ -5,20 +5,32 @@ import { getAuthConfig } from "../../helpers/functions";
 
 export const getProjects = createAsyncThunk(
   "projects/getProjects",
-  async (_, { getState }) => {
-    const { currentPage } = getState().projects;
+  async () => {
     const config = getAuthConfig();
     const { data } = await axios.get(
-      `${API}/space-hub/projects/?page=${currentPage}`,
+      `${API}/space-hub/projects/`,
       config ? config : null
     );
     console.log(data);
     return data;
   }
 );
+export const getProfileProjects = createAsyncThunk(
+  "projects/getProfileProjects",
+  async () => {
+    const localEmail = localStorage.getItem("account");
+    const emailWithoutQuotes = localEmail ? localEmail.replace(/"/g, "") : "";
+
+    const { data } = await axios.get(`${API}/space-hub/projects/`);
+    const filteredData = data.filter(
+      (item) => item.author === emailWithoutQuotes
+    );
+    return filteredData;
+  }
+);
 
 export const createProject = createAsyncThunk(
-  "projects/createProject",
+  "projects/createProfileProject",
   async ({ project, navigate }, { dispatch }) => {
     const config = getAuthConfig();
     const newProduct = new FormData();

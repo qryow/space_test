@@ -44,11 +44,8 @@ const SideBar = () => {
   console.log(educations);
 
   const dispatch = useDispatch();
-  const navigate = useNavigate()
+  const navigate = useNavigate();
 
-  const handleChat = () => {
-    navigate('/chat')
-  }
   useEffect(() => {
     dispatch(getProfile());
     dispatch(getLanguages());
@@ -61,6 +58,7 @@ const SideBar = () => {
         <div className={style.side__nav}>
           <div className={style.nav__block}>
             <div
+              onClick={() => navigate("/profile")}
               className={`${style.nav__item} ${
                 location.pathname === "/profile" ? style.active : ""
               }`}
@@ -81,23 +79,22 @@ const SideBar = () => {
               </h4>
             </div>
             <div
+              onClick={() => navigate("/chat")}
               className={`${style.nav__item} ${
-                location.pathname === "/massenger" ? style.active : ""
+                location.pathname === "/chat" ? style.active : ""
               }`}
             >
               <img
                 className={style.nav__icon}
                 src={`${
-                  location.pathname === "/massenger"
-                    ? massangerActive
-                    : massenger
+                  location.pathname === "/chat" ? massangerActive : massenger
                 }`}
                 alt=""
               />
 
-              <h4 onClick={handleChat}
+              <h4
                 className={`${style.nav__title} ${
-                  location.pathname === "/massenger" ? style.active__text : ""
+                  location.pathname === "/chat" ? style.active__text : ""
                 }`}
               >
                 Messages
@@ -207,11 +204,11 @@ const SideBar = () => {
             <div className={style.info2}>
               <div className={style.lenguages__block}>
                 <div className={style.lenguages__block_up}>
-                  <h3>Lenguages</h3>
+                  <h3>Languages</h3>
                   <div className={style.info_btns}>
                     <button
                       className={style.edit__btn}
-                      onClick={() => setEditLangModal(true)}
+                      onClick={() => setCreateLangModal(true)}
                     >
                       <img src={plus} alt="" />
                     </button>

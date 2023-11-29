@@ -1,5 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { getPosts } from "./PostsActions";
+import { getPosts, getProfilePosts } from "./PostsActions";
 
 const PostsSlice = createSlice({
   name: "posts",
@@ -7,6 +7,7 @@ const PostsSlice = createSlice({
     posts: [],
     loading: false,
     onePost: null,
+    profilePosts: [],
   },
   reducers: {
     clearOnePostState: (state) => {
@@ -25,10 +26,18 @@ const PostsSlice = createSlice({
       })
       .addCase(getPosts.rejected, (state) => {
         state.loading = false;
+      })
+      .addCase(getProfilePosts.pending, (state) => {
+        state.loading = true;
+      })
+      .addCase(getProfilePosts.fulfilled, (state, action) => {
+        state.loading = false;
+        state.profilePosts = action.payload;
+        console.log(action.payload);
+      })
+      .addCase(getProfilePosts.rejected, (state) => {
+        state.loading = false;
       });
-    // .addCase(getPosts.fulfilled, (_, action) => {
-    //     action.payload.navigate('/profile');
-    // })
   },
 });
 
