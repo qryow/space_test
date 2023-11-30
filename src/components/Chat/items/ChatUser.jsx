@@ -1,22 +1,11 @@
 import React, { useState } from 'react';
 import style from '../styles/ChatStyles.module.css'
 
-const ChatUser = ({username,id}) => {
-   const [selectedUserId, setSelectedUserId] = useState(null);
+const ChatUser = ({user,key}) => {
 
-   const handleUserClick = () => {
-   //   setSelectedUserId(id);
-   // ///////
-   if (selectedUserId === id) {
-      // If the same user is clicked again, unselect it
-      setSelectedUserId(null);
-    } else {
-      setSelectedUserId(id);
-    }
-   };
    return (
-      <div className={` ${selectedUserId === id ? style.chatuser__grad : style.chatuser}`}
-      onClick={handleUserClick}
+      <div className={style.chatuser}
+
       >
          <div className={style.pfp__circle}>
             <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20" fill="none">
@@ -26,7 +15,7 @@ const ChatUser = ({username,id}) => {
          </div>
          <div>
             <div className={style.nametime}>
-               <div className={style.username}>{username}</div>
+               <div className={style.username}>{user.username}</div>
                <div className={style.time__bar}>19:00</div>
             </div>
             {/* <div className={style.msg__bar}>some msg</div> */}

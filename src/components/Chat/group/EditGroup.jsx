@@ -4,7 +4,7 @@ import EditMembers from './EditMembers';
 import DeleteGroup from '../modal/DeleteGroup';
 
 
-const EditGroup = ({editGroup,setEditGroup}) => {
+const EditGroup = ({editGroup,setEditGroup,currentRoom,groupMembers}) => {
 
    const clickEditGroup = () => {
       // setGroupInfo(false)
@@ -33,7 +33,7 @@ const EditGroup = ({editGroup,setEditGroup}) => {
                   </svg>
                   <p className={style.top__info}>Edit</p>
                </div>
-               <div className={style.edit__circle}>
+               {/* <div className={style.edit__circle}>
                   <svg  xmlns="http://www.w3.org/2000/svg" width="100" height="100" viewBox="0 0 100 100" fill="none">
                      <path d="M70.8333 67.6152C80.5432 69.9032 87.4999 76.0768 87.4999 83.3335" stroke="rgb(255,255,255,.3)" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"/>
                      <path d="M12.5 83.3332C12.5 74.1284 23.6929 66.6665 37.5 66.6665C51.3071 66.6665 62.5 74.1284 62.5 83.3332" stroke="rgb(255,255,255,.3)" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"/>
@@ -47,11 +47,11 @@ const EditGroup = ({editGroup,setEditGroup}) => {
                      <path d="M30.8334 14.1667C30.15 14.1667 29.5834 13.6 29.5834 12.9167V3.75C29.5834 3.06667 30.15 2.5 30.8334 2.5C31.5167 2.5 32.0834 3.06667 32.0834 3.75V12.9167C32.0834 13.6 31.5167 14.1667 30.8334 14.1667Z" fill="white"/>
                      <path d="M4.44996 32.8336C4.04996 32.8336 3.64996 32.6336 3.41663 32.2836C3.03329 31.7169 3.18329 30.9336 3.74996 30.5503L11.9666 25.0336C13.7666 23.8336 16.25 23.9669 17.8833 25.3503L18.4333 25.8336C19.2666 26.5503 20.6833 26.5503 21.5 25.8336L28.4333 19.8836C30.2166 18.3669 32.9833 18.3669 34.7666 19.8836L37.4833 22.2169C38 22.6669 38.0666 23.4503 37.6166 23.9836C37.1666 24.5003 36.3833 24.5669 35.85 24.1169L33.1333 21.7836C32.3 21.0669 30.8833 21.0669 30.0666 21.7836L23.1333 27.7336C21.3666 29.2503 18.5833 29.2503 16.8 27.7336L16.25 27.2503C15.4833 26.6003 14.2166 26.5336 13.3666 27.1169L5.16663 32.6336C4.93329 32.7669 4.68329 32.8336 4.44996 32.8336Z" fill="white"/>
                      </svg>
-                  </div>
+                  </div> */}
                      <div className={style.editinput__box}>
-                        <div className={style.grey__text400}>Group name</div>
-                        <input type="text" className={style.edit__input} placeholder='Group name'/>
-                        <input type="text" className={style.edit__input} placeholder='Description'/>
+                        <div className={style.grey__text400}>Group name: {currentRoom?.title.substring(8)}</div>
+                        {/* <input type="text" className={style.edit__input} placeholder='Group name'/> */}
+                        {/* <input type="text" className={style.edit__input} placeholder='Description'/> */}
                      </div>
                   <div>
                      <div onClick={clickEditMembers} className={style.edit__bottom}>
@@ -61,7 +61,7 @@ const EditGroup = ({editGroup,setEditGroup}) => {
                            <path d="M15 13C17.2091 13 19 11.2091 19 9C19 6.79086 17.2091 5 15 5" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
                            <path d="M9 13C11.2091 13 13 11.2091 13 9C13 6.79086 11.2091 5 9 5C6.79086 5 5 6.79086 5 9C5 11.2091 6.79086 13 9 13Z" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
                         </svg>
-                        <p  className={style.white__text400}>4 Member</p>
+                        <p  className={style.white__text400}>{ currentRoom?.participants?.length} Member</p>
                      </div>
                      <div className={style.edit__bottom} onClick={clickDeleteGroup}>
                         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
@@ -79,8 +79,11 @@ const EditGroup = ({editGroup,setEditGroup}) => {
             </div>
             )
          : null}
-         {editMembers ? <EditMembers editMembers={editMembers}setEditMembers={setEditMembers}/>: null}
-         {deleteGroup ? <DeleteGroup deleteGroup={deleteGroup}setDeleteGroup={setDeleteGroup}/>: null}
+         {editMembers ? <EditMembers 
+         currentRoom={currentRoom}
+         groupMembers={groupMembers}
+         editMembers={editMembers}setEditMembers={setEditMembers}/>: null}
+         {deleteGroup ? <DeleteGroup currentRoom={currentRoom} deleteGroup={deleteGroup}setDeleteGroup={setDeleteGroup}/>: null}
          </>
       );
    };

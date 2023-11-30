@@ -23,8 +23,11 @@ const ChatBar = () => {
    const [particip, setParticip] = useState([])
    const [chatRooms, setChatRooms] = useState([])
    const [currentRoom, setCurrentRoom] = useState([])
+   const [allProfiles, setAllProfiles] = useState([])
    const [allRes, setAllRes] = useState([])
    const [groupsFil, setGroupsFil] = useState([])
+   const [updateGroups, setUpdateGroups] = useState(0)
+
    // const [createChatRoom, {isError}] = useCreateChatRoomMutation()
 
    
@@ -79,8 +82,8 @@ useEffect(() => {
    const storedEmail = JSON.parse(localStorage.getItem('account'));
    const chatUser = usersData.results.find(user => user.user.toLowerCase() === storedEmail.toLowerCase());
    setCurrUser(chatUser)
-   console.log(chatUser);
-   console.log(currUser);
+   // console.log(chatUser);
+   // console.log(currUser);
    // if(currUser.length > 0) {
 
       const usersFilt = usersData.results.filter((user) => 
@@ -100,7 +103,7 @@ useEffect(() => {
 };
 
 usersDatafunc()
-}, [])
+}, [rooms])
 ///////////////////////////////////
 
 
@@ -114,8 +117,8 @@ useEffect(() => {
             // Filter rooms where currUser.id is among participants
             const userGroups = allRooms.filter(
                (group) =>
-                  group.participants.includes(currUser.id) &&
-                  group.title.startsWith('grouptag')
+                  group?.participants.includes(currUser.id) &&
+                  group?.title.startsWith('grouptag')
             );
 
             // Set the filtered groups to groupsFil
@@ -130,7 +133,8 @@ useEffect(() => {
    };
 
    groupsDataFunc();
-}, [currUser, rooms]);
+}, [currUser, rooms, updateGroups]);
+
 
 console.log(groupsFil);
 console.log(currUser);
@@ -138,6 +142,7 @@ console.log(currUser);
 
 
 console.log(usersFil);
+
 
 const addRoom = async (user) => {
    if (!user.id) {
@@ -154,7 +159,7 @@ const addRoom = async (user) => {
 
    if (rooms && rooms.length > 0) {
       const rss = rooms[0];
-
+      console.log(rss);
       if (rss && rss.length > 0) {
          // const checking = async () => {
 
@@ -173,8 +178,11 @@ const addRoom = async (user) => {
             // }
             console.log(currentRoom);
          if(currentRoom) {
+            setCurrentRoom(existingRoom);
+
+            console.log(existingRoom && existingRoom);
             console.log('Already has', currentRoom);
-         } else {
+         } else   {
             console.log("It doesn't");
             console.log(particip);
 
@@ -197,16 +205,21 @@ const addRoom = async (user) => {
    }
 };
 
+
+
+
 const groupId = (id) => {
    console.log(id);
    setCurrentRoom(id)
 }
-
-console.log(rooms );
+// console.log(currentRoom);
+// console.log(rooms );
     
    return (
       <div style={{display: "flex"}}>
-         {createGroup ? <CreateGroup setCreateGroup={setCreateGroup}/> : 
+         {createGroup ? <CreateGroup setUpdateGroups={setUpdateGroups}
+         updateGroups={updateGroups}
+         setCreateGroup={setCreateGroup}/> : 
          <div className={style.bar__topside}>
 
             <div className={style.chatbar__top}>
@@ -240,7 +253,7 @@ console.log(rooms );
                            return (
                               <div key={user.id} onClick={() => addRoom(user)}>
 
-                              <ChatUser  {...user}/>
+                              <ChatUser key={user.id} user={user}/>
                               </div>
 
                            ) 
@@ -267,7 +280,7 @@ console.log(rooms );
             </div>
          </div>
          }
-         <ChatBody title={title} currentRoom={currentRoom} currUser={currUser} />
+         <ChatBody title={title} usersFil={usersFil} currentRoom={currentRoom} currUser={currUser} />
       </div>
    );
 };

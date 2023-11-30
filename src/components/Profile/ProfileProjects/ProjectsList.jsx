@@ -1,8 +1,9 @@
 import React, { useEffect } from "react";
-import { getProjects } from "../../../store/projects/ProjectsActions";
+// import { getProjects } from "../../../store/projects/ProjectsActions";
 import { useDispatch, useSelector } from "react-redux";
 import ProjectItem from "./ProjectItem";
 import style from "./styles/Projects.module.css";
+import { getProjects } from "../../../store/projects/projectsActions";
 
 const ProjectsList = () => {
   const { projects, loading } = useSelector((state) => state.projects);

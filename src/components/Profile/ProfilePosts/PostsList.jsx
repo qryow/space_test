@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import { getPosts } from "../../../store/posts/PostsActions";
+import { getPosts } from "../../../store/posts/postsActions";
 import { useDispatch, useSelector } from "react-redux";
 import style from "./styles/Posts.module.css";
 import PostItem from "./PostItem";

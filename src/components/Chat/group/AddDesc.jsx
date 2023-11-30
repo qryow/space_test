@@ -4,7 +4,9 @@ import PinkBtn from '../items/PinkBtn';
 import { useDispatch } from 'react-redux';
 import { addPrivateChatRoom } from '../../../store/chat/chatSlice';
 
-const AddDesc = ({addDesk,members, setAddDesc,setCreateGroup}) => {
+const AddDesc = ({addDesk,members, setAddDesc,setCreateGroup,
+updateGroups,setUpdateGroups
+}) => {
    const [groupTitle, setGroupTitle] = useState('')
    const dispatch = useDispatch();
    console.log(groupTitle);
@@ -22,12 +24,13 @@ const AddDesc = ({addDesk,members, setAddDesc,setCreateGroup}) => {
             particip: membersId,
          })
          );
+      setUpdateGroups(updateGroups++)
       }
 
 
    const clickAddDesc = () => {
-      // setAddDesc(false)
-      // setCreateGroup(false)
+      setAddDesc(false)
+      setCreateGroup(false)
 
    }
    return (

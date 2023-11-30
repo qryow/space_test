@@ -1,5 +1,5 @@
 import { createSlice, isActionCreator } from "@reduxjs/toolkit";
-import { getProjects } from "./ProjectsActions";
+import { getProjects } from "./projectsActions";
 
 const projectsSlice = createSlice({
     name: "projects",

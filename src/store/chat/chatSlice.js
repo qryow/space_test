@@ -2,7 +2,7 @@ import { createAsyncThunk, createSlice } from "@reduxjs/toolkit"
 import axios from "axios";
 import { useEffect } from "react";
 
-export const getUsers = createAsyncThunk(
+export const getChatUsers = createAsyncThunk(
    'chat/getusers',
    async function(_, {rejectWithValue}) {
       try {
@@ -13,8 +13,9 @@ export const getUsers = createAsyncThunk(
             Authorization,
             },
          };
-         const response = await axios.get(`https://server.space-hub.info/api/v1/account/users/`,config)
+         const response = await axios.get(`https://server.space-hub.info/api/v1/profile/profile/`,config)
          console.log(response.data);
+         return response.data;
       } catch (error) {
          console.error(error);
          return rejectWithValue(error)
@@ -24,7 +25,7 @@ export const getUsers = createAsyncThunk(
 )
 
 export const getRooms = createAsyncThunk(
-   'card/getrooms',
+   'chat/getrooms',
    async function (_, { rejectWithValue }) {
      try {
       const tokens = JSON.parse(localStorage.getItem('tokens'));
@@ -62,7 +63,7 @@ export const getRooms = createAsyncThunk(
    }
  );
  export const getOneRoom = createAsyncThunk(
-  'card/getoneroom',
+  'chat/getoneroom',
   async function (id, { rejectWithValue }) {
     try {
      const tokens = JSON.parse(localStorage.getItem('tokens'));
@@ -78,6 +79,32 @@ export const getRooms = createAsyncThunk(
       // }
       console.log(response);
       console.log('one room received');
+
+      const data = await response.data
+      return data;
+
+    } catch (error) {
+      console.log(error);
+      return rejectWithValue(error);
+    }
+  }
+);
+ export const getOneChatUser = createAsyncThunk(
+  'chat/getonechatuser',
+  async function (id, { rejectWithValue }) {
+    try {
+     const tokens = JSON.parse(localStorage.getItem('tokens'));
+     const Authorization = `Bearer ${tokens.access}`;
+     const config = {
+       headers: {
+         Authorization,
+       },
+     };
+      const response = await axios.get(`https://server.space-hub.info/api/v1/profile/profile/${id}`,config);
+      // if (!response) {
+      //   throw new Error('Server Error');
+      // }
+      console.log(response);
 
       const data = await response.data
       return data;
@@ -181,6 +208,77 @@ export const sendMessage = createAsyncThunk(
      }
    }
  );
+ 
+ export const editGroup = createAsyncThunk(
+  'chat/addchatroom',
+  async function (
+     {
+      id,
+        title,
+        particip
+     },
+  {rejectWithValue,dispatch}
+  ) {
+     try {
+        const tokens = JSON.parse(localStorage.getItem('tokens'));
+        const Authorization = `Bearer ${tokens.access}`;
+        const config = {
+          headers: {
+            Authorization,
+            'Content-Type': 'application/json'
+          },
+        };
+     //    let formData = new FormData();
+     // formData.append("title", "123");
+     // formData.append("participants", [2,6]);
+     let room = {
+       "title": title,
+       "participants": particip
+    }
+     console.log(room);
+          // await createChatRoom(formData)
+          // console.log(formData);
+     const response = await axios.patch(
+        `https://server.space-hub.info/api/v1/chat/chatrooms/${id}/`,
+        room,
+        config
+        );
+        console.log(response);
+        // const data = await  response.json()
+        dispatch(editingGroup({id}))
+        return response.data
+     } catch (error) {
+        console.log(error);
+     }
+  }
+)
+export const deleteGroup = createAsyncThunk(
+  'chat/deletegroup',
+  async function (id, { rejectWithValue }) {
+    try {
+     const tokens = JSON.parse(localStorage.getItem('tokens'));
+     const Authorization = `Bearer ${tokens.access}`;
+     const config = {
+       headers: {
+         Authorization,
+       },
+     };
+      const response = await axios.delete(`https://server.space-hub.info/api/v1/chat/chatrooms/${id}`,config);
+      // if (!response) {
+      //   throw new Error('Server Error');
+      // }
+      console.log(response);
+
+      const data = await response.data
+      // return data;
+
+    } catch (error) {
+      console.log(error);
+      return rejectWithValue(error);
+    }
+  }
+);
+
 
 const chatSlice = createSlice({
    name: 'chat',
@@ -188,6 +286,8 @@ const chatSlice = createSlice({
       privateChatRooms:[],
       messages: [],
       oneRoom: {},
+      oneChatUser: {},
+      chatusers: []
    },
       reducers: {
          sendMessage(state, action) {
@@ -195,6 +295,12 @@ const chatSlice = createSlice({
           },
          addingPrivateChatRoom(state,action) {
             state.privateChatRooms.push(action.payload)
+         },
+         editingGroup(state,action) {
+            // state.privateChatRooms.push(action.payload)
+            // const  subt = state.privateChatRooms.find(
+            //   (room) => room.id === action.payload.id
+            // )
          }
       },
    extraReducers: builder => {
@@ -217,6 +323,35 @@ const chatSlice = createSlice({
       });
       builder.addCase(getOneRoom.fulfilled, (state, { payload }) => {
       state.oneRoom = [payload]; 
+      });
+      builder.addCase(deleteGroup.pending, (state) => {
+      console.log('pending del');
+      })
+      builder.addCase(deleteGroup.rejected,(state) => {
+      console.log(state.privateChatRooms);
+      console.log('error');
+      });
+      builder.addCase(deleteGroup.fulfilled, (state, { payload }) => {
+      // state.m = [payload]; 
+      console.log(payload);
+      });
+      builder.addCase(getOneChatUser.pending, (state) => {
+      console.log('pending user');
+      })
+      builder.addCase(getOneChatUser.rejected,(state) => {
+      console.log('error');
+      });
+      builder.addCase(getOneChatUser.fulfilled, (state, { payload }) => {
+      state.oneChatUser = [payload]; 
+      });
+      builder.addCase(getChatUsers.pending, (state) => {
+      console.log('pending user');
+      })
+      builder.addCase(getChatUsers.rejected,(state) => {
+      console.log('error');
+      });
+      builder.addCase(getChatUsers.fulfilled, (state, { payload }) => {
+      state.chatusers = [payload]; 
       });
       builder.addCase(addPrivateChatRoom.pending, (state) => {
          console.log('pending addPrivateChatRoom');
@@ -245,6 +380,6 @@ const chatSlice = createSlice({
    },
 })
 
-const {addingPrivateChatRoom} = chatSlice.actions
+const {addingPrivateChatRoom,editingGroup} = chatSlice.actions
 
 export default chatSlice.reducer

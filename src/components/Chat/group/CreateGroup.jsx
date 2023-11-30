@@ -7,7 +7,7 @@ import AddGroupMember from '../items/AddGroupMember';
 import { useDispatch, useSelector } from 'react-redux';
 import axios from 'axios';
 
-const CreateGroup = ({setCreateGroup}) => {
+const CreateGroup = ({setCreateGroup,updateGroups,setUpdateGroups}) => {
    const [addDesc,setAddDesc] = useState(false)
    const [title, setTitle] = useState('')
    const [particip, setParticip] = useState([])
@@ -73,7 +73,9 @@ const CreateGroup = ({setCreateGroup}) => {
     };
    return (
       <div>
-         {addDesc ? <AddDesc addDesc={addDesc} members={members}
+         {addDesc ? <AddDesc updateGroups={updateGroups}
+         setUpdateGroups={setUpdateGroups}
+         addDesc={addDesc} members={members}
          setAddDesc={setAddDesc} setCreateGroup={setCreateGroup}/> : 
          <div className={style.bar__topside}>
             
@@ -107,9 +109,19 @@ const CreateGroup = ({setCreateGroup}) => {
                            ) 
                         })}
             </div>
-            <div onClick={clickAddDesc}>
-               <PinkBtn/>
+            <div style={{display:'flex', alignItems:'', justifyContent:'space-between',width: '400px'}}
+            onClick={() => setCreateGroup(false)}
+            >
+                  <div className={style.group__back}>
+                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" >
+                     <path d="M14.4301 18.8201C14.6201 18.8201 14.8101 18.7501 14.9601 18.6001L21.0301 12.5301C21.3201 12.2401 21.3201 11.7601 21.0301 11.4701L14.9601 5.40012C14.6701 5.11012 14.1901 5.11012 13.9001 5.40012C13.6101 5.69012 13.6101 6.17012 13.9001 6.46012L19.4401 12.0001L13.9001 17.5401C13.6101 17.8301 13.6101 18.3101 13.9001 18.6001C14.0401 18.7501 14.2401 18.8201 14.4301 18.8201Z" fill="white"/>
+                     <path d="M3.50008 12.75H20.3301C20.7401 12.75 21.0801 12.41 21.0801 12C21.0801 11.59 20.7401 11.25 20.3301 11.25H3.50008C3.09008 11.25 2.75008 11.59 2.75008 12C2.75008 12.41 3.09008 12.75 3.50008 12.75Z" fill="white"/>
+                     </svg>
+                  </div>
             </div>
+               <div  onClick={clickAddDesc}>
+                  <PinkBtn/>
+               </div>
          </div>
          }
       </div>

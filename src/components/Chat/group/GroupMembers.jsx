@@ -2,7 +2,7 @@ import React from 'react';
 import style from '../styles/ChatStyles.module.css'
 
 
-const GroupMembers = () => {
+const GroupMembers = ({user}) => {
    return (
       <div>
          <div className={style.group__members}>
@@ -14,8 +14,8 @@ const GroupMembers = () => {
                      </svg>
                   </div>
                   <div className={style.nameprofession}>
-                     <div className={style.username}>username</div>
-                     <div className={style.profession}>profession</div>
+                     <div className={style.username}>{user?.username}</div>
+                     <div className={style.profession}>{user?.professions}</div>
                   </div>
                </div>
                {/* <div>

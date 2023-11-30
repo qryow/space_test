@@ -3,12 +3,14 @@ import style from '../styles/ChatStyles.module.css'
 import RemoveUser from '../modal/RemoveUser';
 
 
-const EditMemberItem = () => {
+const EditMemberItem = ({currentRoom,user}) => {
    const [removeUser,setRemoveUser] = useState(false)
 
    const clickRemoveUser = () => {
       setRemoveUser(true)
    }
+   // console.log(currentRoom);
+
    return (
       <div>
          <div className={style.group__members}>
@@ -20,18 +22,19 @@ const EditMemberItem = () => {
                      </svg>
                   </div>
                   <div className={style.nameprofession}>
-                     <div className={style.username}>username</div>
-                     <div className={style.profession}>profession</div>
+                     <div className={style.username}>{user?.username}</div>
+                     <div className={style.profession}>{user?.professions}</div>
                   </div>
                </div>
                {/* <p className={style.pink__text40014}>Admin</p> */}
-               <button className={style.red__button} onClick={clickRemoveUser}>
+               <button  className={style.red__button} onClick={() => clickRemoveUser()}>
                   <p className={style.white__text50014}>
                    Remove
                   </p>
                </button>
             </div>
-            {removeUser ? <RemoveUser removeUser={removeUser} setRemoveUser={setRemoveUser}/> : null}
+            {removeUser ? <RemoveUser currentRoom={currentRoom} user={user} 
+            removeUser={removeUser} setRemoveUser={setRemoveUser}/> : null}
       </div>
    );
 };

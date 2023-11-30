@@ -1,18 +1,25 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import style from '../styles/ChatStyles.module.css'
 import GroupMembers from './GroupMembers';
 import EditGroup from './EditGroup';
 import Files from '../items/Files';
 import LeaveGroup from '../modal/LeaveGroup';
+import { deleteGroup, getChatUsers } from '../../../store/chat/chatSlice';
+import { useDispatch, useSelector } from 'react-redux';
+import DeleteGroup from '../modal/DeleteGroup';
 
 
-const GroupInfo = ({groupInfo,setGroupInfo}) => {
+const GroupInfo = ({groupInfo,setGroupInfo,currentRoom,usersFil}) => {
 
    const [showMembers, setShowMembers] = useState(false)
    const [showMedia, setShowMedia] = useState(false)
    const [showFiles, setShowFiles] = useState(false)
    const [editGroup,setEditGroup] = useState(false)
    const [leaveGroup,setLeaveGroup] = useState(false)
+   const [groupMembers,setGroupMembers] = useState([])
+   const chatusers = useSelector(state => state.chat.chatusers);
+   
+   const dispatch = useDispatch();
 
    const clickMembers = () => {
       setShowMembers(true)
@@ -41,6 +48,40 @@ const GroupInfo = ({groupInfo,setGroupInfo}) => {
       // setGroupInfo(false)
       setEditGroup(true)
    }
+   
+   console.log(currentRoom.id);
+
+   // useEffect(() => {
+   //    const getchatus = async () => {
+   //       await dispatch(
+   //          getChatUsers()
+   //          );
+   //       };
+   //       getchatus()
+   //      },[currentRoom]) 
+   console.log(usersFil);
+   console.log(currentRoom.participants);
+   useEffect(() => {
+      const groupUsers = () => {
+         try {
+           if (usersFil && currentRoom.participants) {
+             const filt = usersFil?.filter((user) =>
+               currentRoom.participants.includes(user.id)
+             );
+             console.log(filt);
+             setGroupMembers(filt)
+
+           }
+         } catch (error) {
+           console.log(error);
+         }
+       };
+     
+   groupUsers();
+   }, [usersFil, currentRoom.participants]);
+   //       console.log(chatusers);
+   console.log(currentRoom);
+   // console.log(groupMembers);
    return (
       <div>
          {groupInfo ? 
@@ -67,16 +108,15 @@ const GroupInfo = ({groupInfo,setGroupInfo}) => {
                   </svg>
                </div>
                <p className={style.username}>
-                  group name
+                  {currentRoom?.title.substring(8)}
                </p>
                <p className={style.profession}>
-                  4 members
+               { currentRoom?.participants?.length} members
                </p>
             </div>
             <div className={style.white__text}>
-               Lorem ipsum dolor sit amet consectetur adipisicing elit. Fugit repellendus hic suscipit cupiditate id eius consectetur quas accusantium, deserunt expedita!
             </div>
-            <div style={{display:'flex',justifyContent: 'left', alignItems:'left',width: "88%"}}>
+            {/* <div style={{display:'flex',justifyContent: 'left', alignItems:'left',width: "88%"}}>
                <div style={{display:'flex'}}>
 
                <svg  style={{display:'flex', marginRight:'15px'}} xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
@@ -87,7 +127,7 @@ const GroupInfo = ({groupInfo,setGroupInfo}) => {
                </svg>
                <p className={style.pink__text}>Add Members</p>
                </div>
-            </div>
+            </div> */}
             {/* ////// viewer look */}
             {/* <div className={style.edit__bottom} onClick={clickLeaveGroup}>
                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
@@ -109,19 +149,15 @@ const GroupInfo = ({groupInfo,setGroupInfo}) => {
                <div className={style.message__container}>
 
                <div className={style.scrollbar}>
-               <GroupMembers/>
-               <GroupMembers/>
-               <GroupMembers/>
-               <GroupMembers/>
-               <GroupMembers/>
-               <GroupMembers/>
-               <GroupMembers/>
-               <GroupMembers/>
-               <GroupMembers/>
-               <GroupMembers/>
-               <GroupMembers/>
-               <GroupMembers/>
-               <GroupMembers/>
+               {groupMembers && groupMembers.map(user => {
+                           return (
+                              <div key={user.id}>
+
+                              <GroupMembers key={user.id} user={user}/>
+                              </div>
+
+                           ) 
+                        })}
                </div>
                </div>
                )
@@ -166,8 +202,8 @@ const GroupInfo = ({groupInfo,setGroupInfo}) => {
             : null}
          </div>
    : null}
-   {editGroup ? <EditGroup editGroup={editGroup} setEditGroup={setEditGroup}/> : null}
-   {leaveGroup ? <LeaveGroup leaveGroup={leaveGroup} setLeaveGroup={setLeaveGroup}/> : null}
+   {editGroup ? <EditGroup groupMembers={groupMembers} currentRoom={currentRoom} editGroup={editGroup} setEditGroup={setEditGroup}/> : null}
+   {leaveGroup ? <DeleteGroup  leaveGroup={leaveGroup} setLeaveGroup={setLeaveGroup}/> : null}
       </div>
    );
 };

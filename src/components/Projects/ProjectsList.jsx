@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import { getProjects } from "../../store/projects/ProjectsActions";
+import { getProjects } from "../../store/projects/projectsActions";
 import ProjectsItem from "./ProjectsItem";
 import MainNavbar from "../Main/MainNavbar";
 import MainHeader from "../Main/MainHeader";

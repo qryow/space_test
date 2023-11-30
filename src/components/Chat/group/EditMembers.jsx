@@ -4,11 +4,14 @@ import GroupMembers from './GroupMembers';
 import EditMemberItem from '../items/EditMemberItem';
 
 
-const EditMembers = ({editMembers, setEditMembers}) => {
+const EditMembers = ({editMembers, setEditMembers, currentRoom,groupMembers}) => {
 
    const clickEditMembers = () => {
       setEditMembers(false)
    }
+   console.log(groupMembers);
+   // console.log(currentRoom);
+  
    return (
       <>
       
@@ -22,7 +25,15 @@ const EditMembers = ({editMembers, setEditMembers}) => {
                   <p className={style.top__info}>Edit</p>
                </div>
               
-                  <EditMemberItem/>
+               {groupMembers && groupMembers.map(user => {
+                           return (
+                              <div  key={user.id}>
+
+                              <EditMemberItem currentRoom={currentRoom} key={user.id} user={user}/>
+                              </div>
+
+                           ) 
+                        })}
                  
                   </div>
             </div>
