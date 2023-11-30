@@ -2,9 +2,12 @@ import React, { useState } from 'react';
 import style from '../styles/ChatStyles.module.css'
 import EditMembers from './EditMembers';
 import DeleteGroup from '../modal/DeleteGroup';
+import { useDispatch } from 'react-redux';
+import { editGroup } from '../../../store/chat/chatSlice';
 
 
-const EditGroup = ({editGroup,setEditGroup,currentRoom,groupMembers}) => {
+
+const EditGroup = ({editGroupshow,setEditGroup,currentRoom,groupMembers}) => {
 
    const clickEditGroup = () => {
       // setGroupInfo(false)
@@ -12,6 +15,7 @@ const EditGroup = ({editGroup,setEditGroup,currentRoom,groupMembers}) => {
    }
    const [editMembers,setEditMembers] = useState(false)
    const [deleteGroup,setDeleteGroup] = useState(false)
+   const [newName,setNewName] = useState('grouptag')
 
    const clickEditMembers = () => {
       // setGroupInfo(false)
@@ -21,6 +25,33 @@ const EditGroup = ({editGroup,setEditGroup,currentRoom,groupMembers}) => {
       // setGroupInfo(false)
       setDeleteGroup(true)
    }
+   const dispatch = useDispatch();
+
+   const changeGroupName =async () => {
+      // console.log(user.id);
+      // setRemoveUser(false)
+      try {
+         if (currentRoom && currentRoom.participants) {
+            // Replace 9 with the ID you want to filter out
+            // const idToRemove = user.id;
+            if(currentRoom.id) {
+               await dispatch(
+                  editGroup({
+                     id: currentRoom.id,
+                     title: `grouptag${newName}`,
+                     particip: currentRoom.participants
+                  })
+            )
+               }
+
+            console.log("edited");
+          }
+       } catch (error) {
+         console.log(error);
+       }
+
+   }
+   // console.log(newName);
    return (
       <>
       {editGroup ? (
@@ -50,7 +81,11 @@ const EditGroup = ({editGroup,setEditGroup,currentRoom,groupMembers}) => {
                   </div> */}
                      <div className={style.editinput__box}>
                         <div className={style.grey__text400}>Group name: {currentRoom?.title.substring(8)}</div>
-                        {/* <input type="text" className={style.edit__input} placeholder='Group name'/> */}
+                        <input type="text" className={style.edit__input} placeholder='Group name'
+                        // value={newName}
+                        onChange={e => setNewName(e.target.value)}/>
+                        <button className={style.groupname__change} 
+                        onClick={changeGroupName}>change</button>
                         {/* <input type="text" className={style.edit__input} placeholder='Description'/> */}
                      </div>
                   <div>
