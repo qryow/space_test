@@ -13,7 +13,7 @@ const EditLangItem = ({ lang, handleSave, func }) => {
   const [language, setLanguage] = useState(lang.languages);
   const [level, setLevel] = useState(lang.languages_level);
   const [isRotated, setIsRotated] = useState(false);
-  const [shouldSave, setShouldSave] = useState(false);
+  const [clickSave, setClickSave] = useState(false);
 
   const handleSaveClick = () => {
     const editedLang = {
@@ -21,22 +21,22 @@ const EditLangItem = ({ lang, handleSave, func }) => {
       languages_level: level,
     };
     dispatch(editLanguage({ language: editedLang, id: lang.id }));
-    setShouldSave(false);
+    setClickSave(false);
   };
 
   const toggleRotation = () => {
     setIsRotated(!isRotated);
   };
   // useEffect(() => {
-  //   if (shouldSave) {
+  //   if (clickSave) {
   //     handleSaveClick();
   //   }
-  // }, [shouldSave, lang]);
+  // }, [clickSave, lang]);
 
   useEffect(() => {
     setLanguage(lang.languages);
     setLevel(lang.languages_level);
-    setShouldSave(true);
+    setClickSave(true);
   }, [lang]);
 
   return (
