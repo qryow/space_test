@@ -33,7 +33,6 @@ const PostsSlice = createSlice({
       .addCase(getProfilePosts.fulfilled, (state, action) => {
         state.loading = false;
         state.profilePosts = action.payload;
-        console.log(action.payload);
       })
       .addCase(getProfilePosts.rejected, (state) => {
         state.loading = false;

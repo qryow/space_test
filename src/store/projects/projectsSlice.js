@@ -1,5 +1,5 @@
 import { createSlice, isActionCreator } from "@reduxjs/toolkit";
-import { getProjects, getProfileProjects } from "./ProjectsActions";
+import { getProjects } from "./ProjectsActions";
 
 const projectsSlice = createSlice({
   name: "projects",
@@ -7,7 +7,6 @@ const projectsSlice = createSlice({
     status: "",
     loading: false,
     projects: [],
-    profileProjects: [],
     error: "",
   },
   reducers: {},
@@ -21,18 +20,6 @@ const projectsSlice = createSlice({
         state.projects = action.payload.results;
       })
       .addCase(getProjects.rejected, (state, action) => {
-        state.loading = false;
-        state.error = action.error.message;
-      })
-      .addCase(getProfileProjects.pending, (state) => {
-        state.loading = true;
-      })
-      .addCase(getProfileProjects.fulfilled, (state, action) => {
-        state.loading = false;
-        state.profileProjects = action.payload;
-        console.log(action.payload);
-      })
-      .addCase(getProfileProjects.rejected, (state, action) => {
         state.loading = false;
         state.error = action.error.message;
       });

@@ -10,7 +10,7 @@ const EditLang = ({ editLangModal, setEditLangModal }) => {
   const dispatch = useDispatch();
 
   const handleSave = () => {
-    setFunc(!func);
+    setFunc(true);
     setEditLangModal(false);
   };
 

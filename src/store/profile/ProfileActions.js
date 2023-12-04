@@ -80,8 +80,8 @@ export const editLanguage = createAsyncThunk(
   async ({ language, id }, { dispatch }) => {
     const config = getAuthConfig();
     let formData = new FormData();
-    formData.append("languages", language.username);
-    formData.append("languages_level", language.first_name);
+    formData.append("languages", language.languages);
+    formData.append("languages_level", language.languages_level);
     console.log(formData);
     let { data } = await axios.patch(
       `${API}/e_h/add_language/${id}/`,
@@ -89,7 +89,7 @@ export const editLanguage = createAsyncThunk(
       config ? config : null
     );
     dispatch(getLanguages());
-    return { data };
+    return data;
   }
 );
 
